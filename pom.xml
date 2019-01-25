@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.sedona.liferay</groupId>
+    <artifactId>liferay-graphql</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>liferay-graphql-maven-plugin</module>
+        <module>liferay-graphql-api</module>
+    </modules>
+
+    <name>[Sedona] Liferay GraphQL parent POM</name>
+    <description>Generic Liferay GraphQL parent POM</description>
+
+    <prerequisites>
+        <maven>3.3.9</maven>
+    </prerequisites>
+
+    <scm>
+        <url>https://github.com/Sedona-Solutions/liferay-graphql.git</url>
+        <connection>scm:git:git@github.com:Sedona-Solutions/liferay-graphql.git</connection>
+        <developerConnection>scm:git:git@github.com:Sedona-Solutions/liferay-graphql.git</developerConnection>
+    </scm>
+
+    <ciManagement>
+        <system>Gitlab CI</system>
+        <url>https://git.sedona.fr/sedona/liferay/liferay-graphql/pipelines</url>
+    </ciManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>sedona-nexus-releases</id>
+            <name>Sedona Releases</name>
+            <url>https://nexus.cicd.sedona.fr/repository/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>sedona-nexus-snapshots</id>
+            <name>Sedona Snapshots</name>
+            <url>https://nexus.cicd.sedona.fr/repository/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Maven plugins -->
+        <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+        <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <scm.provider.git.version>1.9.5</scm.provider.git.version>
+        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+        <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+        <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+        <bnd-maven-plugin.version>3.5.0</bnd-maven-plugin.version>
+        <maven-plugin-plugin.version>3.6.0</maven-plugin-plugin.version>
+        <maven-jar-plugin.output-directory>${project.build.directory}</maven-jar-plugin.output-directory>
+
+        <!-- OSGI -->
+        <osgi.version>6.0.0</osgi.version>
+
+        <!-- Liferay -->
+        <com.liferay.portal.kernel.version>3.48.2</com.liferay.portal.kernel.version>
+        <com.liferay.blogs.api.version>4.0.3</com.liferay.blogs.api.version>
+        <com.liferay.dynamic.data.mapping.api.version>4.2.1</com.liferay.dynamic.data.mapping.api.version>
+        <com.liferay.journal.api.version>3.0.2</com.liferay.journal.api.version>
+        <com.liferay.microblogs.api.version>3.0.5</com.liferay.microblogs.api.version>
+        <com.liferay.oauth2.provider.api.version>1.0.4</com.liferay.oauth2.provider.api.version>
+
+        <!-- Tests -->
+        <junit.version>4.12</junit.version>
+        <assertj.version>3.9.0</assertj.version>
+        <mockito.version>1.10.19</mockito.version>
+        <powermock.version>1.7.4</powermock.version>
+        <http-matchers.version>1.1</http-matchers.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Liferay -->
+            <dependency>
+                <groupId>com.liferay.portal</groupId>
+                <artifactId>com.liferay.portal.kernel</artifactId>
+                <version>3.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay.portal</groupId>
+                <artifactId>com.liferay.portal.impl</artifactId>
+                <version>3.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay.portal</groupId>
+                <artifactId>com.liferay.util.taglib</artifactId>
+                <version>3.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay</groupId>
+                <artifactId>com.liferay.blogs.api</artifactId>
+                <version>${com.liferay.blogs.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay</groupId>
+                <artifactId>com.liferay.dynamic.data.mapping.api</artifactId>
+                <version>${com.liferay.dynamic.data.mapping.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay</groupId>
+                <artifactId>com.liferay.journal.api</artifactId>
+                <version>${com.liferay.journal.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay</groupId>
+                <artifactId>com.liferay.oauth2.provider.api</artifactId>
+                <version>${com.liferay.oauth2.provider.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.portlet</groupId>
+                <artifactId>portlet-api</artifactId>
+                <version>2.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- OSGi -->
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.service.component.annotations</artifactId>
+                <version>1.3.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.compendium</artifactId>
+                <version>5.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay</groupId>
+                <artifactId>com.liferay.osgi.util</artifactId>
+                <version>3.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.liferay</groupId>
+                <artifactId>com.liferay.portal.configuration.metatype</artifactId>
+                <version>2.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>biz.aQute.bndlib</artifactId>
+                <version>3.5.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>${osgi.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>osgi.cmpn</artifactId>
+                <version>${osgi.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- JAX-RS -->
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>2.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.service.jaxrs</artifactId>
+                <version>1.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-core</artifactId>
+                <version>3.0.3</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+                <version>3.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-extension-providers</artifactId>
+                <version>3.0.3</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>2.9.3</version>
+            </dependency>
+
+            <!-- test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.valid4j</groupId>
+                <artifactId>http-matchers</artifactId>
+                <version>${http-matchers.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>biz.aQute.bnd</groupId>
+                    <artifactId>bnd-maven-plugin</artifactId>
+                    <version>${bnd-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${maven-plugin-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <preparationGoals>clean install</preparationGoals>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>${scm.provider.git.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>

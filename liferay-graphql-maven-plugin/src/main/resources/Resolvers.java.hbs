@@ -1,0 +1,21 @@
+package fr.sedona.liferay.graphql.resolvers;
+
+import aQute.bnd.annotation.ProviderType;
+import {{fqClassName}};
+import graphql.schema.DataFetcher;
+
+import java.util.List;
+
+@ProviderType
+public interface {{className}}Resolvers {
+
+    DataFetcher<List<{{className}}>> get{{classNamePlural}}DataFetcher();
+
+    DataFetcher<{{className}}> get{{className}}DataFetcher();
+
+    DataFetcher<{{className}}> create{{className}}DataFetcher();
+
+    DataFetcher<{{className}}> update{{className}}DataFetcher();
+
+    DataFetcher<{{className}}> delete{{className}}DataFetcher();
+}

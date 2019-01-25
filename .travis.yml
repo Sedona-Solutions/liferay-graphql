@@ -1,0 +1,32 @@
+language: java
+jdk: oraclejdk8
+
+cache:
+  directories:
+    - $HOME/.m2
+
+stages:
+  - verify
+  - name: deploy
+    if: tag IS present
+
+env:
+  - MAVEN_CLI_OPTS="--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+
+install: true
+before_install:
+  - chmod +x ./.travis/*.sh
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+jobs:
+  include:
+    - stage: verify
+      script: ./.travis/verify.sh
+    - stage: deploy
+      script: ./.travis/release.sh
+
+after_script:
+  - ./cc-test-reporter format-coverage -d -t jacoco ./liferay-graphql-api/target/jacoco-ut/jacoco.xml
+  - ./cc-test-reporter upload-coverage -d

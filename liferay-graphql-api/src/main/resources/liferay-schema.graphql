@@ -1,0 +1,3417 @@
+##
+## Schema
+##
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+
+##
+## Queries
+##
+type Query {
+    # START -- Queries for class com.liferay.asset.kernel.model.AssetCategory
+    assetCategories(
+        start: Int,
+        end: Int
+    ): [AssetCategory]
+
+    assetCategoriesForAsset(
+        entryId: Long,
+        start: Int,
+        end: Int
+    ): [AssetCategory]
+
+    assetCategory(
+        categoryId: Long
+    ): AssetCategory
+    # END -- Queries for class com.liferay.asset.kernel.model.AssetCategory
+
+    # START -- Queries for class com.liferay.asset.kernel.model.AssetEntry
+    assetEntries(
+        start: Int,
+        end: Int
+    ): [AssetEntry]
+
+    assetEntriesWithCategory(
+        categoryId: Long,
+        start: Int,
+        end: Int
+    ): [AssetEntry]
+
+    assetEntriesWithTag(
+        tagId: Long,
+        start: Int,
+        end: Int
+    ): [AssetEntry]
+
+    assetEntry(
+        entryId: Long
+    ): AssetEntry
+    # END -- Queries for class com.liferay.asset.kernel.model.AssetEntry
+
+    # START -- Queries for class com.liferay.asset.kernel.model.AssetLink
+    assetLinks(
+        start: Int,
+        end: Int
+    ): [AssetLink]
+
+    assetLink(
+        linkId: Long
+    ): AssetLink
+    # END -- Queries for class com.liferay.asset.kernel.model.AssetLink
+
+    # START -- Queries for class com.liferay.asset.kernel.model.AssetTag
+    assetTags(
+        start: Int,
+        end: Int
+    ): [AssetTag]
+
+    assetTagsForAsset(
+        entryId: Long,
+        start: Int,
+        end: Int
+    ): [AssetTag]
+
+    assetTag(
+        tagId: Long
+    ): AssetTag
+    # END -- Queries for class com.liferay.asset.kernel.model.AssetTag
+
+    # START -- Queries for class com.liferay.asset.kernel.model.AssetVocabulary
+    assetVocabularies(
+        start: Int,
+        end: Int
+    ): [AssetVocabulary]
+
+    assetVocabulary(
+        vocabularyId: Long
+    ): AssetVocabulary
+    # END -- Queries for class com.liferay.asset.kernel.model.AssetVocabulary
+
+    # START -- Queries for class com.liferay.blogs.model.BlogsEntry
+    blogsEntries(
+        start: Int,
+        end: Int
+    ): [BlogsEntry]
+
+    blogsEntry(
+        entryId: Long
+    ): BlogsEntry
+    # END -- Queries for class com.liferay.blogs.model.BlogsEntry
+
+    # START -- Queries for class com.liferay.document.library.kernel.model.DLFileEntry
+    dlFileEntries(
+        start: Int,
+        end: Int
+    ): [DLFileEntry]
+
+    dlFileEntry(
+        fileEntryId: Long
+    ): DLFileEntry
+    # END -- Queries for class com.liferay.document.library.kernel.model.DLFileEntry
+
+    # START -- Queries for class com.liferay.document.library.kernel.model.DLFileEntryMetadata
+    dlFileEntryMetadatas(
+        start: Int,
+        end: Int
+    ): [DLFileEntryMetadata]
+
+    dlFileEntryMetadata(
+        fileEntryMetadataId: Long
+    ): DLFileEntryMetadata
+    # END -- Queries for class com.liferay.document.library.kernel.model.DLFileEntryMetadata
+
+    # START -- Queries for class com.liferay.document.library.kernel.model.DLFileEntryType
+    dlFileEntryTypes(
+        start: Int,
+        end: Int
+    ): [DLFileEntryType]
+
+    dlFileEntryTypesForFolder(
+        folderId: Long,
+        start: Int,
+        end: Int
+    ): [DLFileEntryType]
+
+    dlFileEntryType(
+        fileEntryTypeId: Long
+    ): DLFileEntryType
+    # END -- Queries for class com.liferay.document.library.kernel.model.DLFileEntryType
+
+    # START -- Queries for class com.liferay.document.library.kernel.model.DLFileShortcut
+    dlFileShortcuts(
+        start: Int,
+        end: Int
+    ): [DLFileShortcut]
+
+    dlFileShortcut(
+        fileShortcutId: Long
+    ): DLFileShortcut
+    # END -- Queries for class com.liferay.document.library.kernel.model.DLFileShortcut
+
+    # START -- Queries for class com.liferay.document.library.kernel.model.DLFileVersion
+    dlFileVersions(
+        start: Int,
+        end: Int
+    ): [DLFileVersion]
+
+    dlFileVersion(
+        fileVersionId: Long
+    ): DLFileVersion
+    # END -- Queries for class com.liferay.document.library.kernel.model.DLFileVersion
+
+    # START -- Queries for class com.liferay.document.library.kernel.model.DLFolder
+    dlFolders(
+        start: Int,
+        end: Int
+    ): [DLFolder]
+
+    dlFoldersForType(
+        fileEntryTypeId: Long,
+        start: Int,
+        end: Int
+    ): [DLFolder]
+
+    dlFolder(
+        folderId: Long
+    ): DLFolder
+    # END -- Queries for class com.liferay.document.library.kernel.model.DLFolder
+
+    # START -- Queries for class com.liferay.dynamic.data.mapping.model.DDMContent
+    ddmContents(
+        start: Int,
+        end: Int
+    ): [DDMContent]
+
+    ddmContent(
+        contentId: Long
+    ): DDMContent
+    # END -- Queries for class com.liferay.dynamic.data.mapping.model.DDMContent
+
+    # START -- Queries for class com.liferay.dynamic.data.mapping.model.DDMStructure
+    ddmStructures(
+        start: Int,
+        end: Int
+    ): [DDMStructure]
+
+    ddmStructure(
+        structureId: Long
+    ): DDMStructure
+
+    ddmStructureByKey(
+        groupId: Long,
+        classNameId: Long,
+        structureKey: String
+    ): DDMStructure
+    # END -- Queries for class com.liferay.dynamic.data.mapping.model.DDMStructure
+
+    # START -- Queries for class com.liferay.dynamic.data.mapping.model.DDMTemplate
+    ddmTemplates(
+        start: Int,
+        end: Int
+    ): [DDMTemplate]
+
+    ddmTemplate(
+        templateId: Long
+    ): DDMTemplate
+
+    ddmTemplateByKey(
+        groupId: Long,
+        classNameId: Long,
+        templateKey: String
+    ): DDMStructure
+    # END -- Queries for class com.liferay.dynamic.data.mapping.model.DDMTemplate
+
+    # START -- Queries for class com.liferay.expando.kernel.model.ExpandoColumn
+    expandoColumns(
+        start: Int,
+        end: Int
+    ): [ExpandoColumn]
+
+    expandoColumn(
+        columnId: Long
+    ): ExpandoColumn
+    # END -- Queries for class com.liferay.expando.kernel.model.ExpandoColumn
+
+    # START -- Queries for class com.liferay.expando.kernel.model.ExpandoRow
+    expandoRows(
+        start: Int,
+        end: Int
+    ): [ExpandoRow]
+
+    expandoRow(
+        rowId: Long
+    ): ExpandoRow
+    # END -- Queries for class com.liferay.expando.kernel.model.ExpandoRow
+
+    # START -- Queries for class com.liferay.expando.kernel.model.ExpandoTable
+    expandoTables(
+        start: Int,
+        end: Int
+    ): [ExpandoTable]
+
+    expandoTable(
+        tableId: Long
+    ): ExpandoTable
+    # END -- Queries for class com.liferay.expando.kernel.model.ExpandoTable
+
+    # START -- Queries for class com.liferay.expando.kernel.model.ExpandoValue
+    expandoValues(
+        start: Int,
+        end: Int
+    ): [ExpandoValue]
+
+    expandoValue(
+        valueId: Long
+    ): ExpandoValue
+    # END -- Queries for class com.liferay.expando.kernel.model.ExpandoValue
+
+    # START -- Queries for class com.liferay.journal.model.JournalArticle
+    journalArticles(
+        start: Int,
+        end: Int
+    ): [JournalArticle]
+
+    journalArticle(
+        id: Long
+    ): JournalArticle
+    # END -- Queries for class com.liferay.journal.model.JournalArticle
+
+    # START -- Queries for class com.liferay.journal.model.JournalFeed
+    journalFeeds(
+        start: Int,
+        end: Int
+    ): [JournalFeed]
+
+    journalFeed(
+        id: Long
+    ): JournalFeed
+    # END -- Queries for class com.liferay.journal.model.JournalFeed
+
+    # START -- Queries for class com.liferay.journal.model.JournalFolder
+    journalFolders(
+        start: Int,
+        end: Int
+    ): [JournalFolder]
+
+    journalFolder(
+        folderId: ID
+    ): JournalFolder
+    # END -- Queries for class com.liferay.journal.model.JournalFolder
+
+    # START -- Queries for class com.liferay.message.boards.kernel.model.MBCategory
+    mbCategories(
+        start: Int,
+        end: Int
+    ): [MBCategory]
+
+    mbCategory(
+        categoryId: Long
+    ): MBCategory
+    # END -- Queries for class com.liferay.message.boards.kernel.model.MBCategory
+
+    # START -- Queries for class com.liferay.message.boards.kernel.model.MBMessage
+    mbMessages(
+        start: Int,
+        end: Int
+    ): [MBMessage]
+
+    mbMessage(
+        messageId: Long
+    ): MBMessage
+    # END -- Queries for class com.liferay.message.boards.kernel.model.MBMessage
+
+    # START -- Queries for class com.liferay.message.boards.kernel.model.MBThread
+    mbThreads(
+        start: Int,
+        end: Int
+    ): [MBThread]
+
+    mbThread(
+        threadId: Long
+    ): MBThread
+    # END -- Queries for class com.liferay.message.boards.kernel.model.MBThread
+
+    # START -- Queries for class com.liferay.oauth2.provider.model.OAuth2Application
+    oAuth2Applications(
+        start: Int,
+        end: Int
+    ): [OAuth2Application]
+
+    oAuth2Application(
+        oAuth2ApplicationId: Long
+    ): OAuth2Application
+
+    oAuth2ApplicationForClient(
+        companyId: Long,
+        clientId: String
+    ): OAuth2Application
+    # END -- Queries for class com.liferay.oauth2.provider.model.OAuth2Application
+
+    # START -- Queries for class com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases
+    oAuth2ApplicationScopeAliaseses(
+        start: Int,
+        end: Int
+    ): [OAuth2ApplicationScopeAliases]
+
+    oAuth2ApplicationScopeAliases(
+        oAuth2ApplicationScopeAliasesId: Long
+    ): OAuth2ApplicationScopeAliases
+    # END -- Queries for class com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases
+
+    # START -- Queries for class com.liferay.oauth2.provider.model.OAuth2Authorization
+    oAuth2Authorizations(
+        start: Int,
+        end: Int
+    ): [OAuth2Authorization]
+
+    oAuth2AuthorizationsForGrant(
+        oAuth2ScopeGrantId: Long,
+        start: Int,
+        end: Int
+    ): [OAuth2Authorization]
+
+    oAuth2AuthorizationsForUser(
+        userId: Long,
+        start: Int,
+        end: Int
+    ): [OAuth2Authorization]
+
+    oAuth2Authorization(
+        oAuth2AuthorizationId: Long
+    ): OAuth2Authorization
+
+    oAuth2AuthorizationByAccessToken(
+        accessToken: String
+    ): OAuth2Authorization
+
+    oAuth2AuthorizationByRefreshToken(
+        refreshToken: String
+    ): OAuth2Authorization
+    # END -- Queries for class com.liferay.oauth2.provider.model.OAuth2Authorization
+
+    # START -- Queries for class com.liferay.oauth2.provider.model.OAuth2ScopeGrant
+    oAuth2ScopeGrants(
+        start: Int,
+        end: Int
+    ): [OAuth2ScopeGrant]
+
+    oAuth2ScopeGrantsForAuthorization(
+        oAuth2AuthorizationId: Long,
+        start: Int,
+        end: Int
+    ): [OAuth2ScopeGrant]
+
+    oAuth2ScopeGrant(
+        oAuth2ScopeGrantId: Long
+    ): OAuth2ScopeGrant
+    # END -- Queries for class com.liferay.oauth2.provider.model.OAuth2ScopeGrant
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Address
+    addresses(
+        start: Int,
+        end: Int
+    ): [Address]
+
+    addressesForEntity(
+        companyId: Long,
+        className: String,
+        classPK: Long
+    ): [Address]
+
+    address(
+        addressId: Long
+    ): Address
+    # END -- Queries for class com.liferay.portal.kernel.model.Address
+
+    # START -- Queries for class com.liferay.portal.kernel.model.ClassName
+    classNames(
+        start: Int,
+        end: Int
+    ): [ClassName]
+
+    className(
+        classNameId: Long
+    ): ClassName
+
+    classNameByName(
+        name: String
+    ): ClassName
+    # END -- Queries for class com.liferay.portal.kernel.model.ClassName
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Company
+    companies(
+        start: Int,
+        end: Int
+    ): [Company]
+
+    company(
+        companyId: Long
+    ): Company
+
+    companyByWebId(
+        webId: String
+    ): Company
+    # END -- Queries for class com.liferay.portal.kernel.model.Company
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Contact
+    contacts(
+        start: Int,
+        end: Int
+    ): [Contact]
+
+    contact(
+        contactId: Long
+    ): Contact
+    # END -- Queries for class com.liferay.portal.kernel.model.Contact
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Country
+    countries(
+        active: Boolean
+    ): [Country]
+
+    country(
+        countryId: Long
+    ): Country
+
+    countryByA2(
+        a2: String
+    ): Country
+
+    countryByA3(
+        a3: String
+    ): Country
+
+    countryByName(
+        name: String
+    ): Country
+    # END -- Queries for class com.liferay.portal.kernel.model.Country
+
+    # START -- Queries for class com.liferay.portal.kernel.model.EmailAddress
+    emailAddresses(
+        start: Int,
+        end: Int
+    ): [EmailAddress]
+
+    emailAddressesForEntity(
+        companyId: Long,
+        className: String,
+        classPK: Long
+    ): [EmailAddress]
+
+    emailAddress(
+        emailAddressId: Long
+    ): EmailAddress
+    # END -- Queries for class com.liferay.portal.kernel.model.EmailAddress
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Group
+    groups(
+        start: Int,
+        end: Int
+    ): [Group]
+
+    group(
+        groupId: Long
+    ): Group
+
+    groupByKey(
+        companyId: Long,
+        groupKey: String
+    ): Group
+    # END -- Queries for class com.liferay.portal.kernel.model.Group
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Layout
+    layouts(
+        start: Int,
+        end: Int
+    ): [Layout]
+
+    layoutsForGroup(
+        groupId: Long,
+        privateLayout: Boolean
+    ): [Layout]
+
+    layout(
+        layoutId: Long
+    ): Layout
+    # END -- Queries for class com.liferay.portal.kernel.model.Layout
+
+    # START -- Queries for class com.liferay.portal.kernel.model.ListType
+    listTypes(
+        start: Int,
+        end: Int
+    ): [ListType]
+
+    listTypesByType(
+        type: String
+    ): [ListType]
+
+    listType(
+        listTypeId: Long
+    ): ListType
+    # END -- Queries for class com.liferay.portal.kernel.model.ListType
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Organization
+    organizations(
+        start: Int,
+        end: Int
+    ): [Organization]
+
+    organization(
+        organizationId: Long
+    ): Organization
+
+    organizationByName(
+        companyId: Long,
+        name: String
+    ): Organization
+    # END -- Queries for class com.liferay.portal.kernel.model.Organization
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Phone
+    phones(
+        start: Int,
+        end: Int
+    ): [Phone]
+
+    phonesForEntity(
+        companyId: Long,
+        className: String,
+        classPK: Long
+    ): [Phone]
+
+    phone(
+        phoneId: Long
+    ): Phone
+    # END -- Queries for class com.liferay.portal.kernel.model.Phone
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Region
+    regions(
+        active: Boolean
+    ): [Region]
+
+    region(
+        regionId: Long
+    ): Region
+
+    regionByCode(
+        countryId: Long,
+        regionCode: String
+    ): Region
+    # END -- Queries for class com.liferay.portal.kernel.model.Region
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Role
+    roles(
+        start: Int,
+        end: Int
+    ): [Role]
+
+    role(
+        roleId: Long
+    ): Role
+
+    roleByName(
+        companyId: Long,
+        name: String
+    ): Role
+    # END -- Queries for class com.liferay.portal.kernel.model.Role
+
+    # START -- Queries for class com.liferay.portal.kernel.model.User
+    users(
+        start: Int,
+        end: Int
+    ): [User]
+
+    user(
+        userId: Long
+    ): User
+
+    userByEmail(
+        companyId: Long,
+        email: String
+    ): User
+
+    userByScreenName(
+        companyId: Long,
+        screenName: String
+    ): User
+    # END -- Queries for class com.liferay.portal.kernel.model.User
+
+    # START -- Queries for class com.liferay.portal.kernel.model.UserGroup
+    userGroups(
+        start: Int,
+        end: Int
+    ): [UserGroup]
+
+    userGroup(
+        userGroupId: Long
+    ): UserGroup
+
+    userGroupByName(
+        companyId: Long,
+        name: String
+    ): UserGroup
+    # END -- Queries for class com.liferay.portal.kernel.model.UserGroup
+
+    # START -- Queries for class com.liferay.portal.kernel.model.Website
+    websites(
+        start: Int,
+        end: Int
+    ): [Website]
+
+    websitesForEntity(
+        companyId: Long,
+        className: String,
+        classPK: Long
+    ): [Website]
+
+    website(
+        websiteId: Long
+    ): Website
+    # END -- Queries for class com.liferay.portal.kernel.model.Website
+
+    # START -- Queries for class com.liferay.ratings.kernel.model.RatingsEntry
+    ratingsEntries(
+        start: Int,
+        end: Int
+    ): [RatingsEntry]
+
+    ratingsEntry(
+        entryId: Long
+    ): RatingsEntry
+    # END -- Queries for class com.liferay.ratings.kernel.model.RatingsEntry
+
+}
+
+
+##
+## Mutations
+##
+type Mutation {
+    # START -- Mutations for class com.liferay.asset.kernel.model.AssetCategory
+    createAssetCategory(
+        userId: Long,
+        groupId: Long,
+        parentCategoryId: Long,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        vocabularyId: Long,
+        categoryProperties: [String]
+    ): AssetCategory
+
+    updateAssetCategory(
+        userId: Long,
+        categoryId: Long,
+        parentCategoryId: Long,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        vocabularyId: Long,
+        categoryProperties: [String]
+    ): AssetCategory
+
+    deleteAssetCategory(
+        categoryId: Long
+    ): AssetCategory
+    # END -- Mutations for class com.liferay.asset.kernel.model.AssetCategory
+
+    # START -- Mutations for class com.liferay.asset.kernel.model.AssetEntry
+    associateAssetEntryWithCategory(
+        categoryId: Long,
+        entryId: Long
+    ): AssetEntry
+
+    dissociateAssetEntryFromCategory(
+        categoryId: Long,
+        entryId: Long
+    ): AssetEntry
+
+    associateAssetEntryWithTag(
+        tagId: Long,
+        entryId: Long
+    ): AssetEntry
+
+    dissociateAssetEntryFromTag(
+        tagId: Long,
+        entryId: Long
+    ): AssetEntry
+
+    ## No direct mutation methods available: each service is responsible to manage its own assetEntries
+    # END -- Mutations for class com.liferay.asset.kernel.model.AssetEntry
+
+    # START -- Mutations for class com.liferay.asset.kernel.model.AssetLink
+    createAssetLink(
+        userId: Long,
+        entryId1: Long,
+        entryId2: Long,
+        type: Int,
+        weight: Int
+    ): AssetLink
+
+    updateAssetLink(
+        userId: Long,
+        entryId1: Long,
+        entryId2: Long,
+        type: Int,
+        weight: Int
+    ): AssetLink
+
+    deleteAssetLink(
+        linkId: Long
+    ): AssetLink
+    # END -- Mutations for class com.liferay.asset.kernel.model.AssetLink
+
+    # START -- Mutations for class com.liferay.asset.kernel.model.AssetTag
+    createAssetTag(
+        userId: Long,
+        groupId: Long,
+        name: String
+    ): AssetTag
+
+    updateAssetTag(
+        userId: Long,
+        tagId: Long,
+        name: String
+    ): AssetTag
+
+    deleteAssetTag(
+        tagId: Long
+    ): AssetTag
+    # END -- Mutations for class com.liferay.asset.kernel.model.AssetTag
+
+    # START -- Mutations for class com.liferay.asset.kernel.model.AssetVocabulary
+    createAssetVocabulary(
+        userId: Long,
+        groupId: Long,
+        title: String,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        settings: String
+    ): AssetVocabulary
+
+    updateAssetVocabulary(
+        vocabularyId: Long,
+        title: String,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        settings: String
+    ): AssetVocabulary
+
+    deleteAssetVocabulary(
+        vocabularyId: Long
+    ): AssetVocabulary
+    # END -- Mutations for class com.liferay.asset.kernel.model.AssetVocabulary
+
+    # START -- Mutations for class com.liferay.blogs.model.BlogsEntry
+    createBlogsEntry(
+        userId: Long,
+        title: String,
+        subtitle: String,
+        urlTitle: String,
+        description: String,
+        content: String,
+        displayDateMonth: Int,
+        displayDateDay: Int,
+        displayDateYear: Int,
+        displayDateHour: Int,
+        displayDateMinute: Int,
+        allowPingbacks: Boolean,
+        allowTrackbacks: Boolean,
+        trackbacks: [String],
+        coverImageCaption: String
+    ): BlogsEntry
+
+    updateBlogsEntry(
+        userId: Long,
+        entryId: Long,
+        title: String,
+        subtitle: String,
+        urlTitle: String,
+        description: String,
+        content: String,
+        displayDateMonth: Int,
+        displayDateDay: Int,
+        displayDateYear: Int,
+        displayDateHour: Int,
+        displayDateMinute: Int,
+        allowPingbacks: Boolean,
+        allowTrackbacks: Boolean,
+        trackbacks: [String],
+        coverImageCaption: String
+    ): BlogsEntry
+
+    deleteBlogsEntry(
+        entryId: Long
+    ): BlogsEntry
+    # END -- Mutations for class com.liferay.blogs.model.BlogsEntry
+
+    # START -- Mutations for class com.liferay.document.library.kernel.model.DLFileEntry
+    createDLFileEntry(
+        userId: Long,
+        groupId: Long,
+        repositoryId: Long,
+        folderId: Long,
+        sourceFileName: String,
+        mimeType: String,
+        title: String,
+        description: String,
+        changeLog: String,
+        fileEntryTypeId: Long,
+        size: Long
+    ): DLFileEntry
+
+    updateDLFileEntry(
+        userId: Long,
+        fileEntryId: Long,
+        sourceFileName: String,
+        mimeType: String,
+        title: String,
+        description: String,
+        changeLog: String,
+        majorVersion: Boolean,
+        fileEntryTypeId: Long,
+        size: Long
+    ): DLFileEntry
+
+    deleteDLFileEntry(
+        fileEntryId: Long
+    ): DLFileEntry
+    # END -- Mutations for class com.liferay.document.library.kernel.model.DLFileEntry
+
+    # START -- Mutations for class com.liferay.document.library.kernel.model.DLFileEntryMetadata
+    ## No mutations
+    # END -- Mutations for class com.liferay.document.library.kernel.model.DLFileEntryMetadata
+
+    # START -- Mutations for class com.liferay.document.library.kernel.model.DLFileEntryType
+    createDLFileEntryType(
+        userId: Long,
+        groupId: Long,
+        fileEntryTypeKey: String,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        ddmStructureIds: [Long]
+    ): DLFileEntryType
+
+    updateDLFileEntryType(
+        userId: Long,
+        fileEntryTypeId: Long,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        ddmStructureIds: [Long]
+    ): DLFileEntryType
+
+    deleteDLFileEntryType(
+        fileEntryTypeId: Long
+    ): DLFileEntryType
+    # END -- Mutations for class com.liferay.document.library.kernel.model.DLFileEntryType
+
+    # START -- Mutations for class com.liferay.document.library.kernel.model.DLFileShortcut
+    createDLFileShortcut(
+        userId: Long,
+        groupId: Long,
+        repositoryId: Long,
+        folderId: Long,
+        toFileEntryId: Long
+    ): DLFileShortcut
+
+    updateDLFileShortcut(
+        userId: Long,
+        fileShortcutId: Long,
+        repositoryId: Long,
+        folderId: Long,
+        toFileEntryId: Long
+    ): DLFileShortcut
+
+    deleteDLFileShortcut(
+        fileShortcutId: Long
+    ): DLFileShortcut
+    # END -- Mutations for class com.liferay.document.library.kernel.model.DLFileShortcut
+
+    # START -- Mutations for class com.liferay.document.library.kernel.model.DLFileVersion
+    ## No mutations
+    # END -- Mutations for class com.liferay.document.library.kernel.model.DLFileVersion
+
+    # START -- Mutations for class com.liferay.document.library.kernel.model.DLFolder
+    createDLFolder(
+        userId: Long,
+        groupId: Long,
+        repositoryId: Long,
+        mountPoint: Boolean,
+        parentFolderId: Long,
+        name: String,
+        description: String,
+        hidden: Boolean
+    ): DLFolder
+
+    updateDLFolder(
+        folderId: Long,
+        parentFolderId: Long,
+        name: String,
+        description: String,
+        defaultFileEntryTypeId: Long,
+        fileEntryTypeIds: [Long],
+        restrictionType: Int
+    ): DLFolder
+
+    deleteDLFolder(
+        folderId: Long
+    ): DLFolder
+    # END -- Mutations for class com.liferay.document.library.kernel.model.DLFolder
+
+    # START -- Mutations for class com.liferay.dynamic.data.mapping.model.DDMContent
+    createDDMContent(
+        userId: Long,
+        groupId: Long,
+        name: String,
+        description: String,
+        data: String
+    ): DDMContent
+
+    updateDDMContent(
+        contentId: Long,
+        name: String,
+        description: String,
+        data: String
+    ): DDMContent
+
+    deleteDDMContent(
+        contentId: Long
+    ): DDMContent
+    # END -- Mutations for class com.liferay.dynamic.data.mapping.model.DDMContent
+
+    # START -- Mutations for class com.liferay.dynamic.data.mapping.model.DDMStructure
+    createDDMStructure(
+        userId: Long,
+        groupId: Long,
+        parentStructureKey: String,
+        classNameId: Long,
+        structureKey: String,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        ddmForm: String,
+        ddmFormLayout: String,
+        storageType: String,
+        type: Int
+    ): DDMStructure
+
+    createDDMStructureForJournalArticle(
+        userId: Long,
+        groupId: Long,
+        parentStructureKey: String,
+        structureKey: String,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        ddmForm: String,
+        storageType: String
+    ): DDMStructure
+
+    updateDDMStructure(
+        userId: Long,
+        structureId: Long,
+        parentStructureId: Long,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        ddmForm: String,
+        ddmFormLayout: String
+    ): DDMStructure
+
+    updateDDMStructureForJournalArticle(
+        userId: Long,
+        structureId: Long,
+        parentStructureId: Long,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        ddmForm: String
+    ): DDMStructure
+
+    deleteDDMStructure(
+        structureId: Long
+    ): DDMStructure
+    # END -- Mutations for class com.liferay.dynamic.data.mapping.model.DDMStructure
+
+    # START -- Mutations for class com.liferay.dynamic.data.mapping.model.DDMTemplate
+    createDDMTemplate(
+        userId: Long,
+        groupId: Long,
+        classNameId: Long,
+        classPK: Long,
+        resourceClassNameId: Long,
+        templateKey: String,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        type: String,
+        mode: String,
+        language: String,
+        script: String,
+        cacheable: Boolean
+    ): DDMTemplate
+
+    updateDDMTemplate(
+        userId: Long,
+        templateId: Long,
+        classPK: Long,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        type: String,
+        mode: String,
+        language: String,
+        script: String,
+        cacheable: Boolean
+    ): DDMTemplate
+
+    deleteDDMTemplate(
+        templateId: Long
+    ): DDMTemplate
+    # END -- Mutations for class com.liferay.dynamic.data.mapping.model.DDMTemplate
+
+    # START -- Mutations for class com.liferay.expando.kernel.model.ExpandoColumn
+    createExpandoColumn(
+        tableId: Long,
+        name: String,
+        type: Int
+    ): ExpandoColumn
+
+    updateExpandoColumn(
+        columnId: Long,
+        name: String,
+        type: Int
+    ): ExpandoColumn
+
+    deleteExpandoColumn(
+        columnId: Long
+    ): ExpandoColumn
+    # END -- Mutations for class com.liferay.expando.kernel.model.ExpandoColumn
+
+    # START -- Mutations for class com.liferay.expando.kernel.model.ExpandoRow
+    createExpandoRow(
+        tableId: Long,
+        classPK: Long
+    ): ExpandoRow
+
+    ## No update method available
+
+    deleteExpandoRow(
+        rowId: Long
+    ): ExpandoRow
+    # END -- Mutations for class com.liferay.expando.kernel.model.ExpandoRow
+
+    # START -- Mutations for class com.liferay.expando.kernel.model.ExpandoTable
+    createExpandoTable(
+        companyId: Long,
+        className: String,
+        name: String
+    ): ExpandoTable
+
+    updateExpandoTable(
+        tableId: Long,
+        name: String
+    ): ExpandoTable
+
+    deleteExpandoTable(
+        tableId: Long
+    ): ExpandoTable
+    # END -- Mutations for class com.liferay.expando.kernel.model.ExpandoTable
+
+    # START -- Mutations for class com.liferay.expando.kernel.model.ExpandoValue
+    createExpandoValueForString(
+        companyId: Long,
+        className: String,
+        tableName: String,
+        columnName: String,
+        classPK: Long,
+        data: String
+    ): ExpandoValue
+
+    createExpandoValueForInt(
+        companyId: Long,
+        className: String,
+        tableName: String,
+        columnName: String,
+        classPK: Long,
+        data: Int
+    ): ExpandoValue
+
+    createExpandoValueForLong(
+        companyId: Long,
+        className: String,
+        tableName: String,
+        columnName: String,
+        classPK: Long,
+        data: Long
+    ): ExpandoValue
+
+    createExpandoValueForDouble(
+        companyId: Long,
+        className: String,
+        tableName: String,
+        columnName: String,
+        classPK: Long,
+        data: Float
+    ): ExpandoValue
+
+    createExpandoValueForBoolean(
+        companyId: Long,
+        className: String,
+        tableName: String,
+        columnName: String,
+        classPK: Long,
+        data: Boolean
+    ): ExpandoValue
+
+    ## No update method available: create method also performs update
+
+    deleteExpandoValue(
+        valueId: Long
+    ): ExpandoValue
+    # END -- Mutations for class com.liferay.expando.kernel.model.ExpandoValue
+
+    # START -- Mutations for class com.liferay.journal.model.JournalArticle
+    createJournalArticle(
+        userId: Long,
+        groupId: Long,
+        folderId: Long,
+        classNameId: Long,
+        classPK: Long,
+        articleId: Long,
+        autoArticleId: Boolean,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        friendlyURLMap: LocalizedString,
+        content: String,
+        ddmStructureKey: String,
+        ddmTemplateKey: String,
+        layoutUuid: String,
+        displayDateMonth: Int,
+        displayDateDay: Int,
+        displayDateYear: Int,
+        displayDateHour: Int,
+        displayDateMinute: Int,
+        expirationDateMonth: Int,
+        expirationDateDay: Int,
+        expirationDateYear: Int,
+        expirationDateHour: Int,
+        expirationDateMinute: Int,
+        neverExpire: Boolean,
+        reviewDateMonth: Int,
+        reviewDateDay: Int,
+        reviewDateYear: Int,
+        reviewDateHour: Int,
+        reviewDateMinute: Int,
+        neverReview: Boolean,
+        indexable: Boolean,
+        articleURL: String
+    ): JournalArticle
+
+    updateJournalArticle(
+        userId: Long,
+        groupId: Long,
+        folderId: Long,
+        classNameId: Long,
+        classPK: Long,
+        articleId: Long,
+        version: Float,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        friendlyURLMap: LocalizedString,
+        content: String,
+        ddmStructureKey: String,
+        ddmTemplateKey: String,
+        layoutUuid: String,
+        displayDateMonth: Int,
+        displayDateDay: Int,
+        displayDateYear: Int,
+        displayDateHour: Int,
+        displayDateMinute: Int,
+        expirationDateMonth: Int,
+        expirationDateDay: Int,
+        expirationDateYear: Int,
+        expirationDateHour: Int,
+        expirationDateMinute: Int,
+        neverExpire: Boolean,
+        reviewDateMonth: Int,
+        reviewDateDay: Int,
+        reviewDateYear: Int,
+        reviewDateHour: Int,
+        reviewDateMinute: Int,
+        neverReview: Boolean,
+        indexable: Boolean,
+        articleURL: String
+    ): JournalArticle
+
+    deleteJournalArticle(
+        id: Long
+    ): JournalArticle
+    # END -- Mutations for class com.liferay.journal.model.JournalArticle
+
+    # START -- Mutations for class com.liferay.journal.model.JournalFeed
+    createJournalFeed(
+        userId: Long,
+        groupId: Long,
+        feedId: String,
+        autoFeedId: Boolean,
+        name: String,
+        description: String,
+        ddmStructureKey: String,
+        ddmTemplateKey: String,
+        ddmRendererTemplateKey: String,
+        delta: Int,
+        orderByCol: String,
+        orderByType: String,
+        targetLayoutFriendlyUrl: String,
+        targetPortletId: String,
+        contentField: String,
+        feedFormat: String,
+        feedVersion: Float
+    ): JournalFeed
+
+    updateJournalFeed(
+        groupId: Long,
+        feedId: String,
+        name: String,
+        description: String,
+        ddmStructureKey: String,
+        ddmTemplateKey: String,
+        ddmRendererTemplateKey: String,
+        delta: Int,
+        orderByCol: String,
+        orderByType: String,
+        targetLayoutFriendlyUrl: String,
+        targetPortletId: String,
+        contentField: String,
+        feedFormat: String,
+        feedVersion: Float
+    ): JournalFeed
+
+    deleteJournalFeed(
+        id: Long
+    ): JournalFeed
+    # END -- Mutations for class com.liferay.journal.model.JournalFeed
+
+    # START -- Mutations for class com.liferay.journal.model.JournalFolder
+    createJournalFolder(
+        userId: Long,
+        groupId: Long,
+        parentFolderId: Long,
+        name: String,
+        description: String
+    ): JournalFolder
+
+    updateJournalFolder(
+        userId: Long,
+        groupId: Long,
+        folderId: Long,
+        parentFolderId: Long,
+        name: String,
+        description: String
+    ): JournalFolder
+
+    deleteJournalFolder(
+        folderId: ID
+    ): JournalFolder
+    # END -- Mutations for class com.liferay.journal.model.JournalFolder
+
+    # START -- Mutations for class com.liferay.message.boards.kernel.model.MBCategory
+    createMBCategory(
+        userId: Long,
+        parentCategoryId: Long,
+        name: String,
+        description: String
+    ): MBCategory
+
+    updateMBCategory(
+        categoryId: Long,
+        parentCategoryId: Long,
+        name: String,
+        description: String
+    ): MBCategory
+
+    deleteMBCategory(
+        categoryId: Long
+    ): MBCategory
+    # END -- Mutations for class com.liferay.message.boards.kernel.model.MBCategory
+
+    # START -- Mutations for class com.liferay.message.boards.kernel.model.MBMessage
+    createMBMessage(
+        userId: Long,
+        userName: String,
+        groupId: Long,
+        categoryId: Long,
+        threadId: Long,
+        parentMessageId: Long,
+        subject: String,
+        body: String,
+        format: String,
+        anonymous: Boolean,
+        priority: Float,
+        allowPingbacks: Boolean
+    ): MBMessage
+
+    updateMBMessage(
+        userId: Long,
+        messageId: Long,
+        subject: String,
+        body: String,
+        priority: Float,
+        allowPingbacks: Boolean
+    ): MBMessage
+
+    deleteMBMessage(
+        messageId: Long
+    ): MBMessage
+    # END -- Mutations for class com.liferay.message.boards.kernel.model.MBMessage
+
+    # START -- Mutations for class com.liferay.message.boards.kernel.model.MBThread
+    createMBThread(
+        categoryId: Long,
+        message: String
+    ): MBThread
+
+    ## No update method available
+
+    deleteMBThread(
+        threadId: Long
+    ): MBThread
+    # END -- Mutations for class com.liferay.message.boards.kernel.model.MBThread
+
+    # START -- Mutations for class com.liferay.oauth2.provider.model.OAuth2Application
+    createOAuth2Application(
+        companyId: Long,
+        userId: Long,
+        userName: String,
+        allowedGrantTypesList: [GrantType],
+        clientId: String,
+        clientProfile: Int,
+        clientSecret: String,
+        description: String,
+        featuresList: [String],
+        homePageURL: String,
+        iconFileEntryId: Long,
+        name: String,
+        privacyPolicyURL: String,
+        redirectURIsList: [String],
+        scopeAliasesList: [String]
+    ): OAuth2Application
+
+    updateOAuth2Application(
+        oAuth2ApplicationId: Long,
+        allowedGrantTypesList: [String],
+        clientId: String,
+        clientProfile: Int,
+        clientSecret: String,
+        description: String,
+        featuresList: [String],
+        homePageURL: String,
+        iconFileEntryId: Long,
+        name: String,
+        privacyPolicyURL: String,
+        redirectURIsList: [String],
+        auth2ApplicationScopeAliasesId: Long
+    ): OAuth2Application
+
+    deleteOAuth2Application(
+        oAuth2ApplicationId: Long
+    ): OAuth2Application
+    # END -- Mutations for class com.liferay.oauth2.provider.model.OAuth2Application
+
+    # START -- Mutations for class com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases
+    createOAuth2ApplicationScopeAliases(
+        companyId: Long,
+        userId: Long,
+        userName: String,
+        oAuth2ApplicationId: Long,
+        scopeAliasesList: [String]
+    ): OAuth2ApplicationScopeAliases
+
+    ## No update method available
+
+    deleteOAuth2ApplicationScopeAliases(
+        oAuth2ApplicationScopeAliasesId: Long
+    ): OAuth2ApplicationScopeAliases
+    # END -- Mutations for class com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases
+
+    # START -- Mutations for class com.liferay.oauth2.provider.model.OAuth2Authorization
+    createOAuth2Authorization(
+        companyId: Long,
+        userId: Long,
+        userName: String,
+        oAuth2ApplicationId: Long,
+        oAuth2ApplicationScopeAliasesId: Long,
+        accessTokenContent: String,
+        accessTokenCreateDate: Date,
+        accessTokenExpirationDate: Date,
+        remoteIPInfo: String,
+        refreshTokenContent: String,
+        refreshTokenCreateDate: Date,
+        refreshTokenExpirationDate: Date
+    ): OAuth2Authorization
+
+    ## No update method available
+
+    deleteOAuth2Authorization(
+        oAuth2AuthorizationId: Long
+    ): OAuth2Authorization
+    # END -- Mutations for class com.liferay.oauth2.provider.model.OAuth2Authorization
+
+    # START -- Mutations for class com.liferay.oauth2.provider.model.OAuth2ScopeGrant
+    associateOAuth2ScopeGrantWithAuthorization(
+        oAuth2ScopeGrantId: Long,
+        oAuth2AuthorizationId: Long
+    ): OAuth2ScopeGrant
+
+    dissociateOAuth2ScopeGrantFromAuthorization(
+        oAuth2ScopeGrantId: Long,
+        oAuth2AuthorizationId: Long
+    ): OAuth2ScopeGrant
+    # END -- Mutations for class com.liferay.oauth2.provider.model.OAuth2ScopeGrant
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Address
+    createAddress(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        street1: String,
+        street2: String,
+        street3: String,
+        city: String,
+        zip: String,
+        regionId: Long,
+        countryId: Long,
+        typeId: Long,
+        mailing: Boolean,
+        primary: Boolean
+    ): Address
+
+    updateAddress(
+        addressId: Long,
+        street1: String,
+        street2: String,
+        street3: String,
+        city: String,
+        zip: String,
+        regionId: Long,
+        countryId: Long,
+        typeId: Long,
+        mailing: Boolean,
+        primary: Boolean
+    ): Address
+
+    deleteAddress(
+        addressId: Long
+    ): Address
+    # END -- Mutations for class com.liferay.portal.kernel.model.Address
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.ClassName
+    ## No mutations
+    # END -- Mutations for class com.liferay.portal.kernel.model.ClassName
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Company
+    createCompany(
+        webId: String,
+        virtualHostname: String,
+        mx: String,
+        system: Boolean,
+        maxUsers: Int,
+        active: Boolean
+    ): Company
+
+    updateCompany(
+        companyId: Long,
+        virtualHostname: String,
+        mx: String,
+        maxUsers: Int,
+        active: Boolean
+    ): Company
+
+    deleteCompany(
+        companyId: Long
+    ): Company
+    # END -- Mutations for class com.liferay.portal.kernel.model.Company
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Contact
+    createContact(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        emailAddress: String,
+        firstName: String,
+        middleName: String,
+        lastName: String,
+        prefixId: Long,
+        suffixId: Long,
+        male: Boolean,
+        birthdayMonth: Int,
+        birthdayDay: Int,
+        birthdayYear: Int,
+        smsSn: String,
+        facebookSn: String,
+        jabberSn: String,
+        skypeSn: String,
+        twitterSn: String,
+        jobTitle: String
+    ): Contact
+
+    updateContact(
+        contactId: Long,
+        emailAddress: String,
+        firstName: String,
+        middleName: String,
+        lastName: String,
+        prefixId: Long,
+        suffixId: Long,
+        male: Boolean,
+        birthdayMonth: Int,
+        birthdayDay: Int,
+        birthdayYear: Int,
+        smsSn: String,
+        facebookSn: String,
+        jabberSn: String,
+        skypeSn: String,
+        twitterSn: String,
+        jobTitle: String
+    ): Contact
+
+    deleteContact(
+        contactId: Long
+    ): Contact
+    # END -- Mutations for class com.liferay.portal.kernel.model.Contact
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Country
+    createCountry(
+        name: String,
+        a2: String,
+        a3: String,
+        number: String,
+        idd: String,
+        active: Boolean
+    ): Country
+
+    ## No update or delete method available
+    # END -- Mutations for class com.liferay.portal.kernel.model.Country
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.EmailAddress
+    createEmailAddress(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        address: String,
+        typeId: Long,
+        primary: Boolean
+    ): EmailAddress
+
+    updateEmailAddress(
+        emailAddressId: Long,
+        address: String,
+        typeId: Long,
+        primary: Boolean
+    ): EmailAddress
+
+    deleteEmailAddress(
+        emailAddressId: Long
+    ): EmailAddress
+    # END -- Mutations for class com.liferay.portal.kernel.model.EmailAddress
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Group
+    createGroup(
+        userId: Long,
+        parentGroupId: Long,
+        className: String,
+        classPK: Long,
+        liveGroupId: Long,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        type: Int,
+        manualMembership: Boolean,
+        membershipRestriction: Int,
+        friendlyURL: String,
+        site: Boolean,
+        inheritContent: Boolean,
+        active: Boolean
+    ): Group
+
+    updateGroup(
+        groupId: Long,
+        parentGroupId: Long,
+        nameMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        type: Int,
+        manualMembership: Boolean,
+        membershipRestriction: Int,
+        friendlyURL: String,
+        inheritContent: Boolean,
+        active: Boolean
+    ): Group
+
+    deleteGroup(
+        groupId: Long
+    ): Group
+    # END -- Mutations for class com.liferay.portal.kernel.model.Group
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Layout
+    createLayout(
+        userId: Long,
+        groupId: Long,
+        privateLayout: Boolean,
+        parentLayoutId: Long,
+        nameMap: LocalizedString,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        keywordsMap: LocalizedString,
+        robotsMap: LocalizedString,
+        type: String,
+        typeSettings: String,
+        hidden: Boolean,
+        friendlyURLMap: LocalizedString
+    ): Layout
+
+    updateLayout(
+        groupId: Long,
+        privateLayout: Boolean,
+        layoutId: Long,
+        parentLayoutId: Long,
+        nameMap: LocalizedString,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        keywordsMap: LocalizedString,
+        robotsMap: LocalizedString,
+        type: String,
+        typeSettings: String,
+        hidden: Boolean,
+        friendlyURLMap: LocalizedString
+    ): Layout
+
+    deleteLayout(
+        layoutId: Long
+    ): Layout
+    # END -- Mutations for class com.liferay.portal.kernel.model.Layout
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.ListType
+    createListType(
+        name: String,
+        type: String
+    ): ListType
+
+    ## No update method available
+
+    deleteListType(
+        listTypeId: Long
+    ): ListType
+    # END -- Mutations for class com.liferay.portal.kernel.model.ListType
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Organization
+    createOrganization(
+        userId: Long,
+        parentOrganizationId: Long,
+        name: String,
+        type: String,
+        regionId: Long,
+        countryId: Long,
+        statusId: Long,
+        comments: String,
+        site: Boolean
+    ): Organization
+
+    updateOrganization(
+        companyId: Long,
+        organizationId: Long,
+        parentOrganizationId: Long,
+        name: String,
+        type: String,
+        regionId: Long,
+        countryId: Long,
+        statusId: Long,
+        comments: String,
+        site: Boolean
+    ): Organization
+
+    deleteOrganization(
+        organizationId: Long
+    ): Organization
+    # END -- Mutations for class com.liferay.portal.kernel.model.Organization
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Phone
+    createPhone(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        number: String,
+        extension: String,
+        typeId: Long,
+        primary: Boolean
+    ): Phone
+
+    updatePhone(
+        phoneId: Long,
+        number: String,
+        extension: String,
+        typeId: Long,
+        primary: Boolean
+    ): Phone
+
+    deletePhone(
+        phoneId: Long
+    ): Phone
+    # END -- Mutations for class com.liferay.portal.kernel.model.Phone
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Region
+    createRegion(
+        countryId: Long,
+        regionCode: String,
+        name: String,
+        active: Boolean
+    ): Region
+
+    ## No update or delete method available
+    # END -- Mutations for class com.liferay.portal.kernel.model.Region
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Role
+    createRole(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        name: String,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        type: Int,
+        subtype: String
+    ): Role
+
+    updateRole(
+        roleId: Long,
+        name: String,
+        titleMap: LocalizedString,
+        descriptionMap: LocalizedString,
+        subtype: String
+    ): Role
+
+    deleteRole(
+        roleId: Long
+    ): Role
+    # END -- Mutations for class com.liferay.portal.kernel.model.Role
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.User
+    createUser(
+        creatorUserId: Long,
+        companyId: Long,
+        autoPassword: Boolean,
+        password: String,
+        autoScreenName: Boolean,
+        screenName: String,
+        emailAddress: String,
+        facebookId: Long,
+        openId: String,
+        locale: String,
+        firstName: String,
+        middleName: String,
+        lastName: String,
+        prefixId: Long,
+        suffixId: Long,
+        male: Boolean,
+        birthdayMonth: Int,
+        birthdayDay: Int,
+        birthdayYear: Int,
+        jobTitle: String,
+        groupIds: [Long],
+        organizationIds: [Long],
+        roleIds: [Long],
+        userGroupIds: [Long],
+        sendEmail: Boolean
+    ): User
+
+    updateUser(
+        userId: Long,
+        oldPassword: String,
+        newPassword1: String,
+        newPassword2: String,
+        passwordReset: Boolean,
+        reminderQueryQuestion: String,
+        reminderQueryAnswer: String,
+        screenName: String,
+        emailAddress: String,
+        facebookId: Long,
+        openId: String,
+        languageId: String,
+        timeZoneId: String,
+        greeting: String,
+        comments: String,
+        firstName: String,
+        middleName: String,
+        lastName: String,
+        prefixId: Long,
+        suffixId: Long,
+        male: Boolean,
+        birthdayMonth: Int,
+        birthdayDay: Int,
+        birthdayYear: Int,
+        smsSn: String,
+        facebookSn: String,
+        jabberSn: String,
+        skypeSn: String,
+        twitterSn: String,
+        jobTitle: String,
+        groupIds: [Long],
+        organizationIds: [Long],
+        roleIds: [Long],
+        userGroupIds: [Long]
+    ): User
+
+    deleteUser(
+        userId: Long
+    ): User
+    # END -- Mutations for class com.liferay.portal.kernel.model.User
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.UserGroup
+    createUserGroup(
+        userId: Long,
+        companyId: Long,
+        name: String,
+        description: String
+    ): UserGroup
+
+    updateUserGroup(
+        companyId: Long,
+        userGroupId: Long,
+        name: String,
+        description: String
+    ): UserGroup
+
+    deleteUserGroup(
+        userGroupId: Long
+    ): UserGroup
+    # END -- Mutations for class com.liferay.portal.kernel.model.UserGroup
+
+    # START -- Mutations for class com.liferay.portal.kernel.model.Website
+    createWebsite(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        url: String,
+        typeId: Long,
+        primary: Boolean
+    ): Website
+
+    updateWebsite(
+        websiteId: Long,
+        url: String,
+        typeId: Long,
+        primary: Boolean
+    ): Website
+
+    deleteWebsite(
+        websiteId: Long
+    ): Website
+    # END -- Mutations for class com.liferay.portal.kernel.model.Website
+
+    # START -- Mutations for class com.liferay.ratings.kernel.model.RatingsEntry
+    createRatingsEntry(
+        userId: Long,
+        className: String,
+        classPK: Long,
+        score: Float
+    ): RatingsEntry
+
+    ## No update method available: create method also performs update
+
+    deleteRatingsEntry(
+        entryId: Long
+    ): RatingsEntry
+    # END -- Mutations for class com.liferay.ratings.kernel.model.RatingsEntry
+
+}
+
+
+##
+## Types
+##
+# START -- Type for class com.liferay.asset.kernel.model.AssetCategory
+type AssetCategory {
+    availableLanguageIds: [String]
+    categoryId: Long
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    externalReferenceCode: String
+    groupId: Long
+    lastPublishDate: Date
+    leftCategoryId: Long
+    modifiedDate: Date
+    name: String
+    parentCategoryId: Long
+    primaryKey: Long
+    rightCategoryId: Long
+    title: String
+    titleCurrentLanguageId: String
+    titleCurrentValue: String
+    titleMap: LocalizedString
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    vocabularyId: Long
+    company: Company
+    group: Group
+    user: User
+    parentCategory: AssetCategory
+    leftCategory: AssetCategory
+    rightCategory: AssetCategory
+    vocabulary: AssetVocabulary
+}
+# END -- Type for class com.liferay.asset.kernel.model.AssetCategory
+
+# START -- Type for class com.liferay.asset.kernel.model.AssetEntry
+type AssetEntry {
+    availableLanguageIds: [String]
+    className: String
+    classNameId: Long
+    classPK: Long
+    classTypeId: Long
+    classUuid: String
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    endDate: Date
+    entryId: Long
+    expirationDate: Date
+    groupId: Long
+    height: Int
+    layoutUuid: String
+    listable: Boolean
+    mimeType: String
+    modifiedDate: Date
+    primaryKey: Long
+    priority: Float
+    publishDate: Date
+    startDate: Date
+    summary: String
+    summaryCurrentLanguageId: String
+    summaryCurrentValue: String
+    summaryMap: String
+    title: String
+    titleCurrentLanguageId: String
+    titleCurrentValue: String
+    titleMap: LocalizedString
+    url: String
+    userId: Long
+    userName: String
+    userUuid: String
+    viewCount: Int
+    visible: Boolean
+    width: Int
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.asset.kernel.model.AssetEntry
+
+# START -- Type for class com.liferay.asset.kernel.model.AssetLink
+type AssetLink {
+    companyId: Long
+    createDate: Date
+    entryId1: Long
+    entryId2: Long
+    linkId: Long
+    primaryKey: Long
+    type: Int
+    userId: Long
+    userName: String
+    userUuid: String
+    weight: Int
+    company: Company
+    user: User
+    entry1: AssetEntry
+    entry2: AssetEntry
+}
+# END -- Type for class com.liferay.asset.kernel.model.AssetLink
+
+# START -- Type for class com.liferay.asset.kernel.model.AssetTag
+type AssetTag {
+    assetCount: Int
+    companyId: Long
+    createDate: Date
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    name: String
+    primaryKey: Long
+    tagId: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.asset.kernel.model.AssetTag
+
+# START -- Type for class com.liferay.asset.kernel.model.AssetVocabulary
+type AssetVocabulary {
+    availableLanguageIds: [String]
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    externalReferenceCode: String
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    name: String
+    primaryKey: Long
+    settings: String
+    title: String
+    titleCurrentLanguageId: String
+    titleCurrentValue: String
+    titleMap: LocalizedString
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    vocabularyId: Long
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.asset.kernel.model.AssetVocabulary
+
+# START -- Type for class com.liferay.blogs.model.BlogsEntry
+type BlogsEntry {
+    allowPingbacks: Boolean
+    allowTrackbacks: Boolean
+    companyId: Long
+    content: String
+    coverImageCaption: String
+    coverImageFileEntryId: Long
+    coverImageURL: String
+    createDate: Date
+    description: String
+    displayDate: Date
+    entryId: Long
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    primaryKey: Long
+    smallImage: Boolean
+    smallImageFileEntryId: Long
+    smallImageId: Long
+    smallImageURL: String
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    subtitle: String
+    title: String
+    trackbacks: String
+    trashEntryClassPK: Long
+    urlTitle: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.blogs.model.BlogsEntry
+
+# START -- Type for class com.liferay.document.library.kernel.model.DLFileEntry
+type DLFileEntry {
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    custom1ImageId: Long
+    custom2ImageId: Long
+    description: String
+    extension: String
+    extraSettings: String
+    fileEntryId: Long
+    fileEntryTypeId: Long
+    fileName: String
+    folderId: Long
+    groupId: Long
+    largeImageId: Long
+    lastPublishDate: Date
+    manualCheckInRequired: Boolean
+    mimeType: String
+    modifiedDate: Date
+    name: String
+    primaryKey: Long
+    readCount: Int
+    repositoryId: Long
+    size: Long
+    smallImageId: Long
+    status: Int
+    title: String
+    trashEntryClassPK: Long
+    treePath: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    version: String
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    company: Company
+    group: Group
+    user: User
+    fileEntryType: DLFileEntryType
+    folder: DLFolder
+}
+# END -- Type for class com.liferay.document.library.kernel.model.DLFileEntry
+
+# START -- Type for class com.liferay.document.library.kernel.model.DLFileEntryMetadata
+type DLFileEntryMetadata {
+    companyId: Long
+    DDMStorageId: Long
+    DDMStructureId: Long
+    fileEntryId: Long
+    fileEntryMetadataId: Long
+    fileVersionId: Long
+    primaryKey: Long
+    uuid: String
+    structure: DDMStructure
+    fileEntry: DLFileEntry
+    fileVersion: DLFileVersion
+}
+# END -- Type for class com.liferay.document.library.kernel.model.DLFileEntryMetadata
+
+# START -- Type for class com.liferay.document.library.kernel.model.DLFileEntryType
+type DLFileEntryType {
+    availableLanguageIds: [String]
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    fileEntryTypeId: Long
+    fileEntryTypeKey: String
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    name: String
+    nameCurrentLanguageId: String
+    nameCurrentValue: String
+    nameMap: LocalizedString
+    primaryKey: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.document.library.kernel.model.DLFileEntryType
+
+# START -- Type for class com.liferay.document.library.kernel.model.DLFileShortcut
+type DLFileShortcut {
+    active: Boolean
+    companyId: Long
+    createDate: Date
+    fileShortcutId: Long
+    folderId: Long
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    primaryKey: Long
+    repositoryId: Long
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    toFileEntryId: Long
+    trashEntryClassPK: Long
+    treePath: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    user: User
+    folder: DLFolder
+}
+# END -- Type for class com.liferay.document.library.kernel.model.DLFileShortcut
+
+# START -- Type for class com.liferay.document.library.kernel.model.DLFileVersion
+type DLFileVersion {
+    changeLog: String
+    checksum: String
+    companyId: Long
+    createDate: Date
+    description: String
+    extension: String
+    extraSettings: String
+    fileEntryId: Long
+    fileEntryTypeId: Long
+    fileName: String
+    fileVersionId: Long
+    folderId: Long
+    groupId: Long
+    lastPublishDate: Date
+    mimeType: String
+    modifiedDate: Date
+    primaryKey: Long
+    repositoryId: Long
+    size: Long
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    title: String
+    treePath: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    version: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    fileEntry: DLFileEntry
+    fileEntryType: DLFileEntryType
+    folder: DLFolder
+}
+# END -- Type for class com.liferay.document.library.kernel.model.DLFileVersion
+
+# START -- Type for class com.liferay.document.library.kernel.model.DLFolder
+type DLFolder {
+    companyId: Long
+    containerModelId: Long
+    containerModelName: String
+    createDate: Date
+    defaultFileEntryTypeId: Long
+    description: String
+    folderId: Long
+    groupId: Long
+    hidden: Boolean
+    lastPostDate: Date
+    lastPublishDate: Date
+    modifiedDate: Date
+    mountPoint: Boolean
+    name: String
+    parentContainerModelId: Long
+    parentFolderId: Long
+    primaryKey: Long
+    repositoryId: Long
+    restrictionType: Int
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    trashEntryClassPK: Long
+    treePath: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    parentFolder: DLFolder
+}
+# END -- Type for class com.liferay.document.library.kernel.model.DLFolder
+
+# START -- Type for class com.liferay.dynamic.data.mapping.model.DDMContent
+type DDMContent {
+    availableLanguageIds: [String]
+    companyId: Long
+    contentId: Long
+    createDate: Date
+    data: String
+    defaultLanguageId: String
+    description: String
+    groupId: Long
+    modifiedDate: Date
+    name: String
+    nameCurrentLanguageId: String
+    nameCurrentValue: String
+    nameMap: LocalizedString
+    primaryKey: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.dynamic.data.mapping.model.DDMContent
+
+# START -- Type for class com.liferay.dynamic.data.mapping.model.DDMStructure
+type DDMStructure {
+    availableLanguageIds: [String]
+    className: String
+    classNameId: Long
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    definition: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    name: String
+    nameCurrentLanguageId: String
+    nameCurrentValue: String
+    nameMap: LocalizedString
+    parentStructureId: Long
+    primaryKey: Long
+    storageType: String
+    structureId: Long
+    structureKey: String
+    type: Int
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    version: String
+    versionUserId: Long
+    versionUserName: String
+    versionUserUuid: String
+    company: Company
+    group: Group
+    user: User
+    parentStructure: DDMStructure
+}
+# END -- Type for class com.liferay.dynamic.data.mapping.model.DDMStructure
+
+# START -- Type for class com.liferay.dynamic.data.mapping.model.DDMTemplate
+type DDMTemplate {
+    availableLanguageIds: [String]
+    cacheable: Boolean
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    groupId: Long
+    language: String
+    lastPublishDate: Date
+    mode: String
+    modifiedDate: Date
+    name: String
+    nameCurrentLanguageId: String
+    nameCurrentValue: String
+    nameMap: LocalizedString
+    primaryKey: Long
+    resourceClassNameId: Long
+    script: String
+    smallImage: Boolean
+    smallImageId: Long
+    smallImageURL: String
+    templateId: Long
+    templateKey: String
+    type: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    version: String
+    versionUserId: Long
+    versionUserName: String
+    versionUserUuid: String
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.dynamic.data.mapping.model.DDMTemplate
+
+# START -- Type for class com.liferay.expando.kernel.model.ExpandoColumn
+type ExpandoColumn {
+    columnId: Long
+    companyId: Long
+    defaultData: String
+    name: String
+    primaryKey: Long
+    tableId: Long
+    type: Int
+    typeSettings: String
+    company: Company
+    table: ExpandoTable
+}
+# END -- Type for class com.liferay.expando.kernel.model.ExpandoColumn
+
+# START -- Type for class com.liferay.expando.kernel.model.ExpandoRow
+type ExpandoRow {
+    classPK: Long
+    companyId: Long
+    modifiedDate: Date
+    primaryKey: Long
+    rowId: Long
+    tableId: Long
+    company: Company
+    table: ExpandoTable
+}
+# END -- Type for class com.liferay.expando.kernel.model.ExpandoRow
+
+# START -- Type for class com.liferay.expando.kernel.model.ExpandoTable
+type ExpandoTable {
+    className: String
+    classNameId: Long
+    companyId: Long
+    name: String
+    primaryKey: Long
+    tableId: Long
+    company: Company
+}
+# END -- Type for class com.liferay.expando.kernel.model.ExpandoTable
+
+# START -- Type for class com.liferay.expando.kernel.model.ExpandoValue
+type ExpandoValue {
+    className: String
+    classNameId: Long
+    classPK: Long
+    columnId: Long
+    companyId: Long
+    data: String
+    primaryKey: Long
+    rowId: Long
+    tableId: Long
+    valueId: Long
+    company: Company
+    column: ExpandoColumn
+    row: ExpandoRow
+    table: ExpandoTable
+}
+# END -- Type for class com.liferay.expando.kernel.model.ExpandoValue
+
+# START -- Type for class com.liferay.journal.model.JournalArticle
+type JournalArticle {
+    articleId: String
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    content: String
+    createDate: Date
+    ddmStructureKey: String
+    ddmTemplateKey: String
+    defaultLanguageId: String
+    displayDate: Date
+    expirationDate: Date
+    folderId: Long
+    groupId: Long
+    id: Long
+    indexable: Boolean
+    lastPublishDate: Date
+    layoutUuid: String
+    modifiedDate: Date
+    primaryKey: Long
+    resourcePrimKey: Long
+    reviewDate: Date
+    smallImage: Boolean
+    smallImageId: Long
+    smallImageURL: String
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    trashEntryClassPK: Long
+    treePath: String
+    urlTitle: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    version: Float
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    resourceMain: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    folder: JournalFolder
+}
+# END -- Type for class com.liferay.journal.model.JournalArticle
+
+# START -- Type for class com.liferay.journal.model.JournalFeed
+type JournalFeed {
+    companyId: Long
+    contentField: String
+    createDate: Date
+    DDMRendererTemplateKey: String
+    DDMStructureKey: String
+    DDMTemplateKey: String
+    delta: Int
+    description: String
+    feedFormat: String
+    feedId: String
+    feedVersion: Float
+    groupId: Long
+    id: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    name: String
+    orderByCol: String
+    orderByType: String
+    primaryKey: Long
+    targetLayoutFriendlyUrl: String
+    targetPortletId: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.journal.model.JournalFeed
+
+# START -- Type for class com.liferay.journal.model.JournalFolder
+type JournalFolder {
+    companyId: Long
+    containerModelId: Long
+    containerModelName: String
+    createDate: Date
+    description: String
+    folderId: Long
+    groupId: Long
+    lastPublishDate: Date
+    modifiedDate: Date
+    name: String
+    parentContainerModelId: Long
+    parentFolderId: Long
+    primaryKey: Long
+    restrictionType: Int
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    trashEntryClassPK: Long
+    treePath: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    parentFolder: JournalFolder
+}
+# END -- Type for class com.liferay.journal.model.JournalFolder
+
+# START -- Type for class com.liferay.message.boards.kernel.model.MBCategory
+type MBCategory {
+    categoryId: Long
+    companyId: Long
+    containerModelId: Long
+    containerModelName: String
+    createDate: Date
+    description: String
+    displayStyle: String
+    groupId: Long
+    lastPostDate: Date
+    lastPublishDate: Date
+    messageCount: Int
+    modifiedDate: Date
+    name: String
+    parentCategoryId: Long
+    parentContainerModelId: Long
+    primaryKey: Long
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    threadCount: Int
+    trashEntryClassPK: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    parentCategory: MBCategory
+}
+# END -- Type for class com.liferay.message.boards.kernel.model.MBCategory
+
+# START -- Type for class com.liferay.message.boards.kernel.model.MBMessage
+type MBMessage {
+    allowPingbacks: Boolean
+    anonymous: Boolean
+    answer: Boolean
+    body: String
+    categoryId: Long
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    format: String
+    groupId: Long
+    lastPublishDate: Date
+    messageId: Long
+    modifiedDate: Date
+    parentMessageId: Long
+    primaryKey: Long
+    priority: Float
+    rootMessageId: Long
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    subject: String
+    threadId: Long
+    trashEntryClassPK: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    category: MBCategory
+    parentMessage: MBMessage
+    rootMessage: MBMessage
+    thread: MBThread
+}
+# END -- Type for class com.liferay.message.boards.kernel.model.MBMessage
+
+# START -- Type for class com.liferay.message.boards.kernel.model.MBThread
+type MBThread {
+    categoryId: Long
+    companyId: Long
+    containerModelId: Long
+    containerModelName: String
+    createDate: Date
+    groupId: Long
+    lastPostByUserId: Long
+    lastPostByUserUuid: String
+    lastPostDate: Date
+    lastPublishDate: Date
+    messageCount: Int
+    modifiedDate: Date
+    parentContainerModelId: Long
+    primaryKey: Long
+    priority: Float
+    question: Boolean
+    rootMessageId: Long
+    rootMessageUserId: Long
+    rootMessageUserUuid: String
+    status: Int
+    statusByUserId: Long
+    statusByUserName: String
+    statusByUserUuid: String
+    statusDate: Date
+    threadId: Long
+    trashEntryClassPK: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    viewCount: Int
+    approved: Boolean
+    denied: Boolean
+    draft: Boolean
+    expired: Boolean
+    inTrash: Boolean
+    inTrashContainer: Boolean
+    inTrashExplicitly: Boolean
+    inTrashImplicitly: Boolean
+    inactive: Boolean
+    incomplete: Boolean
+    pending: Boolean
+    scheduled: Boolean
+    company: Company
+    group: Group
+    user: User
+    category: MBCategory
+    rootMessage: MBMessage
+}
+# END -- Type for class com.liferay.message.boards.kernel.model.MBThread
+
+# START -- Type for class com.liferay.oauth2.provider.model.OAuth2Application
+type OAuth2Application {
+    allowedGrantTypes: String
+    clientId: String
+    clientProfile: Int
+    clientSecret: String
+    companyId: Long
+    createDate: Date
+    description: String
+    features: String
+    homePageURL: String
+    iconFileEntryId: Long
+    modifiedDate: Date
+    name: String
+    OAuth2ApplicationId: Long
+    OAuth2ApplicationScopeAliasesId: Long
+    primaryKey: Long
+    privacyPolicyURL: String
+    redirectURIs: String
+    userId: Long
+    userName: String
+    userUuid: String
+    company: Company
+    oAuth2ApplicationScopeAliases: OAuth2ApplicationScopeAliases
+}
+# END -- Type for class com.liferay.oauth2.provider.model.OAuth2Application
+
+# START -- Type for class com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases
+type OAuth2ApplicationScopeAliases {
+    companyId: Long
+    createDate: Date
+    OAuth2ApplicationId: Long
+    OAuth2ApplicationScopeAliasesId: Long
+    primaryKey: Long
+    scopeAliases: String
+    scopeAliasesHash: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    company: Company
+    oAuth2Application: OAuth2Application
+}
+# END -- Type for class com.liferay.oauth2.provider.model.OAuth2ApplicationScopeAliases
+
+# START -- Type for class com.liferay.oauth2.provider.model.OAuth2Authorization
+type OAuth2Authorization {
+    accessTokenContent: String
+    accessTokenContentHash: Long
+    accessTokenCreateDate: Date
+    accessTokenExpirationDate: Date
+    companyId: Long
+    createDate: Date
+    OAuth2ApplicationId: Long
+    OAuth2ApplicationScopeAliasesId: Long
+    OAuth2AuthorizationId: Long
+    primaryKey: Long
+    refreshTokenContent: String
+    refreshTokenContentHash: Long
+    refreshTokenCreateDate: Date
+    refreshTokenExpirationDate: Date
+    remoteIPInfo: String
+    userId: Long
+    userName: String
+    userUuid: String
+    company: Company
+    user: User
+    oAuth2Application: OAuth2Application
+    oAuth2ApplicationScopeAliases: OAuth2ApplicationScopeAliases
+}
+# END -- Type for class com.liferay.oauth2.provider.model.OAuth2Authorization
+
+# START -- Type for class com.liferay.oauth2.provider.model.OAuth2ScopeGrant
+type OAuth2ScopeGrant {
+    applicationName: String
+    bundleSymbolicName: String
+    companyId: Long
+    OAuth2ApplicationScopeAliasesId: Long
+    OAuth2ScopeGrantId: Long
+    primaryKey: Long
+    scope: String
+    company: Company
+    oAuth2ApplicationScopeAliases: OAuth2ApplicationScopeAliases
+}
+# END -- Type for class com.liferay.oauth2.provider.model.OAuth2ScopeGrant
+
+# START -- Type for class com.liferay.portal.kernel.model.Address
+type Address {
+    addressId: Long
+    city: String
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    countryId: Long
+    createDate: Date
+    mailing: Boolean
+    modifiedDate: Date
+    mvccVersion: Long
+    primary: Boolean
+    primaryKey: Long
+    regionId: Long
+    street1: String
+    street2: String
+    street3: String
+    typeId: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    zip: String
+    company: Company
+    user: User
+    country: Country
+    region: Region
+    type: ListType
+}
+# END -- Type for class com.liferay.portal.kernel.model.Address
+
+# START -- Type for class com.liferay.portal.kernel.model.ClassName
+type ClassName {
+    className: String
+    classNameId: Long
+    mvccVersion: Long
+    primaryKey: Long
+    value: String
+}
+# END -- Type for class com.liferay.portal.kernel.model.ClassName
+
+# START -- Type for class com.liferay.portal.kernel.model.Company
+type Company {
+    accountId: Long
+    active: Boolean
+    companyId: Long
+    homeURL: String
+    key: String
+    logoId: Long
+    maxUsers: Int
+    mvccVersion: Long
+    mx: String
+    primaryKey: Long
+    system: Boolean
+    webId: String
+}
+# END -- Type for class com.liferay.portal.kernel.model.Company
+
+# START -- Type for class com.liferay.portal.kernel.model.Contact
+type Contact {
+    accountId: Long
+    birthday: Long
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    contactId: Long
+    createDate: Date
+    emailAddress: String
+    employeeNumber: String
+    employeeStatusId: String
+    facebookSn: String
+    firstName: String
+    hoursOfOperation: String
+    jabberSn: String
+    jobClass: String
+    jobTitle: String
+    lastName: String
+    male: Boolean
+    middleName: String
+    modifiedDate: Date
+    mvccVersion: Long
+    parentContactId: Long
+    prefixId: Long
+    primaryKey: Long
+    skypeSn: String
+    smsSn: String
+    suffixId: Long
+    twitterSn: String
+    userId: Long
+    userName: String
+    userUuid: String
+    company: Company
+    user: User
+    parentContact: Contact
+    prefix: ListType
+    suffix: ListType
+}
+# END -- Type for class com.liferay.portal.kernel.model.Contact
+
+# START -- Type for class com.liferay.portal.kernel.model.Country
+type Country {
+    a2: String
+    a3: String
+    active: Boolean
+    countryId: Long
+    idd: String
+    mvccVersion: Long
+    name: String
+    number: String
+    primaryKey: Long
+    zipRequired: Boolean
+}
+# END -- Type for class com.liferay.portal.kernel.model.Country
+
+# START -- Type for class com.liferay.portal.kernel.model.EmailAddress
+type EmailAddress {
+    address: String
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    emailAddressId: Long
+    modifiedDate: Date
+    mvccVersion: Long
+    primary: Boolean
+    primaryKey: Long
+    typeId: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    user: User
+    type: ListType
+}
+# END -- Type for class com.liferay.portal.kernel.model.EmailAddress
+
+# START -- Type for class com.liferay.portal.kernel.model.Group
+type Group {
+    active: Boolean
+    availableLanguageIds: [String]
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    creatorUserId: Long
+    creatorUserUuid: String
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    friendlyURL: String
+    groupId: Long
+    groupKey: String
+    inheritContent: Boolean
+    liveGroupId: Long
+    manualMembership: Boolean
+    membershipRestriction: Int
+    mvccVersion: Long
+    name: String
+    nameCurrentLanguageId: String
+    nameCurrentValue: String
+    nameMap: LocalizedString
+    parentGroupId: Long
+    primaryKey: Long
+    remoteStagingGroupCount: Int
+    site: Boolean
+    treePath: String
+    type: Int
+    typeSettings: String
+    uuid: String
+    company: Company
+    creatorUser: User
+    liveGroup: Group
+    parentGroup: Group
+}
+# END -- Type for class com.liferay.portal.kernel.model.Group
+
+# START -- Type for class com.liferay.portal.kernel.model.Layout
+type Layout {
+    availableLanguageIds: [String]
+    colorSchemeId: String
+    companyId: Long
+    createDate: Date
+    css: String
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    friendlyURL: String
+    groupId: Long
+    hidden: Boolean
+    iconImageId: Long
+    keywords: String
+    keywordsCurrentLanguageId: String
+    keywordsCurrentValue: String
+    keywordsMap: LocalizedString
+    lastPublishDate: Date
+    layoutId: Long
+    layoutPrototypeLinkEnabled: Boolean
+    layoutPrototypeUuid: String
+    modifiedDate: Date
+    mvccVersion: Long
+    name: String
+    nameCurrentLanguageId: String
+    nameCurrentValue: String
+    nameMap: LocalizedString
+    parentLayoutId: Long
+    plid: Long
+    primaryKey: Long
+    priority: Int
+    privateLayout: Boolean
+    robots: String
+    robotsCurrentLanguageId: String
+    robotsCurrentValue: String
+    robotsMap: LocalizedString
+    sourcePrototypeLayoutUuid: String
+    themeId: String
+    title: String
+    titleCurrentLanguageId: String
+    titleCurrentValue: String
+    titleMap: LocalizedString
+    type: String
+    typeSettings: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    group: Group
+    user: User
+}
+# END -- Type for class com.liferay.portal.kernel.model.Layout
+
+# START -- Type for class com.liferay.portal.kernel.model.ListType
+type ListType {
+    listTypeId: Long
+    mvccVersion: Long
+    name: String
+    primaryKey: Long
+    type: String
+}
+# END -- Type for class com.liferay.portal.kernel.model.ListType
+
+# START -- Type for class com.liferay.portal.kernel.model.Organization
+type Organization {
+    comments: String
+    companyId: Long
+    countryId: Long
+    createDate: Date
+    externalReferenceCode: String
+    logoId: Long
+    modifiedDate: Date
+    mvccVersion: Long
+    name: String
+    organizationId: Long
+    parentOrganizationId: Long
+    primaryKey: Long
+    recursable: Boolean
+    regionId: Long
+    statusId: Long
+    treePath: String
+    type: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    user: User
+    country: Country
+    region: Region
+}
+# END -- Type for class com.liferay.portal.kernel.model.Organization
+
+# START -- Type for class com.liferay.portal.kernel.model.Phone
+type Phone {
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    extension: String
+    modifiedDate: Date
+    mvccVersion: Long
+    number: String
+    phoneId: Long
+    primary: Boolean
+    primaryKey: Long
+    typeId: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    user: User
+    type: ListType
+}
+# END -- Type for class com.liferay.portal.kernel.model.Phone
+
+# START -- Type for class com.liferay.portal.kernel.model.Region
+type Region {
+    active: Boolean
+    countryId: Long
+    mvccVersion: Long
+    name: String
+    primaryKey: Long
+    regionCode: String
+    regionId: Long
+    country: Country
+}
+# END -- Type for class com.liferay.portal.kernel.model.Region
+
+# START -- Type for class com.liferay.portal.kernel.model.Role
+type Role {
+    availableLanguageIds: [String]
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    defaultLanguageId: String
+    description: String
+    descriptionCurrentLanguageId: String
+    descriptionCurrentValue: String
+    descriptionMap: LocalizedString
+    modifiedDate: Date
+    mvccVersion: Long
+    name: String
+    primaryKey: Long
+    roleId: Long
+    subtype: String
+    title: String
+    titleCurrentLanguageId: String
+    titleCurrentValue: String
+    titleMap: LocalizedString
+    type: Int
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    user: User
+}
+# END -- Type for class com.liferay.portal.kernel.model.Role
+
+# START -- Type for class com.liferay.portal.kernel.model.User
+type User {
+    agreedToTermsOfUse: Boolean
+    comments: String
+    companyId: Long
+    contactId: Long
+    createDate: Date
+    defaultUser: Boolean
+    digest: String
+    emailAddress: String
+    emailAddressVerified: Boolean
+    externalReferenceCode: String
+    facebookId: Long
+    failedLoginAttempts: Int
+    firstName: String
+    googleUserId: String
+    graceLoginCount: Int
+    greeting: String
+    jobTitle: String
+    languageId: String
+    lastFailedLoginDate: Date
+    lastLoginDate: Date
+    lastLoginIP: String
+    lastName: String
+    ldapServerId: Long
+    lockout: Boolean
+    lockoutDate: Date
+    loginDate: Date
+    loginIP: String
+    middleName: String
+    modifiedDate: Date
+    mvccVersion: Long
+    openId: String
+    password: String
+    passwordEncrypted: Boolean
+    passwordModifiedDate: Date
+    passwordReset: Boolean
+    portraitId: Long
+    primaryKey: Long
+    reminderQueryAnswer: String
+    reminderQueryQuestion: String
+    screenName: String
+    status: Int
+    timeZoneId: String
+    userId: Long
+    userUuid: String
+    uuid: String
+    company: Company
+    contact: Contact
+}
+# END -- Type for class com.liferay.portal.kernel.model.User
+
+# START -- Type for class com.liferay.portal.kernel.model.UserGroup
+type UserGroup {
+    addedByLDAPImport: Boolean
+    companyId: Long
+    createDate: Date
+    description: String
+    externalReferenceCode: String
+    modifiedDate: Date
+    mvccVersion: Long
+    name: String
+    parentUserGroupId: Long
+    primaryKey: Long
+    userGroupId: Long
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    user: User
+    parentUserGroup: UserGroup
+}
+# END -- Type for class com.liferay.portal.kernel.model.UserGroup
+
+# START -- Type for class com.liferay.portal.kernel.model.Website
+type Website {
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    lastPublishDate: Date
+    modifiedDate: Date
+    mvccVersion: Long
+    primary: Boolean
+    primaryKey: Long
+    typeId: Long
+    url: String
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    websiteId: Long
+    company: Company
+    user: User
+    type: ListType
+}
+# END -- Type for class com.liferay.portal.kernel.model.Website
+
+# START -- Type for class com.liferay.ratings.kernel.model.RatingsEntry
+type RatingsEntry {
+    className: String
+    classNameId: Long
+    classPK: Long
+    companyId: Long
+    createDate: Date
+    entryId: Long
+    modifiedDate: Date
+    primaryKey: Long
+    score: Float
+    userId: Long
+    userName: String
+    userUuid: String
+    uuid: String
+    company: Company
+    user: User
+}
+# END -- Type for class com.liferay.ratings.kernel.model.RatingsEntry
+
+
+##
+## Enumerations
+##
+enum GrantType {
+    AUTHORIZATION_CODE
+    AUTHORIZATION_CODE_PKCE
+    CLIENT_CREDENTIALS
+    REFRESH_TOKEN
+    RESOURCE_OWNER_PASSWORD
+}
+
+
+##
+## Custom Scalars
+##
+scalar Date
+scalar LocalizedString

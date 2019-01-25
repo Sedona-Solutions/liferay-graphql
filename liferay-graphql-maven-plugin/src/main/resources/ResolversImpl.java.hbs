@@ -1,0 +1,66 @@
+package fr.sedona.liferay.graphql.resolvers.impl;
+
+import {{fqClassName}};
+import {{fqServiceName}};
+import com.liferay.portal.kernel.service.ServiceContext;
+import {{resolversPackagePath}}.{{className}}Resolvers;
+import fr.sedona.liferay.graphql.util.GraphQLUtil;
+import graphql.schema.DataFetcher;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+@Component(
+    immediate = true,
+    service = {{className}}Resolvers.class
+)
+@SuppressWarnings("squid:S1192")
+public class {{className}}ResolversImpl implements {{className}}Resolvers {
+    private {{className}}LocalService {{classNameLower}}LocalService;
+
+    @Reference(unbind = "-")
+    public void set{{className}}LocalService({{className}}LocalService {{classNameLower}}LocalService) {
+        this.{{classNameLower}}LocalService = {{classNameLower}}LocalService;
+    }
+
+    @Reference
+    private GraphQLUtil util;
+
+    @Override
+    public DataFetcher<List<{{className}}>> get{{classNamePlural}}DataFetcher() {
+        return environment -> {
+{{{getAllMethodLambda}}}
+        };
+    }
+
+    @Override
+    public DataFetcher<{{className}}> get{{className}}DataFetcher() {
+        return environment -> {
+{{{getOneMethodLambda}}}
+        };
+    }
+
+    @Override
+    public DataFetcher<{{className}}> create{{className}}DataFetcher() {
+        return environment -> {
+{{{createMethodLambda}}}
+        };
+    }
+
+    @Override
+    public DataFetcher<{{className}}> update{{className}}DataFetcher() {
+        return environment -> {
+{{{updateMethodLambda}}}
+        };
+    }
+
+    @Override
+    public DataFetcher<{{className}}> delete{{className}}DataFetcher() {
+        return environment -> {
+{{{deleteMethodLambda}}}
+        };
+    }
+}

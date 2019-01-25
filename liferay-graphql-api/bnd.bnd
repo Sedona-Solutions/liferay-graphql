@@ -1,0 +1,42 @@
+Bundle-Name: liferay-graphql-api
+Bundle-SymbolicName: fr.sedona.liferay.liferay-graphql-api
+Bundle-Version: 1.0.0-SNAPSHOT
+Bundle-ClassPath:\
+  .,\
+  lib/jackson-annotations.jar,\
+  lib/jackson-core.jar,\
+  lib/jackson-databind.jar,\
+  lib/jackson-jaxrs-json-provider.jar,\
+  lib/jackson-jaxrs-base.jar,\
+  lib/jackson-module-jaxb-annotations.jar,\
+  lib/graphql-java.jar,\
+  lib/antlr4-runtime.jar,\
+  lib/java-dataloader.jar,\
+  lib/reactive-streams.jar,\
+  lib/caffeine.jar,\
+
+
+Import-Package: \
+    com.liferay;version="[1.0, 5.0)";resolution:=optional,\
+    *;resolution:=optional
+
+Web-ContextPath: /liferay-graphql-api
+-contract: JavaPortlet,JavaServlet
+-jsp: *.jsp,*.jspf
+-plugin.jsp: com.liferay.ant.bnd.jsp.JspAnalyzerPlugin
+-plugin.resourcebundle: com.liferay.ant.bnd.resource.bundle.ResourceBundleLoaderAnalyzerPlugin
+-plugin.sass: com.liferay.ant.bnd.sass.SassAnalyzerPlugin
+-sass: *
+-includeresource:\
+  lib/jackson-annotations.jar=jackson-annotations-[0-9]*.jar,\
+  lib/jackson-core.jar=jackson-core-[0-9]*.jar,\
+  lib/jackson-databind.jar=jackson-databind-[0-9]*.jar,\
+  lib/jackson-jaxrs-base.jar=jackson-jaxrs-base-[0-9]*.jar,\
+  lib/jackson-jaxrs-json-provider.jar=jackson-jaxrs-json-provider-[0-9]*.jar,\
+  lib/jackson-module-jaxb-annotations.jar=jackson-module-jaxb-annotations-[0-9]*.jar,\
+  lib/graphql-java.jar=graphql-java-[0-9]*.jar,\
+  lib/antlr4-runtime.jar=antlr4-runtime-[0-9]*.jar,\
+  lib/java-dataloader.jar=java-dataloader-[0-9]*.jar,\
+  lib/reactive-streams.jar=reactive-streams-[0-9]*.jar,\
+  lib/caffeine.jar=caffeine-[0-9]*.jar,\
+
