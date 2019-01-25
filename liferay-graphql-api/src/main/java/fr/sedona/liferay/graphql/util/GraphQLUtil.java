@@ -47,15 +47,15 @@ public class GraphQLUtil {
     }
 
     @Reference(unbind = "-")
-    protected void setDDM(DDM ddm) {
+    public void setDDM(DDM ddm) {
         this.ddm = ddm;
     }
 
     @Reference(target = "(dynamic.data.mapping.form.builder.context.deserializer.type=form)")
-    protected DDMFormContextDeserializer<DDMForm> ddmFormBuilderContextToDDMForm;
+    public DDMFormContextDeserializer<DDMForm> ddmFormBuilderContextToDDMForm;
 
     @Reference(target = "(dynamic.data.mapping.form.builder.context.deserializer.type=formLayout)")
-    protected DDMFormContextDeserializer<DDMFormLayout> ddmFormBuilderContextToDDMFormLayout;
+    public DDMFormContextDeserializer<DDMFormLayout> ddmFormBuilderContextToDDMFormLayout;
 
     public String getStringArg(DataFetchingEnvironment environment, String argumentName) {
         return getStringArg(environment, argumentName, "");
@@ -117,8 +117,28 @@ public class GraphQLUtil {
         return value;
     }
 
+    public String[] getStringArrayArg(DataFetchingEnvironment environment, String argumentName) {
+        String[] value = environment.getArgument(argumentName);
+        if (value == null) {
+            value = new String[0];
+        }
+        return value;
+    }
+
+    public long[] getLongArrayArg(DataFetchingEnvironment environment, String argumentName) {
+        long[] value = environment.getArgument(argumentName);
+        if (value == null) {
+            value = new long[0];
+        }
+        return value;
+    }
+
     public Map<Locale, String> getTranslatedArg(DataFetchingEnvironment environment, String argumentName) {
         Map<String, String> translatedMap = environment.getArgument(argumentName);
+        if (translatedMap == null) {
+            return Collections.emptyMap();
+        }
+
         Map<Locale, String> values = translatedMap.entrySet()
                 .stream()
                 .map(object -> new AbstractMap.SimpleEntry<>(LocaleUtil.fromLanguageId(object.getKey()), object.getValue()))
@@ -130,15 +150,11 @@ public class GraphQLUtil {
         return values;
     }
 
-    public String[] getStringArrayArg(DataFetchingEnvironment environment, String argumentName) {
-        String[] value = environment.getArgument(argumentName);
-        if (value == null) {
-            value = new String[0];
-        }
-        return value;
-    }
-
     public Locale getLocaleArg(DataFetchingEnvironment environment, String argumentName) {
+        String languageId = environment.getArgument(argumentName);
+        if (languageId == null || languageId.isEmpty()) {
+            return LocaleUtil.getDefault();
+        }
         return LocaleUtil.fromLanguageId(environment.getArgument(argumentName));
     }
 
@@ -178,14 +194,6 @@ public class GraphQLUtil {
 
     public DDMFormLayout getDefaultDDDMFormLayout(DDMForm ddmForm) {
         return ddm.getDefaultDDMFormLayout(ddmForm);
-    }
-
-    public long[] getLongArrayArg(DataFetchingEnvironment environment, String argumentName) {
-        long[] value = environment.getArgument(argumentName);
-        if (value == null) {
-            value = new long[0];
-        }
-        return value;
     }
 
     public MBMessage getMBMessageArg(DataFetchingEnvironment environment, String argumentName) {
