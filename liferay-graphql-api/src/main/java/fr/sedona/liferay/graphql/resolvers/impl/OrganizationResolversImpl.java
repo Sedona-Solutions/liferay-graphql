@@ -7,7 +7,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import fr.sedona.liferay.graphql.loaders.OrganizationBatchLoader;
 import fr.sedona.liferay.graphql.resolvers.OrganizationResolvers;
 import fr.sedona.liferay.graphql.util.GraphQLUtil;
+import graphql.execution.ExecutionPath;
 import graphql.schema.DataFetcher;
+import graphql.schema.DataFetchingEnvironment;
 import org.dataloader.DataLoader;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -44,7 +46,7 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
     @Override
     public DataFetcher<CompletableFuture<Organization>> getOrganizationDataFetcher() {
         return environment -> {
-            long organizationId = util.getLongArg(environment, "organizationId");
+            long organizationId = getOrganizationId(environment);
             if (organizationId <= 0) {
                 return null;
             }
@@ -52,6 +54,27 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
             DataLoader<Long, Organization> dataLoader = environment.getDataLoader(OrganizationBatchLoader.KEY);
             return dataLoader.load(organizationId);
         };
+    }
+
+    private long getOrganizationId(DataFetchingEnvironment environment) {
+        long argValue = util.getLongArg(environment, "organizationId");
+        if (environment.getSource() == null) {
+            return argValue;
+        }
+
+        Object source = environment.getSource();
+        if (source instanceof Organization) {
+            ExecutionPath segment = environment.getExecutionStepInfo().getPath();
+            if (segment.getSegmentName().contains("parentOrganization")) {
+                return ((Organization) source).getParentOrganizationId();
+            }
+        }
+
+        try {
+            return util.getEntityIdFromSource(environment.getSource(), "getOrganizationId");
+        } catch (Exception e) {
+            return argValue;
+        }
     }
 
     @Override

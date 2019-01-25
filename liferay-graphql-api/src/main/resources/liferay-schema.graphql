@@ -3201,6 +3201,7 @@ type Organization {
     uuid: String
     company: Company
     user: User
+    parentOrganization: Organization
     country: Country
     region: Region
 }
