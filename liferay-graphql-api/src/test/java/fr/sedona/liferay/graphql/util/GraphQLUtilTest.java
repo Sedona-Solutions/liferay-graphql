@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -18,6 +17,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 /**
  * Test suite for {@link GraphQLUtil}
@@ -441,7 +441,7 @@ public class GraphQLUtilTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        PowerMockito.mockStatic(LocaleUtil.class);
+        mockStatic(LocaleUtil.class);
         when(LocaleUtil.fromLanguageId("en_US"))
                 .thenReturn(LocaleUtil.US);
         when(LocaleUtil.fromLanguageId("fr_FR"))
@@ -477,7 +477,7 @@ public class GraphQLUtilTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        PowerMockito.mockStatic(LocaleUtil.class);
+        mockStatic(LocaleUtil.class);
         when(LocaleUtil.fromLanguageId("fr_FR"))
                 .thenReturn(LocaleUtil.FRANCE);
 

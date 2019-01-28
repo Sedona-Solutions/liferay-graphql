@@ -9,6 +9,7 @@ import org.dataloader.BatchLoader;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -29,6 +30,10 @@ public class MBCategoryBatchLoader implements BatchLoader<Long, MBCategory> {
     @Override
     public CompletionStage<List<MBCategory>> load(List<Long> keys) {
         return CompletableFuture.supplyAsync(() -> {
+            if (keys == null || keys.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(MBCategory.class);
             query.add(PropertyFactoryUtil.forName("categoryId")
                     .in(keys.stream()
