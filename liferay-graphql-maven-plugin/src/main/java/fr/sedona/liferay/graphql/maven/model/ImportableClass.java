@@ -141,14 +141,17 @@ public class ImportableClass {
                 && method.getParameterTypes()[0] == int.class
                 && method.getParameterTypes()[1] == int.class;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             getAllMethodLambda = "            // No method found!!!\n";
             return;
         }
 
         log.debug("  -> Using 1st potential match");
         getAllMethod = potentialMatches.get(0);
+        generateGetAllMethodLambda();
+    }
 
+    private void generateGetAllMethodLambda() {
         StringBuilder sb = new StringBuilder();
         sb.append("            int start = util.getIntArg(environment, \"start\", 0);\n");
         sb.append("            int end = util.getIntArg(environment, \"end\", 10);\n");
@@ -167,14 +170,17 @@ public class ImportableClass {
                 && method.getReturnType().getName().equals(fqClassName)
                 && method.getParameterCount() == 1;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             getOneMethodLambda = "            // No method found!!!\n";
             return;
         }
 
         log.debug("  -> Using 1st potential match");
         getOneMethod = potentialMatches.get(0);
+        generateGetOneMethodLambda();
+    }
 
+    private void generateGetOneMethodLambda() {
         getOneByLongId = true;
         if (getOneMethod.getParameterTypes()[0] == String.class) {
             getOneByLongId = false;
@@ -219,7 +225,7 @@ public class ImportableClass {
                 && method.getReturnType().getName().equals(fqClassName)
                 && method.getParameterCount() > 1;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             createMethodLambda = "            // No method found!!!\n";
             return;
         }
@@ -235,7 +241,10 @@ public class ImportableClass {
                 createMethod = potentialMatch;
             }
         }
+        generateCreateMethodLambda();
+    }
 
+    private void generateCreateMethodLambda() {
         StringBuilder sb = new StringBuilder();
         generateArguments(createMethod, sb);
         sb.append("\n");
@@ -261,7 +270,7 @@ public class ImportableClass {
                 && method.getParameterCount() > 2
                 && method.getParameterTypes()[0] == long.class;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             updateMethodLambda = "            // No method found!!!\n";
             return;
         }
@@ -277,7 +286,10 @@ public class ImportableClass {
                 updateMethod = potentialMatch;
             }
         }
+        generateUpdateMethodLambda();
+    }
 
+    private void generateUpdateMethodLambda() {
         StringBuilder sb = new StringBuilder();
         generateArguments(updateMethod, sb);
         sb.append("\n");
@@ -340,14 +352,17 @@ public class ImportableClass {
                 && method.getParameterCount() == 1
                 && method.getParameterTypes()[0] == long.class;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             deleteMethodLambda = "            // No method found!!!\n";
             return;
         }
 
         log.debug("  -> Using 1st potential match");
         deleteMethod = potentialMatches.get(0);
+        generateDeleteMethodLambda();
+    }
 
+    private void generateDeleteMethodLambda() {
         String paramIdName = classNameLower + "Id";
         StringBuilder sb = new StringBuilder();
         sb.append("            long ");
