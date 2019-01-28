@@ -3,6 +3,7 @@ package fr.sedona.liferay.graphql.maven.model;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import fr.sedona.liferay.graphql.maven.util.Constants;
+import fr.sedona.liferay.graphql.maven.util.GraphQLType;
 import fr.sedona.liferay.graphql.maven.util.HandlebarsUtil;
 import lombok.Data;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -371,31 +372,12 @@ public class ImportableSet {
     }
 
     private String getType(Class clazz) {
-        String type;
-        if (clazz == long.class || clazz == Long.class) {
-            type = "Long";
-        } else if (clazz == double.class || clazz == Double.class) {
-            type = "Float";
-        } else if (clazz == int.class || clazz == Integer.class) {
-            type = "Int";
-        } else if (clazz == boolean.class || clazz == Boolean.class) {
-            type = "Boolean";
-        } else if (clazz == String.class) {
-            type = "String";
-        } else if (clazz == long[].class || clazz == Long[].class) {
-            type = "[Long]";
-        } else if (clazz == double[].class || clazz == Double[].class) {
-            type = "[Float]";
-        } else if (clazz == int[].class || clazz == Integer[].class) {
-            type = "[Int]";
-        } else if (clazz == boolean[].class || clazz == Boolean[].class) {
-            type = "[Boolean]";
-        } else if (clazz == String[].class) {
-            type = "[String]";
+        GraphQLType type = GraphQLType.fromClass(clazz);
+        if (type != null) {
+            return type.getSchemaType();
         } else {
-            type = clazz.getSimpleName();
+            return clazz.getSimpleName();
         }
-        return type;
     }
 
     private void processTypeAttributes(Class objectClass, StringBuilder sb) {
