@@ -371,29 +371,31 @@ public class ImportableSet {
     }
 
     private String getType(Class clazz) {
+        String type;
         if (clazz == long.class || clazz == Long.class) {
-            return "Long";
+            type = "Long";
         } else if (clazz == double.class || clazz == Double.class) {
-            return "Float";
+            type = "Float";
         } else if (clazz == int.class || clazz == Integer.class) {
-            return "Int";
+            type = "Int";
         } else if (clazz == boolean.class || clazz == Boolean.class) {
-            return "Boolean";
+            type = "Boolean";
         } else if (clazz == String.class) {
-            return "String";
+            type = "String";
         } else if (clazz == long[].class || clazz == Long[].class) {
-            return "[Long]";
+            type = "[Long]";
         } else if (clazz == double[].class || clazz == Double[].class) {
-            return "[Float]";
+            type = "[Float]";
         } else if (clazz == int[].class || clazz == Integer[].class) {
-            return "[Int]";
+            type = "[Int]";
         } else if (clazz == boolean[].class || clazz == Boolean[].class) {
-            return "[Boolean]";
+            type = "[Boolean]";
         } else if (clazz == String[].class) {
-            return "[String]";
+            type = "[String]";
         } else {
-            return clazz.getSimpleName();
+            type = clazz.getSimpleName();
         }
+        return type;
     }
 
     private void processTypeAttributes(Class objectClass, StringBuilder sb) {
