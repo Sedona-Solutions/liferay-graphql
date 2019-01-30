@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class LayoutResolversImpl implements LayoutResolvers {
     private LayoutLocalService layoutLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setLayoutLocalService(LayoutLocalService layoutLocalService) {
@@ -30,7 +31,9 @@ public class LayoutResolversImpl implements LayoutResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Layout>> getLayoutsDataFetcher() {

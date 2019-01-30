@@ -22,6 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class DLFileShortcutResolversImpl implements DLFileShortcutResolvers {
     private DLFileShortcutLocalService dlFileShortcutLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setDLFileShortcutLocalService(DLFileShortcutLocalService dlFileShortcutLocalService) {
@@ -29,7 +30,9 @@ public class DLFileShortcutResolversImpl implements DLFileShortcutResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<DLFileShortcut>> getDLFileShortcutsDataFetcher() {

@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class OAuth2ScopeGrantResolversImpl implements OAuth2ScopeGrantResolvers {
     private OAuth2ScopeGrantLocalService oAuth2ScopeGrantLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setOAuth2ScopeGrantLocalService(OAuth2ScopeGrantLocalService oAuth2ScopeGrantLocalService) {
@@ -27,7 +28,9 @@ public class OAuth2ScopeGrantResolversImpl implements OAuth2ScopeGrantResolvers 
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<OAuth2ScopeGrant>> getOAuth2ScopeGrantsDataFetcher() {

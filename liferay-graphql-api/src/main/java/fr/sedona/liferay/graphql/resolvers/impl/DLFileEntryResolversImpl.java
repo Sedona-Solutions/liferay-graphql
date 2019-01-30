@@ -28,6 +28,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class DLFileEntryResolversImpl implements DLFileEntryResolvers {
     private DLFileEntryLocalService dlFileEntryLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setDLFileEntryLocalService(DLFileEntryLocalService dlFileEntryLocalService) {
@@ -35,7 +36,9 @@ public class DLFileEntryResolversImpl implements DLFileEntryResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<DLFileEntry>> getDLFileEntriesDataFetcher() {

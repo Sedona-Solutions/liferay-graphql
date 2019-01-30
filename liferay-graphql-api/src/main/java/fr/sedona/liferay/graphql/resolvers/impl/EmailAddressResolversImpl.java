@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class EmailAddressResolversImpl implements EmailAddressResolvers {
     private EmailAddressLocalService emailaddressLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setEmailAddressLocalService(EmailAddressLocalService emailaddressLocalService) {
@@ -28,7 +29,9 @@ public class EmailAddressResolversImpl implements EmailAddressResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<EmailAddress>> getEmailAddressesDataFetcher() {

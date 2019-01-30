@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class OAuth2AuthorizationResolversImpl implements OAuth2AuthorizationResolvers {
     private OAuth2AuthorizationLocalService oAuth2AuthorizationLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setOAuth2AuthorizationLocalService(OAuth2AuthorizationLocalService oAuth2AuthorizationLocalService) {
@@ -28,7 +29,9 @@ public class OAuth2AuthorizationResolversImpl implements OAuth2AuthorizationReso
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<OAuth2Authorization>> getOAuth2AuthorizationsDataFetcher() {

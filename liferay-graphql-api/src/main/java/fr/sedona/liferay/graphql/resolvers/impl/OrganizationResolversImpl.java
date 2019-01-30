@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class OrganizationResolversImpl implements OrganizationResolvers {
     private OrganizationLocalService organizationLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setOrganizationLocalService(OrganizationLocalService organizationLocalService) {
@@ -31,7 +32,9 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Organization>> getOrganizationsDataFetcher() {

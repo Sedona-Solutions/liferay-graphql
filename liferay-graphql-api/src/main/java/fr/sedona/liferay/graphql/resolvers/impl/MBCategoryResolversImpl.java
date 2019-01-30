@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class MBCategoryResolversImpl implements MBCategoryResolvers {
     private MBCategoryLocalService mbCategoryLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setMBCategoryLocalService(MBCategoryLocalService mbCategoryLocalService) {
@@ -31,7 +32,9 @@ public class MBCategoryResolversImpl implements MBCategoryResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<MBCategory>> getMBCategoriesDataFetcher() {

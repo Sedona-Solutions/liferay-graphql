@@ -18,6 +18,7 @@ import java.util.List;
 @SuppressWarnings("squid:S1192")
 public class CountryResolversImpl implements CountryResolvers {
     private CountryService countryService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setCountryService(CountryService countryService) {
@@ -25,7 +26,9 @@ public class CountryResolversImpl implements CountryResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Country>> getCountriesDataFetcher() {

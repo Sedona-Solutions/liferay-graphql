@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class ExpandoTableResolversImpl implements ExpandoTableResolvers {
     private ExpandoTableLocalService expandoTableLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setExpandoTableLocalService(ExpandoTableLocalService expandoTableLocalService) {
@@ -28,7 +29,9 @@ public class ExpandoTableResolversImpl implements ExpandoTableResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<ExpandoTable>> getExpandoTablesDataFetcher() {

@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class JournalArticleResolversImpl implements JournalArticleResolvers {
     private JournalArticleLocalService journalArticleLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setJournalArticleLocalService(JournalArticleLocalService journalArticleLocalService) {
@@ -31,7 +32,9 @@ public class JournalArticleResolversImpl implements JournalArticleResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<JournalArticle>> getJournalArticlesDataFetcher() {

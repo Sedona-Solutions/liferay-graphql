@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("squid:S1192")
 public class UserResolversImpl implements UserResolvers {
     private UserLocalService userLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setUserLocalService(UserLocalService userLocalService) {
@@ -33,7 +34,9 @@ public class UserResolversImpl implements UserResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<User>> getUsersDataFetcher() {

@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("squid:S1192")
 public class DLFolderResolversImpl implements DLFolderResolvers {
     private DLFolderLocalService dlFolderLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setDLFolderLocalService(DLFolderLocalService dlFolderLocalService) {
@@ -33,7 +34,9 @@ public class DLFolderResolversImpl implements DLFolderResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<DLFolder>> getDLFoldersDataFetcher() {

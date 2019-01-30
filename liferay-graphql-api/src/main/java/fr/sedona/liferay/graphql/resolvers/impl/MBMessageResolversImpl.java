@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class MBMessageResolversImpl implements MBMessageResolvers {
     private MBMessageLocalService mbMessageLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setMBMessageLocalService(MBMessageLocalService mbMessageLocalService) {
@@ -31,7 +32,9 @@ public class MBMessageResolversImpl implements MBMessageResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<MBMessage>> getMBMessagesDataFetcher() {

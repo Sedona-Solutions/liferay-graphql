@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class ClassNameResolversImpl implements ClassNameResolvers {
     private ClassNameLocalService classnameLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setClassNameLocalService(ClassNameLocalService classnameLocalService) {
@@ -27,7 +28,9 @@ public class ClassNameResolversImpl implements ClassNameResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<ClassName>> getClassNamesDataFetcher() {

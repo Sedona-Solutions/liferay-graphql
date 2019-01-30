@@ -22,6 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class OAuth2ApplicationScopeAliasesResolversImpl implements OAuth2ApplicationScopeAliasesResolvers {
     private OAuth2ApplicationScopeAliasesLocalService oAuth2ApplicationScopeAliasesLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setOAuth2ApplicationScopeAliasesLocalService(OAuth2ApplicationScopeAliasesLocalService oAuth2ApplicationScopeAliasesLocalService) {
@@ -29,7 +30,9 @@ public class OAuth2ApplicationScopeAliasesResolversImpl implements OAuth2Applica
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<OAuth2ApplicationScopeAliases>> getOAuth2ApplicationScopeAliasesesDataFetcher() {
