@@ -229,6 +229,9 @@
                             <outputResolversImplDir>
                                 ${basedir}/src/main/java/fr/sedona/liferay/graphql/resolvers/impl
                             </outputResolversImplDir>
+                            <outputResolversImplTestDir>
+                                ${basedir}/src/test/java/fr/sedona/liferay/graphql/resolvers/impl
+                            </outputResolversImplTestDir>
                             <outputBatchLoaderDir>
                                 ${basedir}/src/main/java/fr/sedona/liferay/graphql/loaders
                             </outputBatchLoaderDir>

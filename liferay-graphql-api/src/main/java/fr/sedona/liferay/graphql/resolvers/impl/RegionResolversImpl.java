@@ -33,7 +33,7 @@ public class RegionResolversImpl implements RegionResolvers {
     @Override
     public DataFetcher<List<Region>> getRegionsDataFetcher() {
         return environment -> {
-            boolean active = util.getBooleanArg(environment, "active");
+            boolean active = util.getBooleanArg(environment, "active", true);
 
             return regionService.getRegions(active);
         };

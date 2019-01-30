@@ -158,7 +158,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher().get(environment);
+        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -186,7 +187,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher().get(environment);
+        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -213,7 +215,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher().get(environment);
+        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -234,7 +237,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher().get(environment);
+        List<AssetCategory> results = resolvers.getAssetCategoriesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -253,7 +257,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(CompletableFuture.supplyAsync(() -> expectedResult));
 
         // Asserts
-        CompletableFuture<AssetCategory> asyncResult = resolvers.getAssetCategoryDataFetcher().get(mockEnvironment);
+        CompletableFuture<AssetCategory> asyncResult = resolvers.getAssetCategoryDataFetcher()
+                .get(mockEnvironment);
         assertNotNull(asyncResult);
 
         AssetCategory result = asyncResult.get();
@@ -271,7 +276,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(0L);
 
         // Asserts
-        CompletableFuture<AssetCategory> asyncResult = resolvers.getAssetCategoryDataFetcher().get(mockEnvironment);
+        CompletableFuture<AssetCategory> asyncResult = resolvers.getAssetCategoryDataFetcher()
+                .get(mockEnvironment);
         assertNull(asyncResult);
     }
 
@@ -288,7 +294,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(CompletableFuture.supplyAsync(() -> null));
 
         // Asserts
-        CompletableFuture<AssetCategory> asyncResult = resolvers.getAssetCategoryDataFetcher().get(mockEnvironment);
+        CompletableFuture<AssetCategory> asyncResult = resolvers.getAssetCategoryDataFetcher()
+                .get(mockEnvironment);
         assertNotNull(asyncResult);
 
         AssetCategory result = asyncResult.get();
@@ -324,7 +331,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetCategory result = resolvers.createAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.createAssetCategoryDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
@@ -357,7 +365,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetCategory result = resolvers.createAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.createAssetCategoryDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
@@ -373,7 +382,8 @@ public class AssetCategoryResolversImplTest {
                 .thenThrow(PortalException.class);
 
         // Asserts
-        AssetCategory result = resolvers.createAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.createAssetCategoryDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -406,13 +416,14 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetCategory result = resolvers.updateAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.updateAssetCategoryDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
     @Test(expected = NoSuchCategoryException.class)
-    public void updateAssetCategoryDataFetcher_with_no_assetCategory_id_should_return_null_with_exception() throws Exception {
+    public void updateAssetCategoryDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("groupId", GROUP_ID);
@@ -431,12 +442,13 @@ public class AssetCategoryResolversImplTest {
                 .thenThrow(NoSuchCategoryException.class);
 
         // Asserts
-        AssetCategory result = resolvers.updateAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.updateAssetCategoryDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
     @Test(expected = NoSuchCategoryException.class)
-    public void updateAssetCategoryDataFetcher_with_invalid_assetCategory_id_should_return_null_with_exception() throws Exception {
+    public void updateAssetCategoryDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("categoryId", 789456L);
@@ -456,7 +468,8 @@ public class AssetCategoryResolversImplTest {
                 .thenThrow(NoSuchCategoryException.class);
 
         // Asserts
-        AssetCategory result = resolvers.updateAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.updateAssetCategoryDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -473,7 +486,8 @@ public class AssetCategoryResolversImplTest {
                 .thenThrow(PortalException.class);
 
         // Asserts
-        AssetCategory result = resolvers.updateAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.updateAssetCategoryDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -493,7 +507,8 @@ public class AssetCategoryResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetCategory result = resolvers.deleteAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.deleteAssetCategoryDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
@@ -512,7 +527,8 @@ public class AssetCategoryResolversImplTest {
                 .thenThrow(NoSuchCategoryException.class);
 
         // Asserts
-        AssetCategory result = resolvers.deleteAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.deleteAssetCategoryDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -534,7 +550,8 @@ public class AssetCategoryResolversImplTest {
                 .thenThrow(NoSuchCategoryException.class);
 
         // Asserts
-        AssetCategory result = resolvers.deleteAssetCategoryDataFetcher().get(environment);
+        AssetCategory result = resolvers.deleteAssetCategoryDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 }

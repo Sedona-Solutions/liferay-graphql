@@ -1,13 +1,13 @@
 package fr.sedona.liferay.graphql.resolvers.impl;
 
-import com.liferay.asset.kernel.exception.NoSuchVocabularyException;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
+import com.liferay.portal.kernel.exception.NoSuchRoleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import fr.sedona.liferay.graphql.loaders.AssetVocabularyBatchLoader;
-import fr.sedona.liferay.graphql.resolvers.AssetVocabularyResolvers;
+import fr.sedona.liferay.graphql.loaders.RoleBatchLoader;
+import fr.sedona.liferay.graphql.resolvers.RoleResolvers;
 import fr.sedona.liferay.graphql.util.GraphQLUtil;
 import graphql.execution.ExecutionContext;
 import graphql.execution.ExecutionContextBuilder;
@@ -28,25 +28,28 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Test suite for {@link AssetVocabularyResolversImpl}
+ * Test suite for {@link RoleResolversImpl}
  */
 @RunWith(PowerMockRunner.class)
-public class AssetVocabularyResolversImplTest {
+public class RoleResolversImplTest {
     private static final long DEFAULT_USER_ID = 456456L;
-    private static final long VOCABULARY_ID = 987L;
+    private static final long ROLE_ID = 987L;
     private static final long USER_ID = 123L;
-    private static final long GROUP_ID = 123L;
-    private static final String TITLE = "Test title";
+    private static final String CLASS_NAME = "fr.sedona.Test";
+    private static final long CLASS_PK = 456L;
+    private static final String NAME = "Test title";
     private static final Map<Locale, String> TITLE_MAP;
     private static final Map<Locale, String> DESCRIPTION_MAP;
-    private static final String SETTINGS = "settings";
+    private static final int TYPE = 0;
+    private static final String SUBTYPE = "subtype";
     private ExecutionId executionId;
     private ExecutionContext executionContext;
     private DataFetchingEnvironment mockEnvironment;
-    private DataLoader<Long, AssetVocabulary> dataLoader;
+    private DataLoader<Long, Role> dataLoader;
 
     static {
         TITLE_MAP = new HashMap<>();
@@ -59,10 +62,10 @@ public class AssetVocabularyResolversImplTest {
     }
 
     @InjectMocks
-    AssetVocabularyResolvers resolvers = new AssetVocabularyResolversImpl();
+    RoleResolvers resolvers = new RoleResolversImpl();
 
     @Mock
-    private AssetVocabularyLocalService localService;
+    private RoleLocalService localService;
 
     @Mock
     private GraphQLUtil graphQLUtil;
@@ -76,36 +79,42 @@ public class AssetVocabularyResolversImplTest {
 
         dataLoader = mock(DataLoader.class);
         mockEnvironment = mock(DataFetchingEnvironment.class);
-        doReturn(dataLoader).when(mockEnvironment).getDataLoader(AssetVocabularyBatchLoader.KEY);
+        doReturn(dataLoader)
+                .when(mockEnvironment)
+                .getDataLoader(RoleBatchLoader.KEY);
     }
 
     private void useSimpleGraphQLUtil() {
-        ((AssetVocabularyResolversImpl) resolvers).setUtil(new GraphQLUtil());
+        ((RoleResolversImpl) resolvers).setUtil(new GraphQLUtil());
     }
 
     private void useMockGraphQLUtil(DataFetchingEnvironment environment, long returnedUserId, boolean isValid) {
         when(graphQLUtil.getLongArg(eq(environment), eq("userId"), anyLong()))
                 .thenReturn(returnedUserId);
         if (isValid) {
-            when(graphQLUtil.getLongArg(eq(environment), eq("vocabularyId")))
-                    .thenReturn(VOCABULARY_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("groupId")))
-                    .thenReturn(GROUP_ID);
-            when(graphQLUtil.getStringArg(eq(environment), eq("title")))
-                    .thenReturn(TITLE);
-            when(graphQLUtil.getTranslatedArg(eq(environment), eq("nameMap")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("roleId")))
+                    .thenReturn(ROLE_ID);
+            when(graphQLUtil.getStringArg(eq(environment), eq("className")))
+                    .thenReturn(CLASS_NAME);
+            when(graphQLUtil.getLongArg(eq(environment), eq("classPK")))
+                    .thenReturn(CLASS_PK);
+            when(graphQLUtil.getStringArg(eq(environment), eq("name")))
+                    .thenReturn(NAME);
+            when(graphQLUtil.getTranslatedArg(eq(environment), eq("titleMap")))
                     .thenReturn(TITLE_MAP);
             when(graphQLUtil.getTranslatedArg(eq(environment), eq("descriptionMap")))
                     .thenReturn(DESCRIPTION_MAP);
-            when(graphQLUtil.getStringArg(eq(environment), eq("settings")))
-                    .thenReturn(SETTINGS);
+            when(graphQLUtil.getIntArg(eq(environment), eq("type")))
+                    .thenReturn(TYPE);
+            when(graphQLUtil.getStringArg(eq(environment), eq("subtype")))
+                    .thenReturn(SUBTYPE);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
+            when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
+                    .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
-            when(graphQLUtil.getTranslatedArg(eq(environment), anyString()))
-                    .thenReturn(Collections.emptyMap());
         }
     }
 
@@ -128,411 +137,417 @@ public class AssetVocabularyResolversImplTest {
     }
 
     @Test
-    public void getAssetVocabulariesDataFetcher_should_return_the_specified_number_of_objects() throws Exception {
+    public void getRolesDataFetcher_should_return_the_specified_number_of_objects() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("start", 3);
         arguments.put("end", 3);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        List<AssetVocabulary> availableObjects = new ArrayList<>();
+        List<Role> availableObjects = new ArrayList<>();
         IntStream.rangeClosed(1, 20)
                 .forEach(value -> {
-                    AssetVocabulary entity = mock(AssetVocabulary.class);
-                    entity.setVocabularyId(value);
+                    Role entity = mock(Role.class);
+                    entity.setRoleId(value);
                     availableObjects.add(entity);
                 });
-        List<AssetVocabulary> expectedResults = availableObjects.stream()
+        List<Role> expectedResults = availableObjects.stream()
                 .skip(3)
                 .limit(3)
                 .collect(Collectors.toList());
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(localService.getAssetVocabularies(3, 3))
+        when(localService.getRoles(3, 3))
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetVocabulary> results = resolvers.getAssetVocabulariesDataFetcher()
+        List<Role> results = resolvers.getRolesDataFetcher()
                 .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
 
     @Test
-    public void getAssetVocabulariesDataFetcher_without_args_should_return_10_first_objects() throws Exception {
+    public void getRolesDataFetcher_without_args_should_return_10_first_objects() throws Exception {
         // Given
         DataFetchingEnvironment environment = getTestEnvironment(null);
 
-        List<AssetVocabulary> availableObjects = new ArrayList<>();
+        List<Role> availableObjects = new ArrayList<>();
         IntStream.rangeClosed(1, 20)
                 .forEach(value -> {
-                    AssetVocabulary entity = mock(AssetVocabulary.class);
-                    entity.setVocabularyId(value);
+                    Role entity = mock(Role.class);
+                    entity.setRoleId(value);
                     availableObjects.add(entity);
                 });
-        List<AssetVocabulary> expectedResults = availableObjects.stream()
+        List<Role> expectedResults = availableObjects.stream()
                 .skip(0)
                 .limit(10)
                 .collect(Collectors.toList());
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(localService.getAssetVocabularies(0, 10))
+        when(localService.getRoles(0, 10))
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetVocabulary> results = resolvers.getAssetVocabulariesDataFetcher()
+        List<Role> results = resolvers.getRolesDataFetcher()
                 .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
 
     @Test
-    public void getAssetVocabulariesDataFetcher_with_big_range_args_should_return_only_available_objects() throws Exception {
+    public void getRolesDataFetcher_with_big_range_args_should_return_only_available_objects() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("start", 0);
         arguments.put("end", 100);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        List<AssetVocabulary> expectedResults = new ArrayList<>();
+        List<Role> expectedResults = new ArrayList<>();
         IntStream.rangeClosed(1, 20)
                 .forEach(value -> {
-                    AssetVocabulary entity = mock(AssetVocabulary.class);
-                    entity.setVocabularyId(value);
+                    Role entity = mock(Role.class);
+                    entity.setRoleId(value);
                     expectedResults.add(entity);
                 });
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(localService.getAssetVocabularies(0, 100))
+        when(localService.getRoles(0, 100))
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetVocabulary> results = resolvers.getAssetVocabulariesDataFetcher()
+        List<Role> results = resolvers.getRolesDataFetcher()
                 .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
 
     @Test
-    public void getAssetVocabulariesDataFetcher_no_objects_available_should_return_empty_list() throws Exception {
+    public void getRolesDataFetcher_no_objects_available_should_return_empty_list() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("start", 0);
         arguments.put("end", 100);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        List<AssetVocabulary> expectedResults = new ArrayList<>();
+        List<Role> expectedResults = new ArrayList<>();
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(localService.getAssetVocabularies(0, 100))
+        when(localService.getRoles(0, 100))
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<AssetVocabulary> results = resolvers.getAssetVocabulariesDataFetcher()
+        List<Role> results = resolvers.getRolesDataFetcher()
                 .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
 
     @Test
-    public void getAssetVocabularyDataFetcher_should_return_the_searched_object() throws Exception {
+    public void getRoleDataFetcher_should_return_the_searched_object() throws Exception {
         // Given
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
-        expectedResult.setVocabularyId(3L);
+        Role expectedResult = mock(Role.class);
+        expectedResult.setRoleId(ROLE_ID);
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(mockEnvironment.getArgument("vocabularyId"))
-                .thenReturn(3L);
-        when(dataLoader.load(3L))
+        when(mockEnvironment.getArgument("roleId"))
+                .thenReturn(ROLE_ID);
+        when(dataLoader.load(ROLE_ID))
                 .thenReturn(CompletableFuture.supplyAsync(() -> expectedResult));
 
         // Asserts
-        CompletableFuture<AssetVocabulary> asyncResult = resolvers.getAssetVocabularyDataFetcher()
+        CompletableFuture<Role> asyncResult = resolvers.getRoleDataFetcher()
                 .get(mockEnvironment);
         assertNotNull(asyncResult);
 
-        AssetVocabulary result = asyncResult.get();
+        Role result = asyncResult.get();
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
     @Test
-    public void getAssetVocabularyDataFetcher_no_specified_id_should_return_null() throws Exception {
+    public void getRoleDataFetcher_no_specified_id_should_return_null() throws Exception {
         // Given
         // Nothing
 
         // When / Then
-        when(mockEnvironment.getArgument("vocabularyId"))
+        when(mockEnvironment.getArgument("roleId"))
                 .thenReturn(0L);
 
         // Asserts
-        CompletableFuture<AssetVocabulary> asyncResult = resolvers.getAssetVocabularyDataFetcher()
+        CompletableFuture<Role> asyncResult = resolvers.getRoleDataFetcher()
                 .get(mockEnvironment);
         assertNull(asyncResult);
     }
 
     @Test
-    public void getAssetVocabularyDataFetcher_with_unknown_id_should_return_null() throws Exception {
+    public void getRoleDataFetcher_with_unknown_id_should_return_null() throws Exception {
         // Given
         // Nothing
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(mockEnvironment.getArgument("vocabularyId"))
-                .thenReturn(3L);
-        when(dataLoader.load(3L))
+        when(mockEnvironment.getArgument("roleId"))
+                .thenReturn(ROLE_ID);
+        when(dataLoader.load(ROLE_ID))
                 .thenReturn(CompletableFuture.supplyAsync(() -> null));
 
         // Asserts
-        CompletableFuture<AssetVocabulary> asyncResult = resolvers.getAssetVocabularyDataFetcher()
+        CompletableFuture<Role> asyncResult = resolvers.getRoleDataFetcher()
                 .get(mockEnvironment);
         assertNotNull(asyncResult);
 
-        AssetVocabulary result = asyncResult.get();
+        Role result = asyncResult.get();
         assertNull(result);
     }
 
     @Test
-    public void createAssetVocabularyDataFetcher_should_return_new_object() throws Exception {
+    public void createRoleDataFetcher_should_return_new_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("userId", USER_ID);
-        arguments.put("groupId", GROUP_ID);
-        arguments.put("title", TITLE);
-        arguments.put("nameMap", TITLE_MAP);
+        arguments.put("className", CLASS_NAME);
+        arguments.put("classPK", CLASS_PK);
+        arguments.put("name", NAME);
+        arguments.put("titleMap", TITLE_MAP);
         arguments.put("descriptionMap", DESCRIPTION_MAP);
-        arguments.put("settings", SETTINGS);
+        arguments.put("type", TYPE);
+        arguments.put("subtype", SUBTYPE);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
+        Role expectedResult = mock(Role.class);
         expectedResult.setUserId(USER_ID);
-        expectedResult.setGroupId(GROUP_ID);
-        expectedResult.setName(TITLE);
+        expectedResult.setClassName(CLASS_NAME);
+        expectedResult.setClassPK(CLASS_PK);
+        expectedResult.setName(NAME);
         expectedResult.setTitleMap(TITLE_MAP);
         expectedResult.setDescriptionMap(DESCRIPTION_MAP);
-        expectedResult.setSettings(SETTINGS);
+        expectedResult.setType(TYPE);
+        expectedResult.setSubtype(SUBTYPE);
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.addVocabulary(eq(USER_ID), eq(GROUP_ID), eq(TITLE), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SETTINGS), any(ServiceContext.class)))
+        when(localService.addRole(eq(USER_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(NAME), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(TYPE), eq(SUBTYPE), any(ServiceContext.class)))
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetVocabulary result = resolvers.createAssetVocabularyDataFetcher()
+        Role result = resolvers.createRoleDataFetcher()
                 .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
     @Test
-    public void createAssetVocabularyDataFetcher_without_user_id_should_return_new_object() throws Exception {
+    public void createRoleDataFetcher_without_user_id_should_return_new_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("groupId", GROUP_ID);
-        arguments.put("title", TITLE);
-        arguments.put("nameMap", TITLE_MAP);
+        arguments.put("className", CLASS_NAME);
+        arguments.put("classPK", CLASS_PK);
+        arguments.put("name", NAME);
+        arguments.put("titleMap", TITLE_MAP);
         arguments.put("descriptionMap", DESCRIPTION_MAP);
-        arguments.put("settings", SETTINGS);
+        arguments.put("type", TYPE);
+        arguments.put("subtype", SUBTYPE);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
+        Role expectedResult = mock(Role.class);
         expectedResult.setUserId(DEFAULT_USER_ID);
-        expectedResult.setGroupId(GROUP_ID);
-        expectedResult.setName(TITLE);
+        expectedResult.setClassName(CLASS_NAME);
+        expectedResult.setClassPK(CLASS_PK);
+        expectedResult.setName(NAME);
         expectedResult.setTitleMap(TITLE_MAP);
         expectedResult.setDescriptionMap(DESCRIPTION_MAP);
-        expectedResult.setSettings(SETTINGS);
+        expectedResult.setType(TYPE);
+        expectedResult.setSubtype(SUBTYPE);
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(localService.addVocabulary(eq(DEFAULT_USER_ID), eq(GROUP_ID), eq(TITLE), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SETTINGS), any(ServiceContext.class)))
+        when(localService.addRole(eq(DEFAULT_USER_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(NAME), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(TYPE), eq(SUBTYPE), any(ServiceContext.class)))
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetVocabulary result = resolvers.createAssetVocabularyDataFetcher()
+        Role result = resolvers.createRoleDataFetcher()
                 .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
     @Test(expected = PortalException.class)
-    public void createAssetVocabularyDataFetcher_without_args_should_throw_validation_exception() throws Exception {
+    public void createRoleDataFetcher_without_args_should_throw_validation_exception() throws Exception {
         // Given
         DataFetchingEnvironment environment = getTestEnvironment(null);
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, false);
-        when(localService.addVocabulary(eq(DEFAULT_USER_ID), anyLong(), anyString(), anyMap(), anyMap(), anyString(), any(ServiceContext.class)))
+        when(localService.addRole(anyLong(), anyString(), anyLong(), anyString(), anyMap(), anyMap(), anyInt(), anyString(), any(ServiceContext.class)))
                 .thenThrow(PortalException.class);
 
         // Asserts
-        AssetVocabulary result = resolvers.createAssetVocabularyDataFetcher()
+        Role result = resolvers.createRoleDataFetcher()
                 .get(environment);
         assertNull(result);
     }
 
     @Test
-    public void updateAssetVocabularyDataFetcher_should_return_updated_object() throws Exception {
+    public void updateRoleDataFetcher_should_return_updated_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("vocabularyId", VOCABULARY_ID);
-        arguments.put("title", TITLE);
-        arguments.put("nameMap", TITLE_MAP);
+        arguments.put("roleId", ROLE_ID);
+        arguments.put("name", NAME);
+        arguments.put("titleMap", TITLE_MAP);
         arguments.put("descriptionMap", DESCRIPTION_MAP);
-        arguments.put("settings", SETTINGS);
+        arguments.put("subtype", SUBTYPE);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
-        expectedResult.setVocabularyId(VOCABULARY_ID);
-        expectedResult.setName(TITLE);
+        Role expectedResult = mock(Role.class);
+        expectedResult.setRoleId(ROLE_ID);
+        expectedResult.setName(NAME);
         expectedResult.setTitleMap(TITLE_MAP);
         expectedResult.setDescriptionMap(DESCRIPTION_MAP);
-        expectedResult.setSettings(SETTINGS);
+        expectedResult.setSubtype(SUBTYPE);
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.updateVocabulary(eq(VOCABULARY_ID), eq(TITLE), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SETTINGS), any(ServiceContext.class)))
+        when(localService.updateRole(eq(ROLE_ID), eq(NAME), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SUBTYPE), any(ServiceContext.class)))
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetVocabulary result = resolvers.updateAssetVocabularyDataFetcher()
+        Role result = resolvers.updateRoleDataFetcher()
                 .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
-    @Test(expected = NoSuchVocabularyException.class)
-    public void updateAssetVocabularyDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
+    @Test(expected = NoSuchRoleException.class)
+    public void updateRoleDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("groupId", GROUP_ID);
-        arguments.put("title", TITLE);
-        arguments.put("nameMap", TITLE_MAP);
+        arguments.put("name", NAME);
+        arguments.put("titleMap", TITLE_MAP);
         arguments.put("descriptionMap", DESCRIPTION_MAP);
-        arguments.put("settings", SETTINGS);
+        arguments.put("subtype", SUBTYPE);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(graphQLUtil.getLongArg(eq(environment), eq("vocabularyId")))
+        when(graphQLUtil.getLongArg(eq(environment), eq("roleId")))
                 .thenReturn(0L);
-        when(localService.updateVocabulary(eq(0L), eq(TITLE), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SETTINGS), any(ServiceContext.class)))
-                .thenThrow(NoSuchVocabularyException.class);
+        when(localService.updateRole(eq(0L), eq(NAME), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SUBTYPE), any(ServiceContext.class)))
+                .thenThrow(NoSuchRoleException.class);
 
         // Asserts
-        AssetVocabulary result = resolvers.updateAssetVocabularyDataFetcher()
+        Role result = resolvers.updateRoleDataFetcher()
                 .get(environment);
         assertNull(result);
     }
 
-    @Test(expected = NoSuchVocabularyException.class)
-    public void updateAssetVocabularyDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
+    @Test(expected = NoSuchRoleException.class)
+    public void updateRoleDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("vocabularyId", 789456L);
-        arguments.put("groupId", GROUP_ID);
-        arguments.put("title", TITLE);
-        arguments.put("nameMap", TITLE_MAP);
+        arguments.put("roleId", 789456L);
+        arguments.put("name", NAME);
+        arguments.put("titleMap", TITLE_MAP);
         arguments.put("descriptionMap", DESCRIPTION_MAP);
-        arguments.put("settings", SETTINGS);
+        arguments.put("subtype", SUBTYPE);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(graphQLUtil.getLongArg(eq(environment), eq("vocabularyId")))
+        when(graphQLUtil.getLongArg(eq(environment), eq("roleId")))
                 .thenReturn(789456L);
-        when(localService.updateVocabulary(eq(789456L), eq(TITLE), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SETTINGS), any(ServiceContext.class)))
-                .thenThrow(NoSuchVocabularyException.class);
+        when(localService.updateRole(eq(789456L), eq(NAME), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(SUBTYPE), any(ServiceContext.class)))
+                .thenThrow(NoSuchRoleException.class);
 
         // Asserts
-        AssetVocabulary result = resolvers.updateAssetVocabularyDataFetcher()
+        Role result = resolvers.updateRoleDataFetcher()
                 .get(environment);
         assertNull(result);
     }
 
     @Test(expected = PortalException.class)
-    public void updateAssetVocabularyDataFetcher_without_args_should_throw_validation_exception() throws Exception {
+    public void updateRoleDataFetcher_without_args_should_throw_validation_exception() throws Exception {
         // Given
         DataFetchingEnvironment environment = getTestEnvironment(null);
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, false);
-        when(graphQLUtil.getLongArg(eq(environment), eq("vocabularyId")))
-                .thenReturn(VOCABULARY_ID);
-        when(localService.updateVocabulary(eq(VOCABULARY_ID), anyString(), anyMap(), anyMap(), anyString(), any(ServiceContext.class)))
+        when(graphQLUtil.getLongArg(eq(environment), eq("roleId")))
+                .thenReturn(ROLE_ID);
+        when(localService.updateRole(anyLong(), anyString(), anyMap(), anyMap(), anyString(), any(ServiceContext.class)))
                 .thenThrow(PortalException.class);
 
         // Asserts
-        AssetVocabulary result = resolvers.updateAssetVocabularyDataFetcher()
+        Role result = resolvers.updateRoleDataFetcher()
                 .get(environment);
         assertNull(result);
     }
 
     @Test
-    public void deleteAssetVocabularyDataFetcher_should_return_deleted_object() throws Exception {
+    public void deleteRoleDataFetcher_should_return_deleted_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("vocabularyId", VOCABULARY_ID);
+        arguments.put("roleId", ROLE_ID);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
-        expectedResult.setVocabularyId(VOCABULARY_ID);
+        Role expectedResult = mock(Role.class);
+        expectedResult.setRoleId(ROLE_ID);
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.deleteAssetVocabulary(eq(VOCABULARY_ID)))
+        when(localService.deleteRole(eq(ROLE_ID)))
                 .thenReturn(expectedResult);
 
         // Asserts
-        AssetVocabulary result = resolvers.deleteAssetVocabularyDataFetcher()
+        Role result = resolvers.deleteRoleDataFetcher()
                 .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
-    @Test(expected = NoSuchVocabularyException.class)
-    public void deleteAssetVocabularyDataFetcher_without_args_should_return_null_with_exception() throws Exception {
+    @Test(expected = NoSuchRoleException.class)
+    public void deleteRoleDataFetcher_without_args_should_return_null_with_exception() throws Exception {
         // Given
         DataFetchingEnvironment environment = getTestEnvironment(null);
 
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
-        expectedResult.setVocabularyId(VOCABULARY_ID);
+        Role expectedResult = mock(Role.class);
+        expectedResult.setRoleId(ROLE_ID);
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.deleteAssetVocabulary(eq(VOCABULARY_ID)))
-                .thenThrow(NoSuchVocabularyException.class);
+        when(localService.deleteRole(eq(ROLE_ID)))
+                .thenThrow(NoSuchRoleException.class);
 
         // Asserts
-        AssetVocabulary result = resolvers.deleteAssetVocabularyDataFetcher()
+        Role result = resolvers.deleteRoleDataFetcher()
                 .get(environment);
         assertNull(result);
     }
 
-    @Test(expected = NoSuchVocabularyException.class)
-    public void deleteAssetVocabularyDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
+    @Test(expected = NoSuchRoleException.class)
+    public void deleteRoleDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("vocabularyId", 789456L);
+        arguments.put("roleId", 789456L);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
-        AssetVocabulary expectedResult = mock(AssetVocabulary.class);
-        expectedResult.setVocabularyId(VOCABULARY_ID);
+        Role expectedResult = mock(Role.class);
+        expectedResult.setRoleId(ROLE_ID);
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, false);
-        when(graphQLUtil.getLongArg(eq(environment), eq("vocabularyId")))
+        when(graphQLUtil.getLongArg(eq(environment), eq("roleId")))
                 .thenReturn(789456L);
-        when(localService.deleteAssetVocabulary(eq(789456L)))
-                .thenThrow(NoSuchVocabularyException.class);
+        when(localService.deleteRole(eq(789456L)))
+                .thenThrow(NoSuchRoleException.class);
 
         // Asserts
-        AssetVocabulary result = resolvers.deleteAssetVocabularyDataFetcher()
+        Role result = resolvers.deleteRoleDataFetcher()
                 .get(environment);
         assertNull(result);
     }

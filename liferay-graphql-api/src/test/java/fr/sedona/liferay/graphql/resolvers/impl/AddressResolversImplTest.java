@@ -168,7 +168,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<Address> results = resolvers.getAddressesDataFetcher().get(environment);
+        List<Address> results = resolvers.getAddressesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -196,7 +197,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<Address> results = resolvers.getAddressesDataFetcher().get(environment);
+        List<Address> results = resolvers.getAddressesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -223,7 +225,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<Address> results = resolvers.getAddressesDataFetcher().get(environment);
+        List<Address> results = resolvers.getAddressesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -244,7 +247,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResults);
 
         // Asserts
-        List<Address> results = resolvers.getAddressesDataFetcher().get(environment);
+        List<Address> results = resolvers.getAddressesDataFetcher()
+                .get(environment);
         assertNotNull(results);
         assertEquals(expectedResults, results);
     }
@@ -263,7 +267,8 @@ public class AddressResolversImplTest {
                 .thenReturn(CompletableFuture.supplyAsync(() -> expectedResult));
 
         // Asserts
-        CompletableFuture<Address> asyncResult = resolvers.getAddressDataFetcher().get(mockEnvironment);
+        CompletableFuture<Address> asyncResult = resolvers.getAddressDataFetcher()
+                .get(mockEnvironment);
         assertNotNull(asyncResult);
 
         Address result = asyncResult.get();
@@ -281,7 +286,8 @@ public class AddressResolversImplTest {
                 .thenReturn(0L);
 
         // Asserts
-        CompletableFuture<Address> asyncResult = resolvers.getAddressDataFetcher().get(mockEnvironment);
+        CompletableFuture<Address> asyncResult = resolvers.getAddressDataFetcher()
+                .get(mockEnvironment);
         assertNull(asyncResult);
     }
 
@@ -298,7 +304,8 @@ public class AddressResolversImplTest {
                 .thenReturn(CompletableFuture.supplyAsync(() -> null));
 
         // Asserts
-        CompletableFuture<Address> asyncResult = resolvers.getAddressDataFetcher().get(mockEnvironment);
+        CompletableFuture<Address> asyncResult = resolvers.getAddressDataFetcher()
+                .get(mockEnvironment);
         assertNotNull(asyncResult);
 
         Address result = asyncResult.get();
@@ -345,7 +352,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        Address result = resolvers.createAddressDataFetcher().get(environment);
+        Address result = resolvers.createAddressDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
@@ -389,7 +397,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        Address result = resolvers.createAddressDataFetcher().get(environment);
+        Address result = resolvers.createAddressDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
@@ -405,7 +414,8 @@ public class AddressResolversImplTest {
                 .thenThrow(PortalException.class);
 
         // Asserts
-        Address result = resolvers.createAddressDataFetcher().get(environment);
+        Address result = resolvers.createAddressDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -445,13 +455,14 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        Address result = resolvers.updateAddressDataFetcher().get(environment);
+        Address result = resolvers.updateAddressDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
 
     @Test(expected = NoSuchAddressException.class)
-    public void updateAddressDataFetcher_with_no_address_id_should_return_null_with_exception() throws Exception {
+    public void updateAddressDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("street1", STREET1);
@@ -474,12 +485,13 @@ public class AddressResolversImplTest {
                 .thenThrow(NoSuchAddressException.class);
 
         // Asserts
-        Address result = resolvers.updateAddressDataFetcher().get(environment);
+        Address result = resolvers.updateAddressDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
     @Test(expected = NoSuchAddressException.class)
-    public void updateAddressDataFetcher_with_invalid_address_id_should_return_null_with_exception() throws Exception {
+    public void updateAddressDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("addressId", 789456L);
@@ -503,7 +515,8 @@ public class AddressResolversImplTest {
                 .thenThrow(NoSuchAddressException.class);
 
         // Asserts
-        Address result = resolvers.updateAddressDataFetcher().get(environment);
+        Address result = resolvers.updateAddressDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -520,7 +533,8 @@ public class AddressResolversImplTest {
                 .thenThrow(PortalException.class);
 
         // Asserts
-        Address result = resolvers.updateAddressDataFetcher().get(environment);
+        Address result = resolvers.updateAddressDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -540,7 +554,8 @@ public class AddressResolversImplTest {
                 .thenReturn(expectedResult);
 
         // Asserts
-        Address result = resolvers.deleteAddressDataFetcher().get(environment);
+        Address result = resolvers.deleteAddressDataFetcher()
+                .get(environment);
         assertNotNull(result);
         assertEquals(expectedResult, result);
     }
@@ -559,7 +574,8 @@ public class AddressResolversImplTest {
                 .thenThrow(NoSuchAddressException.class);
 
         // Asserts
-        Address result = resolvers.deleteAddressDataFetcher().get(environment);
+        Address result = resolvers.deleteAddressDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 
@@ -581,7 +597,8 @@ public class AddressResolversImplTest {
                 .thenThrow(NoSuchAddressException.class);
 
         // Asserts
-        Address result = resolvers.deleteAddressDataFetcher().get(environment);
+        Address result = resolvers.deleteAddressDataFetcher()
+                .get(environment);
         assertNull(result);
     }
 }
