@@ -434,10 +434,7 @@ public class ImportableClass {
 
     private void prepareTestAttributeDeclaration() {
         // FIXME: Change this logic, when Liferay will be, one day, compiled with parameter names
-        Method usedMethod = createMethod;
-        if (updateMethod != null && (usedMethod == null || usedMethod.getParameterCount() < updateMethod.getParameterCount())) {
-            usedMethod = updateMethod;
-        }
+        Method usedMethod = determineMethodToBeUsed();
 
         StringBuilder sb = new StringBuilder();
         Arrays.stream(usedMethod.getParameters()).forEach(parameter -> {
@@ -450,12 +447,17 @@ public class ImportableClass {
         testAttributeDeclaration = sb.toString();
     }
 
+    private Method determineMethodToBeUsed() {
+        Method selectedMethod = createMethod;
+        if (updateMethod != null && (selectedMethod == null || selectedMethod.getParameterCount() < updateMethod.getParameterCount())) {
+            selectedMethod = updateMethod;
+        }
+        return selectedMethod;
+    }
+
     private void prepareTestUtilAttributeMocks() {
         // FIXME: Change this logic, when Liferay will be, one day, compiled with parameter names
-        Method usedMethod = createMethod;
-        if (updateMethod != null && (usedMethod == null || usedMethod.getParameterCount() < updateMethod.getParameterCount())) {
-            usedMethod = updateMethod;
-        }
+        Method usedMethod = determineMethodToBeUsed();
 
         StringBuilder sb = new StringBuilder();
         Arrays.stream(usedMethod.getParameters()).forEach(parameter -> {
