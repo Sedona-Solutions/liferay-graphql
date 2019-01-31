@@ -59,7 +59,7 @@ public class BlogsEntryResolversImpl implements BlogsEntryResolvers {
     @Override
     public DataFetcher<BlogsEntry> createBlogsEntryDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             String title = util.getStringArg(environment, "title");
             String subtitle = util.getStringArg(environment, "subtitle");
             String urlTitle = util.getStringArg(environment, "urlTitle");
@@ -101,7 +101,7 @@ public class BlogsEntryResolversImpl implements BlogsEntryResolvers {
     @Override
     public DataFetcher<BlogsEntry> updateBlogsEntryDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long entryId = util.getLongArg(environment, "entryId");
             String title = util.getStringArg(environment, "title");
             String subtitle = util.getStringArg(environment, "subtitle");
