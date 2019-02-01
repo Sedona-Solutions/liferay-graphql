@@ -87,12 +87,14 @@ public class DLFileShortcutResolversImplTest {
                     .thenReturn(GROUP_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("repositoryId")))
                     .thenReturn(REPOSITORY_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("folderId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("folderId"), anyLong()))
                     .thenReturn(FOLDER_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("toFileEntryId")))
                     .thenReturn(TO_FILE_ENTRY_ID);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
+                    .thenReturn(0L);
+            when(graphQLUtil.getLongArg(eq(environment), anyString(), anyLong()))
                     .thenReturn(0L);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
@@ -406,7 +408,7 @@ public class DLFileShortcutResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("fileShortcutId")))
                 .thenReturn(0L);
         when(localService.updateFileShortcut(eq(USER_ID), eq(0L), eq(REPOSITORY_ID), eq(FOLDER_ID), eq(TO_FILE_ENTRY_ID), any(ServiceContext.class)))
@@ -430,7 +432,7 @@ public class DLFileShortcutResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("fileShortcutId")))
                 .thenReturn(789456L);
         when(localService.updateFileShortcut(eq(USER_ID), eq(789456L), eq(REPOSITORY_ID), eq(FOLDER_ID), eq(TO_FILE_ENTRY_ID), any(ServiceContext.class)))

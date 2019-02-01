@@ -41,7 +41,7 @@ public class LayoutResolversImplTest {
     private static final long USER_ID = 123L;
     private static final long GROUP_ID = 456L;
     private static final boolean PRIVATE_LAYOUT = true;
-    private static final long PARENT_LAYOUT_ID = 0;
+    private static final long PARENT_LAYOUT_ID = 0L;
     private static final Map<Locale, String> NAME_MAP;
     private static final Map<Locale, String> TITLE_MAP;
     private static final Map<Locale, String> DESCRIPTION_MAP;
@@ -146,6 +146,8 @@ public class LayoutResolversImplTest {
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getTranslatedArg(eq(environment), anyString()))
+                    .thenReturn(Collections.emptyMap());
         }
     }
 
@@ -518,7 +520,7 @@ public class LayoutResolversImplTest {
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("layoutId")))
                 .thenReturn(0L);
-        when(localService.updateLayout(eq(GROUP_ID), eq(PRIVATE_LAYOUT), eq(LAYOUT_ID), eq(PARENT_LAYOUT_ID), eq(NAME_MAP), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(KEYWORDS_MAP), eq(ROBOTS_MAP), eq(TYPE), eq(HIDDEN), eq(FRIENDLY_URL_MAP), anyBoolean(), any(), any(ServiceContext.class)))
+        when(localService.updateLayout(eq(GROUP_ID), eq(PRIVATE_LAYOUT), eq(0L), eq(PARENT_LAYOUT_ID), eq(NAME_MAP), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(KEYWORDS_MAP), eq(ROBOTS_MAP), eq(TYPE), eq(HIDDEN), eq(FRIENDLY_URL_MAP), anyBoolean(), any(), any(ServiceContext.class)))
                 .thenThrow(NoSuchLayoutException.class);
 
         // Asserts

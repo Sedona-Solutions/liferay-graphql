@@ -387,7 +387,7 @@ public class AssetTagResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("tagId")))
                 .thenReturn(0L);
         when(localService.updateTag(eq(USER_ID), eq(0L), eq(NAME), any(ServiceContext.class)))
@@ -409,7 +409,7 @@ public class AssetTagResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("tagId")))
                 .thenReturn(789456L);
         when(localService.updateTag(eq(USER_ID), eq(789456L), eq(NAME), any(ServiceContext.class)))

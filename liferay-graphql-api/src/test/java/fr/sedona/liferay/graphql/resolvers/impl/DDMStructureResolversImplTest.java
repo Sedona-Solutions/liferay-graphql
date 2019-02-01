@@ -126,17 +126,31 @@ public class DDMStructureResolversImplTest {
                     .thenReturn(DDM_FORM_LAYOUT);
             when(graphQLUtil.getDefaultDDDMFormLayout(any(DDMForm.class)))
                     .thenReturn(DDM_FORM_LAYOUT);
-            when(graphQLUtil.getStringArg(eq(environment), eq("storageType")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("storageType"), anyString()))
                     .thenReturn(STORAGE_TYPE);
-            when(graphQLUtil.getIntArg(eq(environment), eq("type")))
+            when(graphQLUtil.getIntArg(eq(environment), eq("type"), anyInt()))
                     .thenReturn(TYPE);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
+            when(graphQLUtil.getIntArg(eq(environment), anyString(), anyInt()))
+                    .thenReturn(0);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getStringArg(eq(environment), anyString(), anyString()))
+                    .thenReturn("");
+            when(graphQLUtil.getTranslatedArg(eq(environment), anyString()))
+                    .thenReturn(Collections.emptyMap());
+            when(graphQLUtil.getDDDMFormArg(eq(environment), anyString()))
+                    .thenReturn(null);
+            when(graphQLUtil.getDDDMFormForJournalArticleArg(eq(environment), anyString()))
+                    .thenReturn(null);
+            when(graphQLUtil.getDDDMFormLayoutArg(eq(environment), anyString()))
+                    .thenReturn(null);
+            when(graphQLUtil.getDefaultDDDMFormLayout(any(DDMForm.class)))
+                    .thenReturn(null);
         }
     }
 
@@ -414,7 +428,7 @@ public class DDMStructureResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, false);
-        when(localService.addStructure(anyLong(), anyLong(), anyShort(), anyLong(), anyString(), anyMap(), anyMap(), any(), any(), anyString(), anyInt(), any(ServiceContext.class)))
+        when(localService.addStructure(anyLong(), anyLong(), anyString(), anyLong(), anyString(), anyMap(), anyMap(), any(), any(), anyString(), anyInt(), any(ServiceContext.class)))
                 .thenThrow(PortalException.class);
 
         // Asserts
@@ -471,7 +485,7 @@ public class DDMStructureResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("structureId")))
                 .thenReturn(0L);
         when(localService.updateStructure(eq(USER_ID), eq(0L), eq(PARENT_STRUCTURE_ID), eq(NAME_MAP), eq(DESCRIPTION_MAP), eq(DDM_FORM), eq(DDM_FORM_LAYOUT), any(ServiceContext.class)))
@@ -498,7 +512,7 @@ public class DDMStructureResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("structureId")))
                 .thenReturn(789456L);
         when(localService.updateStructure(eq(USER_ID), eq(789456L), eq(PARENT_STRUCTURE_ID), eq(NAME_MAP), eq(DESCRIPTION_MAP), eq(DDM_FORM), eq(DDM_FORM_LAYOUT), any(ServiceContext.class)))

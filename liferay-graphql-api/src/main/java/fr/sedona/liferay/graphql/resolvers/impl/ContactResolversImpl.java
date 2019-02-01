@@ -72,7 +72,7 @@ public class ContactResolversImpl implements ContactResolvers {
     @Override
     public DataFetcher<Contact> createContactDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             String className = util.getStringArg(environment, "className");
             long classPK = util.getLongArg(environment, "classPK");
             String emailAddress = util.getStringArg(environment, "emailAddress");

@@ -339,7 +339,7 @@ public class AssetLinkResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(localService.addLink(eq(USER_ID), eq(ENTRY_ID1), eq(ENTRY_ID2), eq(TYPE), eq(WEIGHT)))
+        when(localService.addLink(eq(DEFAULT_USER_ID), eq(ENTRY_ID1), eq(ENTRY_ID2), eq(TYPE), eq(WEIGHT)))
                 .thenReturn(expectedResult);
 
         // Asserts
@@ -386,36 +386,6 @@ public class AssetLinkResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.updateLink(eq(USER_ID), eq(ENTRY_ID1), eq(ENTRY_ID2), eq(TYPE), eq(WEIGHT)))
-                .thenReturn(expectedResult);
-
-        // Asserts
-        AssetLink result = resolvers.updateAssetLinkDataFetcher()
-                .get(environment);
-        assertNotNull(result);
-        assertEquals(expectedResult, result);
-    }
-
-    @Test(expected = NoSuchLinkException.class)
-    public void updateAssetLinkDataFetcher_with_no_user_id_should_return_updated_object() throws Exception {
-        // Given
-        Map<String, Object> arguments = new HashMap<>();
-        arguments.put("entryId1", ENTRY_ID1);
-        arguments.put("entryId2", ENTRY_ID2);
-        arguments.put("type", TYPE);
-        arguments.put("weight", WEIGHT);
-        DataFetchingEnvironment environment = getTestEnvironment(arguments);
-
-        AssetLink expectedResult = mock(AssetLink.class);
-        expectedResult.setUserId(DEFAULT_USER_ID);
-        expectedResult.setLinkId(LINK_ID);
-        expectedResult.setEntryId1(ENTRY_ID1);
-        expectedResult.setEntryId2(ENTRY_ID2);
-        expectedResult.setType(TYPE);
-        expectedResult.setWeight(WEIGHT);
-
-        // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
         when(localService.updateLink(eq(USER_ID), eq(ENTRY_ID1), eq(ENTRY_ID2), eq(TYPE), eq(WEIGHT)))
                 .thenReturn(expectedResult);
 

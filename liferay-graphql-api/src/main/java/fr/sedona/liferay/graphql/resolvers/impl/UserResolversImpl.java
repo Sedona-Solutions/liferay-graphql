@@ -175,7 +175,7 @@ public class UserResolversImpl implements UserResolvers {
     @Override
     public DataFetcher<User> updateUserDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
+            long userId = util.getLongArg(environment, "userId");
             String oldPassword = util.getStringArg(environment, "oldPassword");
             String newPassword1 = util.getStringArg(environment, "newPassword1");
             String newPassword2 = util.getStringArg(environment, "newPassword2");

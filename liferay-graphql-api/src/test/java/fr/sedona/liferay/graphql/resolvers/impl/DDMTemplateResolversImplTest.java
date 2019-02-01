@@ -117,7 +117,7 @@ public class DDMTemplateResolversImplTest {
                     .thenReturn(TYPE);
             when(graphQLUtil.getStringArg(eq(environment), eq("mode")))
                     .thenReturn(MODE);
-            when(graphQLUtil.getStringArg(eq(environment), eq("language")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("language"), anyString()))
                     .thenReturn(LANGUAGE);
             when(graphQLUtil.getStringArg(eq(environment), eq("script")))
                     .thenReturn(SCRIPT);
@@ -129,6 +129,8 @@ public class DDMTemplateResolversImplTest {
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
+                    .thenReturn("");
+            when(graphQLUtil.getStringArg(eq(environment), anyString(), anyString()))
                     .thenReturn("");
         }
     }

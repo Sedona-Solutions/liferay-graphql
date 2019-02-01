@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import fr.sedona.liferay.graphql.loaders.UserBatchLoader;
 import fr.sedona.liferay.graphql.resolvers.UserResolvers;
 import fr.sedona.liferay.graphql.util.GraphQLUtil;
@@ -163,7 +164,7 @@ public class UserResolversImplTest {
                     .thenReturn(PREFIX_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("suffixId")))
                     .thenReturn(SUFFIX_ID);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("male")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("male"), anyBoolean()))
                     .thenReturn(MALE);
             when(graphQLUtil.getIntArg(eq(environment), eq("birthdayMonth")))
                     .thenReturn(BIRTHDAY_MONTH);
@@ -196,10 +197,18 @@ public class UserResolversImplTest {
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
+            when(graphQLUtil.getIntArg(eq(environment), anyString()))
+                    .thenReturn(0);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
+                    .thenReturn(false);
+            when(graphQLUtil.getBooleanArg(eq(environment), anyString(), anyBoolean()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getLongArrayArg(eq(environment), anyString()))
+                    .thenReturn(new long[0]);
+            when(graphQLUtil.getLocaleArg(eq(environment), anyString()))
+                    .thenReturn(LocaleUtil.US);
         }
     }
 

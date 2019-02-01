@@ -84,25 +84,25 @@ public class ExpandoValueResolversImplTest {
         if (isValid) {
             when(graphQLUtil.getLongArg(eq(environment), eq("valueId")))
                     .thenReturn(VALUE_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("companyId")))
                     .thenReturn(COMPANY_ID);
-            when(graphQLUtil.getStringArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("className")))
                     .thenReturn(CLASS_NAME);
-            when(graphQLUtil.getStringArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("tableName")))
                     .thenReturn(TABLE_NAME);
-            when(graphQLUtil.getStringArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("columnName")))
                     .thenReturn(COLUMN_NAME);
-            when(graphQLUtil.getLongArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("classPK")))
                     .thenReturn(CLASS_PK);
-            when(graphQLUtil.getStringArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("data")))
                     .thenReturn(DATA_STRING);
-            when(graphQLUtil.getIntArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getIntArg(eq(environment), eq("data")))
                     .thenReturn(DATA_INT);
-            when(graphQLUtil.getLongArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("data")))
                     .thenReturn(DATA_LONG);
-            when(graphQLUtil.getDoubleArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getDoubleArg(eq(environment), eq("data")))
                     .thenReturn(DATA_DOUBLE);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("valueId")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("data")))
                     .thenReturn(DATA_BOOLEAN);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))

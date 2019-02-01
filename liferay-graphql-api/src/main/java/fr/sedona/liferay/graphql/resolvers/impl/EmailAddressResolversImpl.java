@@ -70,7 +70,7 @@ public class EmailAddressResolversImpl implements EmailAddressResolvers {
     @Override
     public DataFetcher<EmailAddress> createEmailAddressDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             String className = util.getStringArg(environment, "className");
             long classPK = util.getLongArg(environment, "classPK");
             String address = util.getStringArg(environment, "address");

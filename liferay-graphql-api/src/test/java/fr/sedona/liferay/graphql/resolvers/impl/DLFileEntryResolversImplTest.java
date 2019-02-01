@@ -94,7 +94,7 @@ public class DLFileEntryResolversImplTest {
                     .thenReturn(GROUP_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("repositoryId")))
                     .thenReturn(REPOSITORY_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("folderId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("folderId"), anyLong()))
                     .thenReturn(FOLDER_ID);
             when(graphQLUtil.getStringArg(eq(environment), eq("sourceFileName")))
                     .thenReturn(SOURCE_FILE_NAME);
@@ -108,7 +108,7 @@ public class DLFileEntryResolversImplTest {
                     .thenReturn(CHANGE_LOG);
             when(graphQLUtil.getBooleanArg(eq(environment), eq("majorVersion")))
                     .thenReturn(MAJOR_VERSION);
-            when(graphQLUtil.getLongArg(eq(environment), eq("fileEntryTypeId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("fileEntryTypeId"), anyLong()))
                     .thenReturn(FILE_ENTRY_TYPE_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("size")))
                     .thenReturn(SIZE);
@@ -446,7 +446,7 @@ public class DLFileEntryResolversImplTest {
     }
 
     @Test(expected = NoSuchFileEntryException.class)
-    public void updateDLFileEntryDataFetcher_with_no_address_id_should_return_null_with_exception() throws Exception {
+    public void updateDLFileEntryDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("userId", USER_ID);
@@ -461,7 +461,7 @@ public class DLFileEntryResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("fileEntryId")))
                 .thenReturn(0L);
         when(localService.updateFileEntry(eq(USER_ID), eq(0L), eq(SOURCE_FILE_NAME), eq(MIME_TYPE), eq(TITLE), eq(DESCRIPTION), eq(CHANGE_LOG), eq(MAJOR_VERSION), eq(FILE_ENTRY_TYPE_ID), anyMap(), any(), any(), eq(SIZE), any(ServiceContext.class)))
@@ -474,7 +474,7 @@ public class DLFileEntryResolversImplTest {
     }
 
     @Test(expected = NoSuchFileEntryException.class)
-    public void updateDLFileEntryDataFetcher_with_invalid_address_id_should_return_null_with_exception() throws Exception {
+    public void updateDLFileEntryDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("fileEntryId", 789456L);
@@ -490,7 +490,7 @@ public class DLFileEntryResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("fileEntryId")))
                 .thenReturn(789456L);
         when(localService.updateFileEntry(eq(USER_ID), eq(789456L), eq(SOURCE_FILE_NAME), eq(MIME_TYPE), eq(TITLE), eq(DESCRIPTION), eq(CHANGE_LOG), eq(MAJOR_VERSION), eq(FILE_ENTRY_TYPE_ID), anyMap(), any(), any(), eq(SIZE), any(ServiceContext.class)))

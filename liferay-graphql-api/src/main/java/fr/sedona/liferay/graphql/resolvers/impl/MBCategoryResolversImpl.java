@@ -83,7 +83,7 @@ public class MBCategoryResolversImpl implements MBCategoryResolvers {
     @Override
     public DataFetcher<MBCategory> createMBCategoryDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long parentCategoryId = util.getLongArg(environment, "parentCategoryId");
             String name = util.getStringArg(environment, "name");
             String description = util.getStringArg(environment, "description");

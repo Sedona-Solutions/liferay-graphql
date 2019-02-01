@@ -85,7 +85,7 @@ public class JournalFolderResolversImplTest {
                     .thenReturn(FOLDER_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("groupId")))
                     .thenReturn(GROUP_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("parentFolderId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("parentFolderId"), anyLong()))
                     .thenReturn(PARENT_FOLDER_ID);
             when(graphQLUtil.getStringArg(eq(environment), eq("name")))
                     .thenReturn(NAME);
@@ -93,6 +93,8 @@ public class JournalFolderResolversImplTest {
                     .thenReturn(DESCRIPTION);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
+                    .thenReturn(0L);
+            when(graphQLUtil.getLongArg(eq(environment), anyString(), anyLong()))
                     .thenReturn(0L);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
@@ -410,7 +412,7 @@ public class JournalFolderResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("folderId")))
                 .thenReturn(0L);
         when(localService.updateFolder(eq(USER_ID), eq(GROUP_ID), eq(0L), eq(PARENT_FOLDER_ID), eq(NAME), eq(DESCRIPTION), anyBoolean(), any(ServiceContext.class)))
@@ -435,7 +437,7 @@ public class JournalFolderResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("folderId")))
                 .thenReturn(789456L);
         when(localService.updateFolder(eq(USER_ID), eq(GROUP_ID), eq(789456L), eq(PARENT_FOLDER_ID), eq(NAME), eq(DESCRIPTION), anyBoolean(), any(ServiceContext.class)))

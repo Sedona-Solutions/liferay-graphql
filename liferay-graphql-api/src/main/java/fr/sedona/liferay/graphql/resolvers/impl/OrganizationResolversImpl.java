@@ -93,7 +93,7 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
     @Override
     public DataFetcher<Organization> createOrganizationDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId", util.getDefaultUser().getUserId());
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long parentOrganizationId = util.getLongArg(environment, "parentOrganizationId", OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
             String name = util.getStringArg(environment, "name");
             String type = util.getStringArg(environment, "type");

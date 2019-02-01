@@ -460,7 +460,7 @@ public class BlogsEntryResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.updateEntry(eq(DEFAULT_USER_ID), eq(ENTRY_ID), eq(TITLE), eq(SUBTITLE), eq(URL_TITLE), eq(DESCRIPTION), eq(CONTENT), eq(DISPLAY_DATE_MONTH), eq(DISPLAY_DATE_DAY), eq(DISPLAY_DATE_YEAR), eq(DISPLAY_DATE_HOUR), eq(DISPLAY_DATE_MINUTE), eq(ALLOW_PINGBACKS), eq(ALLOW_TRACKBACKS), eq(TRACKBACKS), eq(COVER_IMAGE_CAPTION), any(), any(), any(ServiceContext.class)))
+        when(localService.updateEntry(eq(USER_ID), eq(ENTRY_ID), eq(TITLE), eq(SUBTITLE), eq(URL_TITLE), eq(DESCRIPTION), eq(CONTENT), eq(DISPLAY_DATE_MONTH), eq(DISPLAY_DATE_DAY), eq(DISPLAY_DATE_YEAR), eq(DISPLAY_DATE_HOUR), eq(DISPLAY_DATE_MINUTE), eq(ALLOW_PINGBACKS), eq(ALLOW_TRACKBACKS), eq(TRACKBACKS), eq(COVER_IMAGE_CAPTION), any(), any(), any(ServiceContext.class)))
                 .thenReturn(expectedResult);
 
         // Asserts

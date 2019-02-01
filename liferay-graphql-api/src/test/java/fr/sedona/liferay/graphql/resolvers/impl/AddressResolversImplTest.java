@@ -527,9 +527,7 @@ public class AddressResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, false);
-        when(graphQLUtil.getLongArg(eq(environment), eq("addressId")))
-                .thenReturn(ADDRESS_ID);
-        when(localService.updateAddress(eq(ADDRESS_ID), anyString(), anyString(), anyString(), anyString(), anyString(), anyLong(), anyLong(), anyLong(), anyBoolean(), anyBoolean()))
+        when(localService.updateAddress(anyLong(), anyString(), anyString(), anyString(), anyString(), anyString(), anyLong(), anyLong(), anyLong(), anyBoolean(), anyBoolean()))
                 .thenThrow(PortalException.class);
 
         // Asserts

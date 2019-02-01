@@ -135,7 +135,7 @@ public class GroupResolversImpl implements GroupResolvers {
     @Override
     public DataFetcher<Group> updateGroupDataFetcher() {
         return environment -> {
-            long groupId = util.getLongArg(environment, "groupId", 0);
+            long groupId = util.getLongArg(environment, "groupId");
             long parentGroupId = util.getLongArg(environment, "parentGroupId", GroupConstants.DEFAULT_PARENT_GROUP_ID);
             Map<Locale, String> nameMap = util.getTranslatedArg(environment, "nameMap");
             Map<Locale, String> descriptionMap = util.getTranslatedArg(environment, "descriptionMap");

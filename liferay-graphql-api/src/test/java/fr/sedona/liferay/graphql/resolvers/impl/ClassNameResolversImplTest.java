@@ -222,6 +222,7 @@ public class ClassNameResolversImplTest {
         // Nothing
 
         // When / Then
+        useSimpleGraphQLUtil();
         when(mockEnvironment.getArgument("classNameId"))
                 .thenReturn(0L);
 

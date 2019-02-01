@@ -90,7 +90,7 @@ public class OAuth2ApplicationResolversImplTest {
         when(graphQLUtil.getLongArg(eq(environment), eq("userId"), anyLong()))
                 .thenReturn(returnedUserId);
         if (isValid) {
-            when(graphQLUtil.getLongArg(eq(environment), eq("oauth2applicationId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ApplicationId")))
                     .thenReturn(OAUTH2_APPLICATION_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("companyId")))
                     .thenReturn(COMPANY_ID);
@@ -122,17 +122,19 @@ public class OAuth2ApplicationResolversImplTest {
                     .thenReturn(REDIRECT_URIS_LIST);
             when(graphQLUtil.getStringArrayArg(eq(environment), eq("scopeAliasesList")))
                     .thenReturn(SCOPE_ALIASES_LIST);
-            when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ScopeAliasesId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ApplicationScopeAliasesId")))
                     .thenReturn(OAUTH2_APPLICATION_SCOPE_ALIASES_ID);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
+            when(graphQLUtil.getIntArg(eq(environment), anyString()))
+                    .thenReturn(0);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
             when(graphQLUtil.getStringArrayArg(eq(environment), anyString()))
-                    .thenReturn(null);
+                    .thenReturn(new String[0]);
         }
     }
 
@@ -273,7 +275,7 @@ public class OAuth2ApplicationResolversImplTest {
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(mockEnvironment.getArgument("oauth2applicationId"))
+        when(mockEnvironment.getArgument("oAuth2ApplicationId"))
                 .thenReturn(OAUTH2_APPLICATION_ID);
         when(dataLoader.load(OAUTH2_APPLICATION_ID))
                 .thenReturn(CompletableFuture.supplyAsync(() -> expectedResult));
@@ -294,7 +296,7 @@ public class OAuth2ApplicationResolversImplTest {
         // Nothing
 
         // When / Then
-        when(mockEnvironment.getArgument("oauth2applicationId"))
+        when(mockEnvironment.getArgument("oAuth2ApplicationId"))
                 .thenReturn(0L);
 
         // Asserts
@@ -310,7 +312,7 @@ public class OAuth2ApplicationResolversImplTest {
 
         // When / Then
         useSimpleGraphQLUtil();
-        when(mockEnvironment.getArgument("oauth2applicationId"))
+        when(mockEnvironment.getArgument("oAuth2ApplicationId"))
                 .thenReturn(OAUTH2_APPLICATION_ID);
         when(dataLoader.load(OAUTH2_APPLICATION_ID))
                 .thenReturn(CompletableFuture.supplyAsync(() -> null));
@@ -442,7 +444,7 @@ public class OAuth2ApplicationResolversImplTest {
     public void updateOAuth2ApplicationDataFetcher_should_return_updated_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("oauth2applicationId", OAUTH2_APPLICATION_ID);
+        arguments.put("oAuth2ApplicationId", OAUTH2_APPLICATION_ID);
         arguments.put("allowedGrantTypesList", ALLOWED_GRANT_TYPES_LIST);
         arguments.put("clientId", CLIENT_ID);
         arguments.put("clientProfile", CLIENT_PROFILE);
@@ -485,7 +487,7 @@ public class OAuth2ApplicationResolversImplTest {
     }
 
     @Test(expected = NoSuchOAuth2ApplicationException.class)
-    public void updateOAuth2ApplicationDataFetcher_with_no_address_id_should_return_null_with_exception() throws Exception {
+    public void updateOAuth2ApplicationDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("companyId", COMPANY_ID);
@@ -507,7 +509,7 @@ public class OAuth2ApplicationResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(graphQLUtil.getLongArg(eq(environment), eq("oauth2applicationId")))
+        when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ApplicationId")))
                 .thenReturn(0L);
         when(localService.updateOAuth2Application(eq(0L), eq(ALLOWED_GRANT_TYPES_LIST), eq(CLIENT_ID), eq(CLIENT_PROFILE), eq(CLIENT_SECRET), eq(DESCRIPTION), eq(Arrays.asList(FEATURES_LIST)), eq(HOME_PAGE_URL), eq(ICON_FILE_ENTRY_ID), eq(NAME), eq(PRIVACY_POLICY_URL), eq(Arrays.asList(REDIRECT_URIS_LIST)), eq(OAUTH2_APPLICATION_SCOPE_ALIASES_ID), any(ServiceContext.class)))
                 .thenThrow(NoSuchOAuth2ApplicationException.class);
@@ -519,10 +521,10 @@ public class OAuth2ApplicationResolversImplTest {
     }
 
     @Test(expected = NoSuchOAuth2ApplicationException.class)
-    public void updateOAuth2ApplicationDataFetcher_with_invalid_address_id_should_return_null_with_exception() throws Exception {
+    public void updateOAuth2ApplicationDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("oauth2applicationId", 789456L);
+        arguments.put("oAuth2ApplicationId", 789456L);
         arguments.put("companyId", COMPANY_ID);
         arguments.put("userId", USER_ID);
         arguments.put("userName", USER_NAME);
@@ -542,7 +544,7 @@ public class OAuth2ApplicationResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(graphQLUtil.getLongArg(eq(environment), eq("oauth2applicationId")))
+        when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ApplicationId")))
                 .thenReturn(789456L);
         when(localService.updateOAuth2Application(eq(789456L), eq(ALLOWED_GRANT_TYPES_LIST), eq(CLIENT_ID), eq(CLIENT_PROFILE), eq(CLIENT_SECRET), eq(DESCRIPTION), eq(Arrays.asList(FEATURES_LIST)), eq(HOME_PAGE_URL), eq(ICON_FILE_ENTRY_ID), eq(NAME), eq(PRIVACY_POLICY_URL), eq(Arrays.asList(REDIRECT_URIS_LIST)), eq(OAUTH2_APPLICATION_SCOPE_ALIASES_ID), any(ServiceContext.class)))
                 .thenThrow(NoSuchOAuth2ApplicationException.class);
@@ -560,8 +562,8 @@ public class OAuth2ApplicationResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, false);
-        when(graphQLUtil.getLongArg(eq(environment), eq("oauth2applicationId")))
-                .thenReturn(OAUTH2_APPLICATION_ID);
+        when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ApplicationId")))
+                .thenReturn(0L);
         when(localService.updateOAuth2Application(anyLong(), anyList(), anyString(), anyInt(), anyString(), anyString(), anyList(), anyString(), anyLong(), anyString(), anyString(), anyList(), anyLong(), any(ServiceContext.class)))
                 .thenThrow(PortalException.class);
 
@@ -575,7 +577,7 @@ public class OAuth2ApplicationResolversImplTest {
     public void deleteOAuth2ApplicationDataFetcher_should_return_deleted_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("oauth2applicationId", OAUTH2_APPLICATION_ID);
+        arguments.put("oAuth2ApplicationId", OAUTH2_APPLICATION_ID);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         OAuth2Application expectedResult = mock(OAuth2Application.class);
@@ -616,7 +618,7 @@ public class OAuth2ApplicationResolversImplTest {
     public void deleteOAuth2ApplicationDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("oauth2applicationId", 789456L);
+        arguments.put("oAuth2ApplicationId", 789456L);
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         OAuth2Application expectedResult = mock(OAuth2Application.class);
@@ -624,7 +626,7 @@ public class OAuth2ApplicationResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, false);
-        when(graphQLUtil.getLongArg(eq(environment), eq("oauth2applicationId")))
+        when(graphQLUtil.getLongArg(eq(environment), eq("oAuth2ApplicationId")))
                 .thenReturn(789456L);
         when(localService.deleteOAuth2Application(eq(789456L)))
                 .thenThrow(NoSuchOAuth2ApplicationException.class);

@@ -90,27 +90,27 @@ public class MBMessageResolversImplTest {
         if (isValid) {
             when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
                     .thenReturn(MESSAGE_ID);
-            when(graphQLUtil.getStringArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("userName")))
                     .thenReturn(USER_NAME);
-            when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("groupId")))
                     .thenReturn(GROUP_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("categoryId")))
                     .thenReturn(CATEGORY_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("threadId")))
                     .thenReturn(THREAD_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("parentMessageId")))
                     .thenReturn(PARENT_MESSAGE_ID);
-            when(graphQLUtil.getStringArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("subject")))
                     .thenReturn(SUBJECT);
-            when(graphQLUtil.getStringArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("body")))
                     .thenReturn(BODY);
-            when(graphQLUtil.getStringArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getStringArg(eq(environment), eq("format")))
                     .thenReturn(FORMAT);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("anonymous")))
                     .thenReturn(ANONYMOUS);
-            when(graphQLUtil.getDoubleArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getDoubleArg(eq(environment), eq("priority")))
                     .thenReturn(PRIORITY);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("messageId")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("allowPingbacks")))
                     .thenReturn(ALLOW_PINGBACKS);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
@@ -459,7 +459,7 @@ public class MBMessageResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
                 .thenReturn(0L);
         when(localService.updateMessage(eq(USER_ID), eq(0L), eq(SUBJECT), eq(BODY), anyList(), anyList(), eq(PRIORITY), eq(ALLOW_PINGBACKS), any(ServiceContext.class)))
@@ -484,7 +484,7 @@ public class MBMessageResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("messageId")))
                 .thenReturn(789456L);
         when(localService.updateMessage(eq(USER_ID), eq(789456L), eq(SUBJECT), eq(BODY), anyList(), anyList(), eq(PRIORITY), eq(ALLOW_PINGBACKS), any(ServiceContext.class)))

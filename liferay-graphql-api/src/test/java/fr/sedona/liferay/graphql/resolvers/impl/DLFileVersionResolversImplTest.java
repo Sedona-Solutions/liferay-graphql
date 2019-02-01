@@ -223,6 +223,7 @@ public class DLFileVersionResolversImplTest {
         // Nothing
 
         // When / Then
+        useSimpleGraphQLUtil();
         when(mockEnvironment.getArgument("fileVersionId"))
                 .thenReturn(0L);
 

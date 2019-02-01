@@ -230,11 +230,17 @@ public class RatingsEntryResolversImplTest {
     @Test
     public void getRatingsEntryDataFetcher_should_return_the_searched_object() throws Exception {
         // Given
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("entryId", ENTRY_ID);
+        DataFetchingEnvironment environment = getTestEnvironment(arguments);
+
         RatingsEntry expectedResult = mock(RatingsEntry.class);
         expectedResult.setEntryId(ENTRY_ID);
 
         // When / Then
         useSimpleGraphQLUtil();
+        when(mockEnvironment.getArgument("entryId"))
+                .thenReturn(ENTRY_ID);
         when(dataLoader.load(ENTRY_ID))
                 .thenReturn(CompletableFuture.supplyAsync(() -> expectedResult));
 

@@ -223,6 +223,7 @@ public class DLFileEntryMetadataResolversImplTest {
         // Nothing
 
         // When / Then
+        useSimpleGraphQLUtil();
         when(mockEnvironment.getArgument("fileEntryMetadataId"))
                 .thenReturn(0L);
 

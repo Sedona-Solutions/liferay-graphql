@@ -359,7 +359,6 @@ public class OAuth2AuthorizationResolversImplTest {
         // Given
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("companyId", COMPANY_ID);
-        arguments.put("userId", USER_ID);
         arguments.put("userName", USER_NAME);
         arguments.put("oAuth2ApplicationId", OAUTH2_APPLICATION_ID);
         arguments.put("oAuth2ApplicationScopeAliasesId", OAUTH2_APPLICATION_SCOPE_ALIASES_ID);
@@ -388,7 +387,7 @@ public class OAuth2AuthorizationResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(localService.addOAuth2Authorization(eq(COMPANY_ID), eq(USER_ID), eq(USER_NAME), eq(OAUTH2_APPLICATION_ID), eq(OAUTH2_APPLICATION_SCOPE_ALIASES_ID), eq(ACCESS_TOKEN_CONTENT), eq(ACCESS_TOKEN_CREATE_DATE), eq(ACCESS_TOKEN_EXPIRATION_DATE), eq(REMOTE_IP_INFO), eq(REFRESH_TOKEN_CONTENT), eq(REFRESH_TOKEN_CREATE_DATE), eq(REFRESH_TOKEN_EXPIRATION_DATE)))
+        when(localService.addOAuth2Authorization(eq(COMPANY_ID), eq(DEFAULT_USER_ID), eq(USER_NAME), eq(OAUTH2_APPLICATION_ID), eq(OAUTH2_APPLICATION_SCOPE_ALIASES_ID), eq(ACCESS_TOKEN_CONTENT), eq(ACCESS_TOKEN_CREATE_DATE), eq(ACCESS_TOKEN_EXPIRATION_DATE), eq(REMOTE_IP_INFO), eq(REFRESH_TOKEN_CONTENT), eq(REFRESH_TOKEN_CREATE_DATE), eq(REFRESH_TOKEN_EXPIRATION_DATE)))
                 .thenReturn(expectedResult);
 
         // Asserts

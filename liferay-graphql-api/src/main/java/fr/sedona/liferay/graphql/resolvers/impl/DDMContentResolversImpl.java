@@ -59,7 +59,7 @@ public class DDMContentResolversImpl implements DDMContentResolvers {
     @Override
     public DataFetcher<DDMContent> createDDMContentDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long groupId = util.getLongArg(environment, "groupId");
             String name = util.getStringArg(environment, "name");
             String description = util.getStringArg(environment, "description");

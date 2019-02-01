@@ -41,15 +41,15 @@ public class OrganizationResolversImplTest {
     private static final long DEFAULT_USER_ID = 456456L;
     private static final long ORGANIZATION_ID = 987L;
     private static final long USER_ID = 123L;
-    private static final long COMPANY_ID = 0;
-    private static final long PARENT_ORGANIZATION_ID = 0;
-    private static final String NAME = null;
-    private static final String TYPE = null;
+    private static final long COMPANY_ID = 0L;
+    private static final long PARENT_ORGANIZATION_ID = 0L;
+    private static final String NAME = "Name";
+    private static final String TYPE = "type";
     private static final long REGION_ID = 0;
     private static final long COUNTRY_ID = 0;
     private static final long STATUS_ID = 0;
-    private static final String COMMENTS = null;
-    private static final boolean SITE = false;
+    private static final String COMMENTS = "Comments";
+    private static final boolean SITE = true;
     private ExecutionId executionId;
     private ExecutionContext executionContext;
     private DataFetchingEnvironment mockEnvironment;
@@ -90,9 +90,7 @@ public class OrganizationResolversImplTest {
                     .thenReturn(ORGANIZATION_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("companyId")))
                     .thenReturn(COMPANY_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("organizationId")))
-                    .thenReturn(ORGANIZATION_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("parentOrganizationId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("parentOrganizationId"), anyLong()))
                     .thenReturn(PARENT_ORGANIZATION_ID);
             when(graphQLUtil.getStringArg(eq(environment), eq("name")))
                     .thenReturn(NAME);
@@ -110,6 +108,8 @@ public class OrganizationResolversImplTest {
                     .thenReturn(SITE);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
+                    .thenReturn(0L);
+            when(graphQLUtil.getLongArg(eq(environment), anyString(), anyLong()))
                     .thenReturn(0L);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);

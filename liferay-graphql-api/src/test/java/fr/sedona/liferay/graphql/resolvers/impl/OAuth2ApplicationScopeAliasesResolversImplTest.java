@@ -96,6 +96,8 @@ public class OAuth2ApplicationScopeAliasesResolversImplTest {
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getStringArrayArg(eq(environment), anyString()))
+                    .thenReturn(new String[0]);
         }
     }
 
@@ -337,7 +339,7 @@ public class OAuth2ApplicationScopeAliasesResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(localService.addOAuth2ApplicationScopeAliases(eq(COMPANY_ID), eq(USER_ID), eq(USER_NAME), eq(OAUTH2_APPLICATION_ID), eq(Arrays.asList(SCOPE_ALIASES_LIST))))
+        when(localService.addOAuth2ApplicationScopeAliases(eq(COMPANY_ID), eq(DEFAULT_USER_ID), eq(USER_NAME), eq(OAUTH2_APPLICATION_ID), eq(Arrays.asList(SCOPE_ALIASES_LIST))))
                 .thenReturn(expectedResult);
 
         // Asserts

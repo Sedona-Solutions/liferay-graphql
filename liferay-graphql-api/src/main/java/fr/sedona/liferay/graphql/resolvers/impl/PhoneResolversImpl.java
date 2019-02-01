@@ -70,7 +70,7 @@ public class PhoneResolversImpl implements PhoneResolvers {
     @Override
     public DataFetcher<Phone> createPhoneDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             String className = util.getStringArg(environment, "className");
             long classPK = util.getLongArg(environment, "classPK");
             String number = util.getStringArg(environment, "number");

@@ -112,7 +112,7 @@ public class ContactResolversImplTest {
                     .thenReturn(PREFIX_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("suffixId")))
                     .thenReturn(SUFFIX_ID);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("male")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("male"), anyBoolean()))
                     .thenReturn(MALE);
             when(graphQLUtil.getIntArg(eq(environment), eq("birthdayMonth")))
                     .thenReturn(BIRTHDAY_MONTH);
@@ -135,7 +135,9 @@ public class ContactResolversImplTest {
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
-            when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
+            when(graphQLUtil.getIntArg(eq(environment), anyString()))
+                    .thenReturn(0);
+            when(graphQLUtil.getBooleanArg(eq(environment), anyString(), anyBoolean()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
@@ -377,7 +379,7 @@ public class ContactResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, USER_ID, true);
-        when(localService.addContact(eq(CONTACT_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(EMAIL_ADDRESS), eq(FIRST_NAME), eq(MIDDLE_NAME), eq(LAST_NAME), eq(PREFIX_ID), eq(SUFFIX_ID), eq(MALE), eq(BIRTHDAY_MONTH), eq(BIRTHDAY_DAY), eq(BIRTHDAY_YEAR), eq(SMS_SN), eq(FACEBOOK_SN), eq(JABBER_SN), eq(SKYPE_SN), eq(TWITTER_SN), eq(JOB_TITLE)))
+        when(localService.addContact(eq(USER_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(EMAIL_ADDRESS), eq(FIRST_NAME), eq(MIDDLE_NAME), eq(LAST_NAME), eq(PREFIX_ID), eq(SUFFIX_ID), eq(MALE), eq(BIRTHDAY_MONTH), eq(BIRTHDAY_DAY), eq(BIRTHDAY_YEAR), eq(SMS_SN), eq(FACEBOOK_SN), eq(JABBER_SN), eq(SKYPE_SN), eq(TWITTER_SN), eq(JOB_TITLE)))
                 .thenReturn(expectedResult);
 
         // Asserts
@@ -432,7 +434,7 @@ public class ContactResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(localService.addContact(eq(CONTACT_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(EMAIL_ADDRESS), eq(FIRST_NAME), eq(MIDDLE_NAME), eq(LAST_NAME), eq(PREFIX_ID), eq(SUFFIX_ID), eq(MALE), eq(BIRTHDAY_MONTH), eq(BIRTHDAY_DAY), eq(BIRTHDAY_YEAR), eq(SMS_SN), eq(FACEBOOK_SN), eq(JABBER_SN), eq(SKYPE_SN), eq(TWITTER_SN), eq(JOB_TITLE)))
+        when(localService.addContact(eq(DEFAULT_USER_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(EMAIL_ADDRESS), eq(FIRST_NAME), eq(MIDDLE_NAME), eq(LAST_NAME), eq(PREFIX_ID), eq(SUFFIX_ID), eq(MALE), eq(BIRTHDAY_MONTH), eq(BIRTHDAY_DAY), eq(BIRTHDAY_YEAR), eq(SMS_SN), eq(FACEBOOK_SN), eq(JABBER_SN), eq(SKYPE_SN), eq(TWITTER_SN), eq(JOB_TITLE)))
                 .thenReturn(expectedResult);
 
         // Asserts

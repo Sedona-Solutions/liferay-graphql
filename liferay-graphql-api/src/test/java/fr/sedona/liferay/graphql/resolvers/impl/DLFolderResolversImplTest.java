@@ -109,10 +109,14 @@ public class DLFolderResolversImplTest {
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
+            when(graphQLUtil.getIntArg(eq(environment), anyString()))
+                    .thenReturn(0);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getLongArrayArg(eq(environment), anyString()))
+                    .thenReturn(new long[0]);
         }
     }
 

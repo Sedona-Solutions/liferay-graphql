@@ -137,7 +137,7 @@ public class OAuth2ApplicationResolversImpl implements OAuth2ApplicationResolver
             String name = util.getStringArg(environment, "name");
             String privacyPolicyURL = util.getStringArg(environment, "privacyPolicyURL");
             String[] redirectURIsList = util.getStringArrayArg(environment, "redirectURIsList");
-            long auth2ApplicationScopeAliasesId = util.getLongArg(environment, "auth2ApplicationScopeAliasesId");
+            long oAuth2ApplicationScopeAliasesId = util.getLongArg(environment, "oAuth2ApplicationScopeAliasesId");
             ServiceContext serviceContext = new ServiceContext();
 
             return oAuth2ApplicationLocalService.updateOAuth2Application(
@@ -153,7 +153,7 @@ public class OAuth2ApplicationResolversImpl implements OAuth2ApplicationResolver
                     name,
                     privacyPolicyURL,
                     Arrays.asList(redirectURIsList),
-                    auth2ApplicationScopeAliasesId,
+                    oAuth2ApplicationScopeAliasesId,
                     serviceContext);
         };
     }

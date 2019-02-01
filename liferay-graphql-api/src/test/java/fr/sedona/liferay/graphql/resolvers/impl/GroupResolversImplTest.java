@@ -100,19 +100,19 @@ public class GroupResolversImplTest {
         if (isValid) {
             when(graphQLUtil.getLongArg(eq(environment), eq("groupId")))
                     .thenReturn(GROUP_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("parentGroupId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("parentGroupId"), anyLong()))
                     .thenReturn(PARENT_GROUP_ID);
             when(graphQLUtil.getStringArg(eq(environment), eq("className")))
                     .thenReturn(CLASS_NAME);
             when(graphQLUtil.getLongArg(eq(environment), eq("classPK")))
                     .thenReturn(CLASS_PK);
-            when(graphQLUtil.getLongArg(eq(environment), eq("liveGroupId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("liveGroupId"), anyLong()))
                     .thenReturn(LIVE_GROUP_ID);
             when(graphQLUtil.getTranslatedArg(eq(environment), eq("nameMap")))
                     .thenReturn(NAME_MAP);
             when(graphQLUtil.getTranslatedArg(eq(environment), eq("descriptionMap")))
                     .thenReturn(DESCRIPTION_MAP);
-            when(graphQLUtil.getIntArg(eq(environment), eq("type")))
+            when(graphQLUtil.getIntArg(eq(environment), eq("type"), anyInt()))
                     .thenReturn(TYPE);
             when(graphQLUtil.getBooleanArg(eq(environment), eq("manualMembership")))
                     .thenReturn(MANUAL_MEMBERSHIP);
@@ -122,19 +122,27 @@ public class GroupResolversImplTest {
                     .thenReturn(FRIENDLY_URL);
             when(graphQLUtil.getBooleanArg(eq(environment), eq("site")))
                     .thenReturn(SITE);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("inheritContent")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("inheritContent"), anyBoolean()))
                     .thenReturn(INHERIT_CONTENT);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("active")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("active"), anyBoolean()))
                     .thenReturn(ACTIVE);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
+            when(graphQLUtil.getLongArg(eq(environment), anyString(), anyLong()))
+                    .thenReturn(0L);
             when(graphQLUtil.getIntArg(eq(environment), anyString()))
+                    .thenReturn(0);
+            when(graphQLUtil.getIntArg(eq(environment), anyString(), anyInt()))
                     .thenReturn(0);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
                     .thenReturn(false);
+            when(graphQLUtil.getBooleanArg(eq(environment), anyString(), anyBoolean()))
+                    .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getTranslatedArg(eq(environment), anyString()))
+                    .thenReturn(Collections.emptyMap());
         }
     }
 
@@ -413,7 +421,7 @@ public class GroupResolversImplTest {
 
         // When / Then
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
-        when(localService.addGroup(eq(USER_ID), eq(PARENT_GROUP_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(LIVE_GROUP_ID), eq(NAME_MAP), eq(DESCRIPTION_MAP), eq(TYPE), eq(MANUAL_MEMBERSHIP), eq(MEMBERSHIP_RESTRICTION), eq(FRIENDLY_URL), eq(SITE), eq(INHERIT_CONTENT), eq(ACTIVE), any(ServiceContext.class)))
+        when(localService.addGroup(eq(DEFAULT_USER_ID), eq(PARENT_GROUP_ID), eq(CLASS_NAME), eq(CLASS_PK), eq(LIVE_GROUP_ID), eq(NAME_MAP), eq(DESCRIPTION_MAP), eq(TYPE), eq(MANUAL_MEMBERSHIP), eq(MEMBERSHIP_RESTRICTION), eq(FRIENDLY_URL), eq(SITE), eq(INHERIT_CONTENT), eq(ACTIVE), any(ServiceContext.class)))
                 .thenReturn(expectedResult);
 
         // Asserts
@@ -456,7 +464,6 @@ public class GroupResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         Group expectedResult = mock(Group.class);
-        expectedResult.setCreatorUserId(USER_ID);
         expectedResult.setGroupId(GROUP_ID);
         expectedResult.setParentGroupId(PARENT_GROUP_ID);
         expectedResult.setNameMap(NAME_MAP);
@@ -469,7 +476,7 @@ public class GroupResolversImplTest {
         expectedResult.setActive(ACTIVE);
 
         // When / Then
-        useMockGraphQLUtil(environment, USER_ID, true);
+        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
         when(localService.updateGroup(eq(GROUP_ID), eq(PARENT_GROUP_ID), eq(NAME_MAP), eq(DESCRIPTION_MAP), eq(TYPE), eq(MANUAL_MEMBERSHIP), eq(MEMBERSHIP_RESTRICTION), eq(FRIENDLY_URL), eq(INHERIT_CONTENT), eq(ACTIVE), any(ServiceContext.class)))
                 .thenReturn(expectedResult);
 

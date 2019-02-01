@@ -92,7 +92,7 @@ public class UserGroupResolversImpl implements UserGroupResolvers {
     @Override
     public DataFetcher<UserGroup> createUserGroupDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long companyId = util.getLongArg(environment, "companyId");
             String name = util.getStringArg(environment, "name");
             String description = util.getStringArg(environment, "description");

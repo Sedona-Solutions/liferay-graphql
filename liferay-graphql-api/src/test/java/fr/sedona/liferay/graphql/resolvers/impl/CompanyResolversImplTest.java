@@ -90,14 +90,14 @@ public class CompanyResolversImplTest {
                     .thenReturn(SYSTEM);
             when(graphQLUtil.getIntArg(eq(environment), eq("maxUsers")))
                     .thenReturn(MAX_USERS);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("active")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("active"), anyBoolean()))
                     .thenReturn(ACTIVE);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
             when(graphQLUtil.getIntArg(eq(environment), anyString()))
                     .thenReturn(0);
-            when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
+            when(graphQLUtil.getBooleanArg(eq(environment), anyString(), anyBoolean()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");

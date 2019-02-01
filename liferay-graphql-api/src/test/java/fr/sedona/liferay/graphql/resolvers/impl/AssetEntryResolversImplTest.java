@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -35,10 +34,7 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(PowerMockRunner.class)
 public class AssetEntryResolversImplTest {
-    private static final long DEFAULT_USER_ID = 456456L;
     private static final long ENTRY_ID = 987L;
-    private static final long USER_ID = 123L;
-
     private ExecutionId executionId;
     private ExecutionContext executionContext;
     private DataFetchingEnvironment mockEnvironment;
@@ -49,9 +45,6 @@ public class AssetEntryResolversImplTest {
 
     @Mock
     private AssetEntryLocalService localService;
-
-    @Mock
-    private GraphQLUtil graphQLUtil;
 
     @Before
     public void setUp() {
@@ -69,23 +62,6 @@ public class AssetEntryResolversImplTest {
 
     private void useSimpleGraphQLUtil() {
         ((AssetEntryResolversImpl) resolvers).setUtil(new GraphQLUtil());
-    }
-
-    private void useMockGraphQLUtil(DataFetchingEnvironment environment, long returnedUserId, boolean isValid) {
-        when(graphQLUtil.getLongArg(eq(environment), eq("userId"), anyLong()))
-                .thenReturn(returnedUserId);
-        if (isValid) {
-            when(graphQLUtil.getLongArg(eq(environment), eq("entryId")))
-                    .thenReturn(ENTRY_ID);
-
-        } else {
-            when(graphQLUtil.getLongArg(eq(environment), anyString()))
-                    .thenReturn(0L);
-            when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
-                    .thenReturn(false);
-            when(graphQLUtil.getStringArg(eq(environment), anyString()))
-                    .thenReturn("");
-        }
     }
 
     private DataFetchingEnvironment getTestEnvironment(Map<String, Object> arguments) {
@@ -246,6 +222,7 @@ public class AssetEntryResolversImplTest {
         // Nothing
 
         // When / Then
+        useSimpleGraphQLUtil();
         when(mockEnvironment.getArgument("entryId"))
                 .thenReturn(0L);
 

@@ -128,7 +128,7 @@ public class JournalArticleResolversImplTest {
                     .thenReturn(GROUP_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("folderId")))
                     .thenReturn(FOLDER_ID);
-            when(graphQLUtil.getLongArg(eq(environment), eq("classNameId")))
+            when(graphQLUtil.getLongArg(eq(environment), eq("classNameId"), anyLong()))
                     .thenReturn(CLASS_NAME_ID);
             when(graphQLUtil.getLongArg(eq(environment), eq("classPK")))
                     .thenReturn(CLASS_PK);
@@ -136,7 +136,7 @@ public class JournalArticleResolversImplTest {
                     .thenReturn(ARTICLE_ID);
             when(graphQLUtil.getBooleanArg(eq(environment), eq("autoArticleId")))
                     .thenReturn(AUTO_ARTICLE_ID);
-            when(graphQLUtil.getDoubleArg(eq(environment), eq("version")))
+            when(graphQLUtil.getDoubleArg(eq(environment), eq("version"), anyDouble()))
                     .thenReturn(VERSION);
             when(graphQLUtil.getTranslatedArg(eq(environment), eq("titleMap")))
                     .thenReturn(TITLE_MAP);
@@ -152,11 +152,11 @@ public class JournalArticleResolversImplTest {
                     .thenReturn(DDM_TEMPLATE_KEY);
             when(graphQLUtil.getStringArg(eq(environment), eq("layoutUuid")))
                     .thenReturn(LAYOUT_UUID);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("neverExpire")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("neverExpire"), anyBoolean()))
                     .thenReturn(NEVER_EXPIRE);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("neverReview")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("neverReview"), anyBoolean()))
                     .thenReturn(NEVER_REVIEW);
-            when(graphQLUtil.getBooleanArg(eq(environment), eq("indexable")))
+            when(graphQLUtil.getBooleanArg(eq(environment), eq("indexable"), anyBoolean()))
                     .thenReturn(INDEXABLE);
             when(graphQLUtil.getStringArg(eq(environment), eq("articleURL")))
                     .thenReturn(ARTICLE_URL);
@@ -167,9 +167,13 @@ public class JournalArticleResolversImplTest {
                     .thenReturn(0);
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
                     .thenReturn(0L);
-            when(graphQLUtil.getDoubleArg(eq(environment), anyString()))
+            when(graphQLUtil.getLongArg(eq(environment), anyString(), anyLong()))
+                    .thenReturn(0L);
+            when(graphQLUtil.getDoubleArg(eq(environment), anyString(), anyDouble()))
                     .thenReturn(0.0);
             when(graphQLUtil.getBooleanArg(eq(environment), anyString()))
+                    .thenReturn(false);
+            when(graphQLUtil.getBooleanArg(eq(environment), anyString(), anyBoolean()))
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
@@ -517,6 +521,7 @@ public class JournalArticleResolversImplTest {
     public void updateJournalArticleDataFetcher_should_return_updated_object() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
+        arguments.put("userId", USER_ID);
         arguments.put("groupId", GROUP_ID);
         arguments.put("folderId", FOLDER_ID);
         arguments.put("articleId", ARTICLE_ID);
@@ -579,6 +584,7 @@ public class JournalArticleResolversImplTest {
     public void updateJournalArticleDataFetcher_with_no_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
+        arguments.put("userId", USER_ID);
         arguments.put("groupId", GROUP_ID);
         arguments.put("folderId", FOLDER_ID);
         arguments.put("version", VERSION);
@@ -611,7 +617,7 @@ public class JournalArticleResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getStringArg(eq(environment), eq("articleId")))
                 .thenReturn("");
         when(localService.updateArticle(eq(USER_ID), eq(GROUP_ID), eq(FOLDER_ID), eq(""), eq(VERSION), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(FRIENDLY_URL_MAP), eq(CONTENT), eq(DDM_STRUCTURE_KEY), eq(DDM_TEMPLATE_KEY), eq(LAYOUT_UUID), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), eq(NEVER_EXPIRE), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), eq(NEVER_REVIEW), eq(INDEXABLE), anyBoolean(), any(), any(), any(), eq(ARTICLE_URL), any(ServiceContext.class)))
@@ -627,9 +633,10 @@ public class JournalArticleResolversImplTest {
     public void updateJournalArticleDataFetcher_with_invalid_id_should_return_null_with_exception() throws Exception {
         // Given
         Map<String, Object> arguments = new HashMap<>();
+        arguments.put("articleId", "FakeId");
+        arguments.put("userId", USER_ID);
         arguments.put("groupId", GROUP_ID);
         arguments.put("folderId", FOLDER_ID);
-        arguments.put("articleId", "FakeId");
         arguments.put("version", VERSION);
         arguments.put("titleMap", TITLE_MAP);
         arguments.put("descriptionMap", DESCRIPTION_MAP);
@@ -660,7 +667,7 @@ public class JournalArticleResolversImplTest {
         DataFetchingEnvironment environment = getTestEnvironment(arguments);
 
         // When / Then
-        useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
+        useMockGraphQLUtil(environment, USER_ID, true);
         when(graphQLUtil.getStringArg(eq(environment), eq("articleId")))
                 .thenReturn("FakeId");
         when(localService.updateArticle(eq(USER_ID), eq(GROUP_ID), eq(FOLDER_ID), eq("FakeId"), eq(VERSION), eq(TITLE_MAP), eq(DESCRIPTION_MAP), eq(FRIENDLY_URL_MAP), eq(CONTENT), eq(DDM_STRUCTURE_KEY), eq(DDM_TEMPLATE_KEY), eq(LAYOUT_UUID), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), eq(NEVER_EXPIRE), anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), eq(NEVER_REVIEW), eq(INDEXABLE), anyBoolean(), any(), any(), any(), eq(ARTICLE_URL), any(ServiceContext.class)))

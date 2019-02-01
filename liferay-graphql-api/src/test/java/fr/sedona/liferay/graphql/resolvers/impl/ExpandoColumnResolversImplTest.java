@@ -81,7 +81,7 @@ public class ExpandoColumnResolversImplTest {
                     .thenReturn(TABLE_ID);
             when(graphQLUtil.getStringArg(eq(environment), eq("name")))
                     .thenReturn(NAME);
-            when(graphQLUtil.getIntArg(eq(environment), eq("type")))
+            when(graphQLUtil.getIntArg(eq(environment), eq("type"), anyInt()))
                     .thenReturn(TYPE);
         } else {
             when(graphQLUtil.getLongArg(eq(environment), anyString()))
@@ -90,6 +90,8 @@ public class ExpandoColumnResolversImplTest {
                     .thenReturn(false);
             when(graphQLUtil.getStringArg(eq(environment), anyString()))
                     .thenReturn("");
+            when(graphQLUtil.getIntArg(eq(environment), anyString(), anyInt()))
+                    .thenReturn(0);
         }
     }
 

@@ -97,7 +97,7 @@ public class DDMTemplateResolversImpl implements DDMTemplateResolvers {
             Map<Locale, String> descriptionMap = util.getTranslatedArg(environment, "descriptionMap");
             String type = util.getStringArg(environment, "type");
             String mode = util.getStringArg(environment, "mode");
-            String language = util.getStringArg(environment, "language");
+            String language = util.getStringArg(environment, "language", TemplateConstants.LANG_TYPE_FTL);
             String script = util.getStringArg(environment, "script");
             boolean cacheable = util.getBooleanArg(environment, "cacheable");
             ServiceContext serviceContext = new ServiceContext();

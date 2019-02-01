@@ -70,7 +70,7 @@ public class WebsiteResolversImpl implements WebsiteResolvers {
     @Override
     public DataFetcher<Website> createWebsiteDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             String className = util.getStringArg(environment, "className");
             long classPK = util.getLongArg(environment, "classPK");
             String url = util.getStringArg(environment, "url");

@@ -456,7 +456,7 @@ public class EmailAddressResolversImplTest {
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, false);
         when(graphQLUtil.getLongArg(eq(environment), eq("emailAddressId")))
                 .thenReturn(0L);
-        when(localService.updateEmailAddress(eq(0L), eq(ADDRESS), eq(TYPE_ID), eq(PRIMARY)))
+        when(localService.updateEmailAddress(eq(0L), anyString(), anyLong(), anyBoolean()))
                 .thenThrow(PortalException.class);
 
         // Asserts

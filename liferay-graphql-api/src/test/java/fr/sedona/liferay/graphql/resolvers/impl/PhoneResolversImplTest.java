@@ -424,7 +424,7 @@ public class PhoneResolversImplTest {
         useMockGraphQLUtil(environment, DEFAULT_USER_ID, true);
         when(graphQLUtil.getLongArg(eq(environment), eq("phoneId")))
                 .thenReturn(0L);
-        when(localService.updatePhone(eq(PHONE_ID), eq(NUMBER), eq(EXTENSION), eq(TYPE_ID), eq(PRIMARY)))
+        when(localService.updatePhone(eq(0L), eq(NUMBER), eq(EXTENSION), eq(TYPE_ID), eq(PRIMARY)))
                 .thenThrow(NoSuchPhoneException.class);
 
         // Asserts

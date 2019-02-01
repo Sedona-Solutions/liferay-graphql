@@ -71,7 +71,7 @@ public class LayoutResolversImpl implements LayoutResolvers {
     @Override
     public DataFetcher<Layout> createLayoutDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long groupId = util.getLongArg(environment, "groupId");
             boolean privateLayout = util.getBooleanArg(environment, "privateLayout");
             long parentLayoutId = util.getLongArg(environment, "parentLayoutId");
