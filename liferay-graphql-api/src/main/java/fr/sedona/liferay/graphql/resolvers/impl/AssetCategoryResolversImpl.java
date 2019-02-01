@@ -26,6 +26,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class AssetCategoryResolversImpl implements AssetCategoryResolvers {
     private AssetCategoryLocalService assetCategoryLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setAssetCategoryLocalService(AssetCategoryLocalService assetCategoryLocalService) {
@@ -33,7 +34,9 @@ public class AssetCategoryResolversImpl implements AssetCategoryResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<AssetCategory>> getAssetCategoriesDataFetcher() {

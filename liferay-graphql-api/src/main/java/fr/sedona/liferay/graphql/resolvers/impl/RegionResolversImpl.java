@@ -18,6 +18,7 @@ import java.util.List;
 @SuppressWarnings("squid:S1192")
 public class RegionResolversImpl implements RegionResolvers {
     private RegionService regionService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setRegionService(RegionService regionService) {
@@ -25,12 +26,14 @@ public class RegionResolversImpl implements RegionResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Region>> getRegionsDataFetcher() {
         return environment -> {
-            boolean active = util.getBooleanArg(environment, "active");
+            boolean active = util.getBooleanArg(environment, "active", true);
 
             return regionService.getRegions(active);
         };

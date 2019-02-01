@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class DDMContentResolversImpl implements DDMContentResolvers {
     private DDMContentLocalService ddmContentLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setDDMContentLocalService(DDMContentLocalService ddmContentLocalService) {
@@ -28,7 +29,9 @@ public class DDMContentResolversImpl implements DDMContentResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<DDMContent>> getDDMContentsDataFetcher() {
@@ -56,7 +59,7 @@ public class DDMContentResolversImpl implements DDMContentResolvers {
     @Override
     public DataFetcher<DDMContent> createDDMContentDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long groupId = util.getLongArg(environment, "groupId");
             String name = util.getStringArg(environment, "name");
             String description = util.getStringArg(environment, "description");

@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class OAuth2ApplicationResolversImpl implements OAuth2ApplicationResolvers {
     private OAuth2ApplicationLocalService oAuth2ApplicationLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setOAuth2ApplicationLocalService(OAuth2ApplicationLocalService oAuth2ApplicationLocalService) {
@@ -31,7 +32,9 @@ public class OAuth2ApplicationResolversImpl implements OAuth2ApplicationResolver
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<OAuth2Application>> getOAuth2ApplicationsDataFetcher() {
@@ -134,7 +137,7 @@ public class OAuth2ApplicationResolversImpl implements OAuth2ApplicationResolver
             String name = util.getStringArg(environment, "name");
             String privacyPolicyURL = util.getStringArg(environment, "privacyPolicyURL");
             String[] redirectURIsList = util.getStringArrayArg(environment, "redirectURIsList");
-            long auth2ApplicationScopeAliasesId = util.getLongArg(environment, "auth2ApplicationScopeAliasesId");
+            long oAuth2ApplicationScopeAliasesId = util.getLongArg(environment, "oAuth2ApplicationScopeAliasesId");
             ServiceContext serviceContext = new ServiceContext();
 
             return oAuth2ApplicationLocalService.updateOAuth2Application(
@@ -150,7 +153,7 @@ public class OAuth2ApplicationResolversImpl implements OAuth2ApplicationResolver
                     name,
                     privacyPolicyURL,
                     Arrays.asList(redirectURIsList),
-                    auth2ApplicationScopeAliasesId,
+                    oAuth2ApplicationScopeAliasesId,
                     serviceContext);
         };
     }

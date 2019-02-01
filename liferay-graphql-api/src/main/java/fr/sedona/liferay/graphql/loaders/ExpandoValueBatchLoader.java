@@ -9,6 +9,7 @@ import org.dataloader.BatchLoader;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -29,6 +30,10 @@ public class ExpandoValueBatchLoader implements BatchLoader<Long, ExpandoValue> 
     @Override
     public CompletionStage<List<ExpandoValue>> load(List<Long> keys) {
         return CompletableFuture.supplyAsync(() -> {
+            if (keys == null || keys.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(ExpandoValue.class);
             query.add(PropertyFactoryUtil.forName("valueId")
                     .in(keys.stream()

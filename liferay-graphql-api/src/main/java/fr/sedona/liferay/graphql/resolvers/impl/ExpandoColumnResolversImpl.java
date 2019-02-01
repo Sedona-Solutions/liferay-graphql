@@ -22,6 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class ExpandoColumnResolversImpl implements ExpandoColumnResolvers {
     private ExpandoColumnLocalService expandoColumnLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setExpandoColumnLocalService(ExpandoColumnLocalService expandoColumnLocalService) {
@@ -29,7 +30,9 @@ public class ExpandoColumnResolversImpl implements ExpandoColumnResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<ExpandoColumn>> getExpandoColumnsDataFetcher() {

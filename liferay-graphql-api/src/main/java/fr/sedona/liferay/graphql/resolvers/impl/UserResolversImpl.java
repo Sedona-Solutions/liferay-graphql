@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("squid:S1192")
 public class UserResolversImpl implements UserResolvers {
     private UserLocalService userLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setUserLocalService(UserLocalService userLocalService) {
@@ -33,7 +34,9 @@ public class UserResolversImpl implements UserResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<User>> getUsersDataFetcher() {
@@ -172,7 +175,7 @@ public class UserResolversImpl implements UserResolvers {
     @Override
     public DataFetcher<User> updateUserDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
+            long userId = util.getLongArg(environment, "userId");
             String oldPassword = util.getStringArg(environment, "oldPassword");
             String newPassword1 = util.getStringArg(environment, "newPassword1");
             String newPassword2 = util.getStringArg(environment, "newPassword2");

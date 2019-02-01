@@ -3,12 +3,12 @@ package fr.sedona.liferay.graphql.maven.model;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import fr.sedona.liferay.graphql.maven.util.Constants;
+import fr.sedona.liferay.graphql.maven.util.GraphQLType;
 import fr.sedona.liferay.graphql.maven.util.HandlebarsUtil;
 import lombok.Data;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
-import java.beans.Introspector;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -40,7 +40,7 @@ public class ImportableSet {
                          String outputSchemaDir) {
         this.log = log;
         this.classes = classes;
-        Collections.sort(this.classes, Comparator.comparing(ImportableClass::getFqClassName));
+        this.classes.sort(Comparator.comparing(ImportableClass::getFqClassName));
         this.outputRegistryDir = outputRegistryDir;
         this.outputEngineImplDir = outputEngineImplDir;
         this.outputSchemaDir = outputSchemaDir;
@@ -68,57 +68,75 @@ public class ImportableSet {
     }
 
     private void prepareRegistryInfo() {
+        prepareRegistryReferences();
+        prepareRegistryRegisterLoaders();
+    }
+
+    private void prepareRegistryReferences() {
         StringBuilder referencesSb = new StringBuilder();
-        StringBuilder registerLoaderSb = new StringBuilder();
         for (int i = 0; i < classes.size(); i++) {
             ImportableClass clazz = classes.get(i);
 
             if (i != 0) {
                 referencesSb.append("\n");
-                registerLoaderSb.append("\n");
             }
 
-            // Reference
             referencesSb.append("    @Reference\n");
             referencesSb.append("    private ");
             referencesSb.append(clazz.getClassName());
             referencesSb.append("BatchLoader ");
             referencesSb.append(clazz.getClassNameLower());
             referencesSb.append("BatchLoader;\n");
+        }
+        registryReferences = referencesSb.toString();
+    }
 
-            // Register loader
+    private void prepareRegistryRegisterLoaders() {
+        StringBuilder registerLoaderSb = new StringBuilder();
+        for (int i = 0; i < classes.size(); i++) {
+            ImportableClass clazz = classes.get(i);
+
+            if (i != 0) {
+                registerLoaderSb.append("\n");
+            }
+
             registerLoaderSb.append("        register(");
             registerLoaderSb.append(clazz.getClassName());
             registerLoaderSb.append("BatchLoader.KEY, ");
             registerLoaderSb.append(clazz.getClassNameLower());
             registerLoaderSb.append("BatchLoader);\n");
         }
-        registryReferences = referencesSb.toString();
         registryRegisterLoaders = registerLoaderSb.toString();
     }
 
     private void prepareEngineInfo() {
+        prepareEngineImports();
+        prepareEngineReferences();
+        prepareEngineQueries();
+        prepareEngineMutations();
+    }
+
+    private void prepareEngineImports() {
         StringBuilder importsSb = new StringBuilder();
-        StringBuilder referencesSb = new StringBuilder();
-        StringBuilder queriesSb = new StringBuilder();
-        StringBuilder mutationsSb = new StringBuilder();
-        for (int i = 0; i < classes.size(); i++) {
-            ImportableClass clazz = classes.get(i);
-
-            if (i != 0) {
-                referencesSb.append("\n");
-                queriesSb.append("\n");
-                mutationsSb.append("\n");
-            }
-
-            // Imports
+        for (ImportableClass clazz : classes) {
             importsSb.append("import ");
             importsSb.append(clazz.getResolversPackagePath());
             importsSb.append(".");
             importsSb.append(clazz.getClassName());
             importsSb.append("Resolvers;\n");
+        }
+        engineImports = importsSb.toString();
+    }
 
-            // References
+    private void prepareEngineReferences() {
+        StringBuilder referencesSb = new StringBuilder();
+        for (int i = 0; i < classes.size(); i++) {
+            ImportableClass clazz = classes.get(i);
+
+            if (i != 0) {
+                referencesSb.append("\n");
+            }
+
             String resolversName = clazz.getClassNameLower() + "Resolvers";
             referencesSb.append("    @Reference\n");
             referencesSb.append("    private ");
@@ -126,8 +144,20 @@ public class ImportableSet {
             referencesSb.append("Resolvers ");
             referencesSb.append(resolversName);
             referencesSb.append(";\n");
+        }
+        engineReferences = referencesSb.toString();
+    }
 
-            // Queries
+    private void prepareEngineQueries() {
+        StringBuilder queriesSb = new StringBuilder();
+        for (int i = 0; i < classes.size(); i++) {
+            ImportableClass clazz = classes.get(i);
+
+            if (i != 0) {
+                queriesSb.append("\n");
+            }
+
+            String resolversName = clazz.getClassNameLower() + "Resolvers";
             queriesSb.append("                        // START -- Query resolvers for class ");
             queriesSb.append(clazz.getFqClassName());
             queriesSb.append("\n");
@@ -148,8 +178,20 @@ public class ImportableSet {
             queriesSb.append("                        // END -- Query resolvers for class ");
             queriesSb.append(clazz.getFqClassName());
             queriesSb.append("\n");
+        }
+        engineQueries = queriesSb.toString();
+    }
 
-            // Mutations
+    private void prepareEngineMutations() {
+        StringBuilder mutationsSb = new StringBuilder();
+        for (int i = 0; i < classes.size(); i++) {
+            ImportableClass clazz = classes.get(i);
+
+            if (i != 0) {
+                mutationsSb.append("\n");
+            }
+
+            String resolversName = clazz.getClassNameLower() + "Resolvers";
             mutationsSb.append("                        // START -- Mutation resolvers for class ");
             mutationsSb.append(clazz.getFqClassName());
             mutationsSb.append("\n");
@@ -178,23 +220,22 @@ public class ImportableSet {
             mutationsSb.append(clazz.getFqClassName());
             mutationsSb.append("\n");
         }
-        engineImports = importsSb.toString();
-        engineReferences = referencesSb.toString();
-        engineQueries = queriesSb.toString();
         engineMutations = mutationsSb.toString();
     }
 
     private void prepareSchemaInfo() {
+        prepareSchemaQueries();
+        prepareSchemaMutations();
+        prepareSchemaTypes();
+    }
+
+    private void prepareSchemaQueries() {
         StringBuilder queriesSb = new StringBuilder();
-        StringBuilder mutationsSb = new StringBuilder();
-        StringBuilder typesSb = new StringBuilder();
         for (int i = 0; i < classes.size(); i++) {
             ImportableClass clazz = classes.get(i);
 
             if (i != 0) {
                 queriesSb.append("\n");
-                mutationsSb.append("\n");
-                typesSb.append("\n");
             }
 
             queriesSb.append("    # START -- Queries for class ");
@@ -230,6 +271,18 @@ public class ImportableSet {
             queriesSb.append("    # END -- Queries for class ");
             queriesSb.append(clazz.getFqClassName());
             queriesSb.append("\n");
+        }
+        schemaQueries = queriesSb.toString();
+    }
+
+    private void prepareSchemaMutations() {
+        StringBuilder mutationsSb = new StringBuilder();
+        for (int i = 0; i < classes.size(); i++) {
+            ImportableClass clazz = classes.get(i);
+
+            if (i != 0) {
+                mutationsSb.append("\n");
+            }
 
             mutationsSb.append("    # START -- Mutations for class ");
             mutationsSb.append(clazz.getFqClassName());
@@ -269,6 +322,18 @@ public class ImportableSet {
             mutationsSb.append("    # END -- Mutations for class ");
             mutationsSb.append(clazz.getFqClassName());
             mutationsSb.append("\n");
+        }
+        schemaMutations = mutationsSb.toString();
+    }
+
+    private void prepareSchemaTypes() {
+        StringBuilder typesSb = new StringBuilder();
+        for (int i = 0; i < classes.size(); i++) {
+            ImportableClass clazz = classes.get(i);
+
+            if (i != 0) {
+                typesSb.append("\n");
+            }
 
             typesSb.append("# START -- Type for class ");
             typesSb.append(clazz.getFqClassName());
@@ -285,8 +350,6 @@ public class ImportableSet {
             typesSb.append(clazz.getFqClassName());
             typesSb.append("\n");
         }
-        schemaQueries = queriesSb.toString();
-        schemaMutations = mutationsSb.toString();
         schemaTypes = typesSb.toString();
     }
 
@@ -300,35 +363,20 @@ public class ImportableSet {
             sb.append("        ");
             sb.append(param.getName());
             sb.append(": ");
-            if (i == 0 && (param.getType() == long.class || param.getType() == Long.class)) {
-                sb.append("ID");
-            } else if (param.getType() == long.class || param.getType() == Long.class) {
-                sb.append("Long");
-            } else if (param.getType() == double.class || param.getType() == Double.class) {
-                sb.append("Float");
-            } else if (param.getType() == int.class || param.getType() == Integer.class) {
-                sb.append("Int");
-            } else if (param.getType() == boolean.class || param.getType() == Boolean.class) {
-                sb.append("Boolean");
-            } else if (param.getType() == String.class) {
-                sb.append("String");
-            } else if (param.getType() == long[].class || param.getType() == Long[].class) {
-                sb.append("[Long]");
-            } else if (param.getType() == double[].class || param.getType() == Double[].class) {
-                sb.append("[Float]");
-            } else if (param.getType() == int[].class || param.getType() == Integer[].class) {
-                sb.append("[Int]");
-            } else if (param.getType() == boolean[].class || param.getType() == Boolean[].class) {
-                sb.append("[Boolean]");
-            } else if (param.getType() == String[].class) {
-                sb.append("[String]");
-            } else {
-                sb.append(param.getType().getSimpleName());
-            }
+            sb.append(getType(param.getType()));
             if (i + 1 < method.getParameterCount()) {
                 sb.append(",");
             }
             sb.append("\n");
+        }
+    }
+
+    private String getType(Class clazz) {
+        GraphQLType type = GraphQLType.fromClass(clazz);
+        if (type != null) {
+            return type.getSchemaType();
+        } else {
+            return clazz.getSimpleName();
         }
     }
 
@@ -350,31 +398,7 @@ public class ImportableSet {
                     sb.append("    ");
                     sb.append(attributeName);
                     sb.append(": ");
-                    if (attributeName.equalsIgnoreCase(objectClass.getSimpleName() + "Id")) {
-                        sb.append("ID");
-                    } else if (method.getReturnType() == long.class || method.getReturnType() == Long.class) {
-                        sb.append("Long");
-                    } else if (method.getReturnType() == double.class || method.getReturnType() == Double.class) {
-                        sb.append("Float");
-                    } else if (method.getReturnType() == int.class || method.getReturnType() == Integer.class) {
-                        sb.append("Int");
-                    } else if (method.getReturnType() == boolean.class || method.getReturnType() == Boolean.class) {
-                        sb.append("Boolean");
-                    } else if (method.getReturnType() == String.class) {
-                        sb.append("String");
-                    } else if (method.getReturnType() == long[].class || method.getReturnType() == Long[].class) {
-                        sb.append("[Long]");
-                    } else if (method.getReturnType() == double[].class || method.getReturnType() == Double[].class) {
-                        sb.append("[Float]");
-                    } else if (method.getReturnType() == int[].class || method.getReturnType() == Integer[].class) {
-                        sb.append("[Int]");
-                    } else if (method.getReturnType() == boolean[].class || method.getReturnType() == Boolean[].class) {
-                        sb.append("[Boolean]");
-                    } else if (method.getReturnType() == String[].class) {
-                        sb.append("[String]");
-                    } else {
-                        sb.append(method.getReturnType().getSimpleName());
-                    }
+                    sb.append(getType(method.getReturnType()));
                     sb.append("\n");
                     processedAttributes.add(attributeName);
                 });
@@ -391,7 +415,7 @@ public class ImportableSet {
             log.warn("Method name does not start with 'get' or 'is': " + methodName);
             attributeName = "";
         }
-        return Introspector.decapitalize(attributeName);
+        return attributeName.toLowerCase().substring(0, 1) + attributeName.substring(1);
     }
 
     public void generateSource() throws MojoExecutionException {

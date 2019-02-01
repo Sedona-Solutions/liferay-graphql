@@ -28,13 +28,16 @@ public class ImportableClass {
     private Class serviceClass;
     private String className;
     private String classNameLower;
+    private String classNameUpper;
     private String classNamePlural;
     private String classNamePluralLower;
     private String serviceName;
     private String outputResolversDir;
     private String outputResolversImplDir;
+    private String outputResolversImplTestDir;
     private String outputBatchLoaderDir;
     private String resolversPackagePath;
+    private String batchLoaderPackagePath;
     private String getAllMethodName;
     private Method getAllMethod;
     private String getAllMethodLambda;
@@ -52,6 +55,16 @@ public class ImportableClass {
     private String deleteMethodName;
     private Method deleteMethod;
     private String deleteMethodLambda;
+    private String testAttributeDeclaration;
+    private String testUtilAttributeMocks;
+    private String testAddMethodArgumentsMock;
+    private String testAddMethodExpectedResultAttributes;
+    private String testAddMethodArgsMock;
+    private String testAddMethodArgsMockAny;
+    private String testUpdateMethodArgumentsMock;
+    private String testUpdateMethodExpectedResultAttributes;
+    private String testUpdateMethodArgsMock;
+    private String testUpdateMethodArgsMockAny;
 
     public ImportableClass(Log log,
                            String fqClassName,
@@ -59,6 +72,7 @@ public class ImportableClass {
                            Properties properties,
                            String outputResolversDir,
                            String outputResolversImplDir,
+                           String outputResolversImplTestDir,
                            String outputBatchLoaderDir)
             throws ClassNotFoundException {
         this.log = log;
@@ -66,17 +80,20 @@ public class ImportableClass {
         this.fqServiceName = fqServiceName;
         this.outputResolversDir = outputResolversDir;
         this.outputResolversImplDir = outputResolversImplDir;
+        this.outputResolversImplTestDir = outputResolversImplTestDir;
         this.outputBatchLoaderDir = outputBatchLoaderDir;
 
         prepareInfo();
         prepareLookupInfo(properties);
         introspectAndPrepare();
+        prepareTestClass();
     }
 
     private void prepareInfo() {
         int lastSepIndex = fqClassName.lastIndexOf(".");
         className = fqClassName.substring(lastSepIndex + 1);
         classNameLower = className.toLowerCase();
+        classNameUpper = className.toUpperCase();
 
         if (className.endsWith("y")) {
             classNamePlural = className.substring(0, className.length() - 1) + "ies";
@@ -92,6 +109,10 @@ public class ImportableClass {
         int index = outputResolversDir.indexOf("java/");
         resolversPackagePath = outputResolversDir.substring(index + 5);
         resolversPackagePath = resolversPackagePath.replace("/", ".");
+
+        index = outputBatchLoaderDir.indexOf("java/");
+        batchLoaderPackagePath = outputBatchLoaderDir.substring(index + 5);
+        batchLoaderPackagePath = batchLoaderPackagePath.replace("/", ".");
     }
 
     private void prepareLookupInfo(Properties properties) {
@@ -141,14 +162,17 @@ public class ImportableClass {
                 && method.getParameterTypes()[0] == int.class
                 && method.getParameterTypes()[1] == int.class;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             getAllMethodLambda = "            // No method found!!!\n";
             return;
         }
 
         log.debug("  -> Using 1st potential match");
         getAllMethod = potentialMatches.get(0);
+        generateGetAllMethodLambda();
+    }
 
+    private void generateGetAllMethodLambda() {
         StringBuilder sb = new StringBuilder();
         sb.append("            int start = util.getIntArg(environment, \"start\", 0);\n");
         sb.append("            int end = util.getIntArg(environment, \"end\", 10);\n");
@@ -167,14 +191,17 @@ public class ImportableClass {
                 && method.getReturnType().getName().equals(fqClassName)
                 && method.getParameterCount() == 1;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             getOneMethodLambda = "            // No method found!!!\n";
             return;
         }
 
         log.debug("  -> Using 1st potential match");
         getOneMethod = potentialMatches.get(0);
+        generateGetOneMethodLambda();
+    }
 
+    private void generateGetOneMethodLambda() {
         getOneByLongId = true;
         if (getOneMethod.getParameterTypes()[0] == String.class) {
             getOneByLongId = false;
@@ -219,7 +246,7 @@ public class ImportableClass {
                 && method.getReturnType().getName().equals(fqClassName)
                 && method.getParameterCount() > 1;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             createMethodLambda = "            // No method found!!!\n";
             return;
         }
@@ -235,7 +262,10 @@ public class ImportableClass {
                 createMethod = potentialMatch;
             }
         }
+        generateCreateMethodLambda();
+    }
 
+    private void generateCreateMethodLambda() {
         StringBuilder sb = new StringBuilder();
         generateArguments(createMethod, sb);
         sb.append("\n");
@@ -261,7 +291,7 @@ public class ImportableClass {
                 && method.getParameterCount() > 2
                 && method.getParameterTypes()[0] == long.class;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             updateMethodLambda = "            // No method found!!!\n";
             return;
         }
@@ -277,7 +307,10 @@ public class ImportableClass {
                 updateMethod = potentialMatch;
             }
         }
+        generateUpdateMethodLambda();
+    }
 
+    private void generateUpdateMethodLambda() {
         StringBuilder sb = new StringBuilder();
         generateArguments(updateMethod, sb);
         sb.append("\n");
@@ -340,14 +373,17 @@ public class ImportableClass {
                 && method.getParameterCount() == 1
                 && method.getParameterTypes()[0] == long.class;
         List<Method> potentialMatches = introspectMethod(serviceClass, predicate);
-        if(potentialMatches.isEmpty()) {
+        if (potentialMatches.isEmpty()) {
             deleteMethodLambda = "            // No method found!!!\n";
             return;
         }
 
         log.debug("  -> Using 1st potential match");
         deleteMethod = potentialMatches.get(0);
+        generateDeleteMethodLambda();
+    }
 
+    private void generateDeleteMethodLambda() {
         String paramIdName = classNameLower + "Id";
         StringBuilder sb = new StringBuilder();
         sb.append("            long ");
@@ -385,6 +421,134 @@ public class ImportableClass {
         return potentialMatches;
     }
 
+    private void prepareTestClass() {
+        if (createMethod == null && updateMethod == null) {
+            return;
+        }
+
+        prepareTestAttributeDeclaration();
+        prepareTestUtilAttributeMocks();
+        prepareTestAddMethod();
+        prepareTestUpdateMethod();
+    }
+
+    private void prepareTestAttributeDeclaration() {
+        // FIXME: Change this logic, when Liferay will be, one day, compiled with parameter names
+        Method usedMethod = determineMethodToBeUsed();
+
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(usedMethod.getParameters()).forEach(parameter -> {
+            sb.append("    private static final ");
+            sb.append(parameter.getType().getSimpleName());
+            sb.append(" ");
+            sb.append(parameter.getName().toUpperCase());
+            sb.append(" = null;\n");
+        });
+        testAttributeDeclaration = sb.toString();
+    }
+
+    private Method determineMethodToBeUsed() {
+        Method selectedMethod = createMethod;
+        if (updateMethod != null && (selectedMethod == null || selectedMethod.getParameterCount() < updateMethod.getParameterCount())) {
+            selectedMethod = updateMethod;
+        }
+        return selectedMethod;
+    }
+
+    private void prepareTestUtilAttributeMocks() {
+        // FIXME: Change this logic, when Liferay will be, one day, compiled with parameter names
+        Method usedMethod = determineMethodToBeUsed();
+
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(usedMethod.getParameters()).forEach(parameter -> {
+            sb.append("            when(graphQLUtil.get");
+            sb.append(parameter.getType().getSimpleName());
+            sb.append("Arg(eq(environment), eq(\"");
+            sb.append(parameter.getName());
+            sb.append("\")))\n");
+            sb.append("                    .thenReturn(");
+            sb.append(parameter.getName().toUpperCase());
+            sb.append(");\n");
+        });
+        testUtilAttributeMocks = sb.toString();
+    }
+
+    private void prepareTestAddMethod() {
+        if (createMethod == null) {
+            return;
+        }
+
+        testAddMethodArgumentsMock = prepareTestMethodArgumentsMock(createMethod);
+        testAddMethodExpectedResultAttributes = prepareTestMethodExpectedResultAttributes(createMethod);
+        testAddMethodArgsMock = prepareTestMethodArgsMock(createMethod);
+        testAddMethodArgsMockAny = prepareTestMethodArgsMockAny(createMethod);
+    }
+
+    private void prepareTestUpdateMethod() {
+        if (updateMethod == null) {
+            return;
+        }
+
+        testUpdateMethodArgumentsMock = prepareTestMethodArgumentsMock(updateMethod);
+        testUpdateMethodExpectedResultAttributes = prepareTestMethodExpectedResultAttributes(updateMethod);
+        testUpdateMethodArgsMock = prepareTestMethodArgsMock(updateMethod);
+        testUpdateMethodArgsMockAny = prepareTestMethodArgsMockAny(updateMethod);
+    }
+
+    private String prepareTestMethodExpectedResultAttributes(Method method) {
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(method.getParameters()).forEach(parameter -> {
+            sb.append("        expectedResult.set");
+            sb.append(parameter.getName());
+            sb.append("(");
+            sb.append(parameter.getName().toUpperCase());
+            sb.append(");\n");
+        });
+        return sb.toString();
+    }
+
+    private String prepareTestMethodArgumentsMock(Method method) {
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(method.getParameters()).forEach(parameter -> {
+            sb.append("        arguments.put(\"");
+            sb.append(parameter.getName());
+            sb.append("\", ");
+            sb.append(parameter.getName().toUpperCase());
+            sb.append(");\n");
+        });
+        return sb.toString();
+    }
+
+    private String prepareTestMethodArgsMock(Method method) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < method.getParameterCount(); i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+
+            Parameter parameter = method.getParameters()[i];
+            sb.append("eq(");
+            sb.append(parameter.getName().toUpperCase());
+            sb.append(")");
+        }
+        return sb.toString();
+    }
+
+    private String prepareTestMethodArgsMockAny(Method method) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < method.getParameterCount(); i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+
+            Parameter parameter = method.getParameters()[i];
+            sb.append("any");
+            sb.append(parameter.getType().getSimpleName());
+            sb.append("()");
+        }
+        return sb.toString();
+    }
+
     public void generateSource() throws MojoExecutionException {
         log.info("Generating sources for class " + fqClassName);
 
@@ -402,6 +566,12 @@ public class ImportableClass {
         HandlebarsUtil.generateFromTemplate("ResolversImpl.java",
                 handlebarsCtx,
                 outputResolversImplDir + "/" + className + "ResolversImpl.java",
+                overwriteIfFileExists,
+                log);
+        log.info("Generating source file from template: ResolversImplTest.java");
+        HandlebarsUtil.generateFromTemplate("ResolversImplTest.java",
+                handlebarsCtx,
+                outputResolversImplTestDir + "/" + className + "ResolversImplTest.java",
                 overwriteIfFileExists,
                 log);
         log.info("Generating source file from template: BatchLoader.java");

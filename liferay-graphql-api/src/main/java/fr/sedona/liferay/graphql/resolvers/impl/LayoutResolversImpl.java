@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class LayoutResolversImpl implements LayoutResolvers {
     private LayoutLocalService layoutLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setLayoutLocalService(LayoutLocalService layoutLocalService) {
@@ -30,7 +31,9 @@ public class LayoutResolversImpl implements LayoutResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Layout>> getLayoutsDataFetcher() {
@@ -68,7 +71,7 @@ public class LayoutResolversImpl implements LayoutResolvers {
     @Override
     public DataFetcher<Layout> createLayoutDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long groupId = util.getLongArg(environment, "groupId");
             boolean privateLayout = util.getBooleanArg(environment, "privateLayout");
             long parentLayoutId = util.getLongArg(environment, "parentLayoutId");

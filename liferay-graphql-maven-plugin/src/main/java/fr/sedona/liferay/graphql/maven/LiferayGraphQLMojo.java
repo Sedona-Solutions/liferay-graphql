@@ -26,6 +26,9 @@ public class LiferayGraphQLMojo extends AbstractMojo {
     private String outputResolversImplDir;
 
     @Parameter
+    private String outputResolversImplTestDir;
+
+    @Parameter
     private String outputBatchLoaderDir;
 
     @Parameter
@@ -51,6 +54,10 @@ public class LiferayGraphQLMojo extends AbstractMojo {
 
         if (isInvalidParameter(outputResolversImplDir)) {
             throw new MojoFailureException("No output directory is specified for ResolversImpl");
+        }
+
+        if (isInvalidParameter(outputResolversImplTestDir)) {
+            throw new MojoFailureException("No output directory is specified for ResolversImplTest");
         }
 
         if (isInvalidParameter(outputBatchLoaderDir)) {
@@ -100,6 +107,7 @@ public class LiferayGraphQLMojo extends AbstractMojo {
                         importableClasses,
                         outputResolversDir,
                         outputResolversImplDir,
+                        outputResolversImplTestDir,
                         outputBatchLoaderDir);
             } catch (ClassNotFoundException e) {
                 throw new MojoExecutionException("Could not introspect service or model class " + importableClassService, e);

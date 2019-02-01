@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class UserGroupResolversImpl implements UserGroupResolvers {
     private UserGroupLocalService usergroupLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setUserGroupLocalService(UserGroupLocalService usergroupLocalService) {
@@ -30,7 +31,9 @@ public class UserGroupResolversImpl implements UserGroupResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<UserGroup>> getUserGroupsDataFetcher() {
@@ -89,7 +92,7 @@ public class UserGroupResolversImpl implements UserGroupResolvers {
     @Override
     public DataFetcher<UserGroup> createUserGroupDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long companyId = util.getLongArg(environment, "companyId");
             String name = util.getStringArg(environment, "name");
             String description = util.getStringArg(environment, "description");

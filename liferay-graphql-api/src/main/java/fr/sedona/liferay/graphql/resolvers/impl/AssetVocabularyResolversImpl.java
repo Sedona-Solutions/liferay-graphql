@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class AssetVocabularyResolversImpl implements AssetVocabularyResolvers {
     private AssetVocabularyLocalService assetVocabularyLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setAssetVocabularyLocalService(AssetVocabularyLocalService assetVocabularyLocalService) {
@@ -31,7 +32,9 @@ public class AssetVocabularyResolversImpl implements AssetVocabularyResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<AssetVocabulary>> getAssetVocabulariesDataFetcher() {

@@ -20,6 +20,7 @@ import java.util.Map;
 @SuppressWarnings("squid:S1192")
 public class {{className}}ResolversImpl implements {{className}}Resolvers {
     private {{className}}LocalService {{classNameLower}}LocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void set{{className}}LocalService({{className}}LocalService {{classNameLower}}LocalService) {
@@ -27,7 +28,9 @@ public class {{className}}ResolversImpl implements {{className}}Resolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<{{className}}>> get{{classNamePlural}}DataFetcher() {

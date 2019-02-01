@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class RoleResolversImpl implements RoleResolvers {
     private RoleLocalService roleLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setRoleLocalService(RoleLocalService roleLocalService) {
@@ -30,7 +31,9 @@ public class RoleResolversImpl implements RoleResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Role>> getRolesDataFetcher() {

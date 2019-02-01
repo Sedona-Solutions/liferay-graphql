@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class ListTypeResolversImpl implements ListTypeResolvers {
     private ListTypeLocalService listtypeLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setListTypeLocalService(ListTypeLocalService listtypeLocalService) {
@@ -30,7 +31,9 @@ public class ListTypeResolversImpl implements ListTypeResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<ListType>> getListTypesDataFetcher() {

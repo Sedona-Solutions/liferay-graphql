@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class DLFileVersionResolversImpl implements DLFileVersionResolvers {
     private DLFileVersionLocalService dlFileVersionLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setDLFileVersionLocalService(DLFileVersionLocalService dlFileVersionLocalService) {
@@ -28,7 +29,9 @@ public class DLFileVersionResolversImpl implements DLFileVersionResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<DLFileVersion>> getDLFileVersionsDataFetcher() {

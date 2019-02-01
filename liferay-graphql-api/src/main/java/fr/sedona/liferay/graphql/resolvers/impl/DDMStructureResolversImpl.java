@@ -32,6 +32,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class DDMStructureResolversImpl implements DDMStructureResolvers {
     private DDMStructureLocalService ddmStructureLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setDDMStructureLocalService(DDMStructureLocalService ddmstructureLocalService) {
@@ -39,7 +40,9 @@ public class DDMStructureResolversImpl implements DDMStructureResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<DDMStructure>> getDDMStructuresDataFetcher() {

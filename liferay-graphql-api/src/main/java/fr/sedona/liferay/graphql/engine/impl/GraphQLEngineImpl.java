@@ -970,6 +970,7 @@ public class GraphQLEngineImpl implements GraphQLEngine {
                 .type(TypeRuntimeWiring.newTypeWiring("Organization")
                         .dataFetcher("company", companyResolvers.getCompanyDataFetcher())
                         .dataFetcher("user", userResolvers.getUserDataFetcher())
+                        .dataFetcher("parentOrganization", organizationResolvers.getOrganizationDataFetcher())
                         .dataFetcher("country", countryResolvers.getCountryDataFetcher())
                         .dataFetcher("region", regionResolvers.getRegionDataFetcher())
                 )

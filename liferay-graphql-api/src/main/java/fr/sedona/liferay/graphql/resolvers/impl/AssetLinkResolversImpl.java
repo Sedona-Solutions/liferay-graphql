@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class AssetLinkResolversImpl implements AssetLinkResolvers {
     private AssetLinkLocalService assetLinkLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setAssetLinkLocalService(AssetLinkLocalService assetLinkLocalService) {
@@ -28,7 +29,9 @@ public class AssetLinkResolversImpl implements AssetLinkResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<AssetLink>> getAssetLinksDataFetcher() {

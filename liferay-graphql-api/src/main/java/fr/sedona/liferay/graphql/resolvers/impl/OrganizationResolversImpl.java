@@ -7,7 +7,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import fr.sedona.liferay.graphql.loaders.OrganizationBatchLoader;
 import fr.sedona.liferay.graphql.resolvers.OrganizationResolvers;
 import fr.sedona.liferay.graphql.util.GraphQLUtil;
+import graphql.execution.ExecutionPath;
 import graphql.schema.DataFetcher;
+import graphql.schema.DataFetchingEnvironment;
 import org.dataloader.DataLoader;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -22,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class OrganizationResolversImpl implements OrganizationResolvers {
     private OrganizationLocalService organizationLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setOrganizationLocalService(OrganizationLocalService organizationLocalService) {
@@ -29,7 +32,9 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Organization>> getOrganizationsDataFetcher() {
@@ -44,7 +49,7 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
     @Override
     public DataFetcher<CompletableFuture<Organization>> getOrganizationDataFetcher() {
         return environment -> {
-            long organizationId = util.getLongArg(environment, "organizationId");
+            long organizationId = getOrganizationId(environment);
             if (organizationId <= 0) {
                 return null;
             }
@@ -52,6 +57,27 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
             DataLoader<Long, Organization> dataLoader = environment.getDataLoader(OrganizationBatchLoader.KEY);
             return dataLoader.load(organizationId);
         };
+    }
+
+    private long getOrganizationId(DataFetchingEnvironment environment) {
+        long argValue = util.getLongArg(environment, "organizationId");
+        if (environment.getSource() == null) {
+            return argValue;
+        }
+
+        Object source = environment.getSource();
+        if (source instanceof Organization) {
+            ExecutionPath segment = environment.getExecutionStepInfo().getPath();
+            if (segment.getSegmentName().contains("parentOrganization")) {
+                return ((Organization) source).getParentOrganizationId();
+            }
+        }
+
+        try {
+            return util.getEntityIdFromSource(environment.getSource(), "getOrganizationId");
+        } catch (Exception e) {
+            return argValue;
+        }
     }
 
     @Override
@@ -67,7 +93,7 @@ public class OrganizationResolversImpl implements OrganizationResolvers {
     @Override
     public DataFetcher<Organization> createOrganizationDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId", util.getDefaultUser().getUserId());
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             long parentOrganizationId = util.getLongArg(environment, "parentOrganizationId", OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID);
             String name = util.getStringArg(environment, "name");
             String type = util.getStringArg(environment, "type");

@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class MBThreadResolversImpl implements MBThreadResolvers {
     private MBThreadLocalService mbThreadLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setMBThreadLocalService(MBThreadLocalService mbThreadLocalService) {
@@ -30,7 +31,9 @@ public class MBThreadResolversImpl implements MBThreadResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<MBThread>> getMBThreadsDataFetcher() {

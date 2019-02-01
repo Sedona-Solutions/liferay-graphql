@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("squid:S1192")
 public class PhoneResolversImpl implements PhoneResolvers {
     private PhoneLocalService phoneLocalService;
+    private GraphQLUtil util;
 
     @Reference(unbind = "-")
     public void setPhoneLocalService(PhoneLocalService phoneLocalService) {
@@ -28,7 +29,9 @@ public class PhoneResolversImpl implements PhoneResolvers {
     }
 
     @Reference
-    private GraphQLUtil util;
+    public void setUtil(GraphQLUtil util) {
+        this.util = util;
+    }
 
     @Override
     public DataFetcher<List<Phone>> getPhonesDataFetcher() {
@@ -67,7 +70,7 @@ public class PhoneResolversImpl implements PhoneResolvers {
     @Override
     public DataFetcher<Phone> createPhoneDataFetcher() {
         return environment -> {
-            long userId = util.getLongArg(environment, "userId");
+            long userId = util.getLongArg(environment, "userId", util.getDefaultUserId());
             String className = util.getStringArg(environment, "className");
             long classPK = util.getLongArg(environment, "classPK");
             String number = util.getStringArg(environment, "number");

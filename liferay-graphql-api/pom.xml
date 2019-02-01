@@ -173,6 +173,12 @@
             <artifactId>http-matchers</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.liferay</groupId>
+            <artifactId>com.liferay.petra.lang</artifactId>
+            <version>2.0.5</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -223,6 +229,9 @@
                             <outputResolversImplDir>
                                 ${basedir}/src/main/java/fr/sedona/liferay/graphql/resolvers/impl
                             </outputResolversImplDir>
+                            <outputResolversImplTestDir>
+                                ${basedir}/src/test/java/fr/sedona/liferay/graphql/resolvers/impl
+                            </outputResolversImplTestDir>
                             <outputBatchLoaderDir>
                                 ${basedir}/src/main/java/fr/sedona/liferay/graphql/loaders
                             </outputBatchLoaderDir>
@@ -326,7 +335,8 @@
                         </goals>
                         <configuration>
                             <target>
-                                <replace file="target/jacoco-ut/jacoco.xml" token="fr/" value="liferay-graphql-api/src/main/java/fr/"/>
+                                <replace file="target/jacoco-ut/jacoco.xml" token="fr/"
+                                         value="liferay-graphql-api/src/main/java/fr/"/>
                             </target>
                         </configuration>
                     </execution>
